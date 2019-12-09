@@ -1,0 +1,227 @@
+{% extends 'user/base.html' %}
+
+{% load static %}
+
+{% block css_add %}    
+    <link rel="stylesheet" href="{% static 'user/css/options_menu.css' %}" type="text/css">
+    <title>User Area</title>
+{% endblock %}
+
+{% block content %}
+    <div class="container" id="info-container">
+
+        <div class="row">
+            
+            <div class="no-padding col-md-11 col-xs-12 col-sm-11 col-lg-11">
+                
+                <div>
+                    <!-- Botão para sair -->
+                    <div id="logOutTab">
+                        <h4 class= "tex">
+                            <button id="logOutBtn" class="btn btn-primary btn-danger text-align-center" onclick="sair();">
+                                <i class="icon-signout text-uppercase probootstrap-uppercase"></i>
+                            </button>
+                        </h4>
+                    </div>
+
+                    <!-- Botão para mostrar opções -->
+                    <div id="logOutTab2">
+                        <h4 class= "tex">
+                            <button id="logOutBtn2" class="btn" onclick="" data-toggle="collapse" href="#signed-tab" role="button" aria-expanded="false" aria-controls="signed-tab">
+                                <i class="icon-reorder text-uppercase probootstrap-uppercase"></i>
+                            </button>
+                        </h4>
+                    </div>
+                </div>
+
+                <!-- Div para preencher espaço e evitar problemas na animação de aparecer e desaparecer menu -->
+                <div id="space-of-menu-options" style="margin-top: 20%;"></div>
+                
+                <!-- Nav com as opções de Dados, Pagamento e Certificados -->
+                <ul id="signed-tab" class="nav nav-tabs nav-justified" role="tablist" style="padding-bottom:0px; margin-right: auto;">
+                    
+                    <!-- Opção de dados -->
+                    <li role="presentation" class="active">
+                        <a href="{% url 'user_painel' %}">
+                            <h4 class= "text-uppercase probootstrap-uppercase">Dados</h4>
+                        </a>
+                    </li>
+                    
+                    <!-- Opção de Pagamento -->
+                    <li role="presentation">
+                        <a href="{% url 'user_pagamento' %}">
+                            <h4 class= "text-uppercase probootstrap-uppercase">Pagamento</h4>
+                        </a>
+                    </li>
+                    
+                    <!-- Opção de Ceritificados -->
+                    <li role="presentation">
+                        <a href="{% url 'user_certificado' %}" aria-controls="" role="tab" >
+                            <h4 class= "text-uppercase probootstrap-uppercase">Certificado</h4>
+                        </a>
+                    </li>
+                </ul>
+
+            </div>
+        </div> 
+
+        <div class="row content-row info-row">
+
+            <div class="content-col col-md-11 col-xs-12 col-sm-11 col-lg-11">
+
+                <div class="tab-content">
+
+                    <div role="tabpanel" class="tab-pane active" id="data">
+
+                        <!-- Form contendo todos os campos preenchidos com os dados do usuário -->
+                        <form id="data-form">
+                            
+                            <div class="form-group">
+                                <label for="name">Nome</label>
+                                <p class="datap">{{ usuario.nome }}</p>
+                                <input type="text" class="form-control datauser" id="name" name="name" value="{{ usuario.nome }}">
+                            </div>
+                            
+                        {# Nesse projeto o usuario nao terá crachá mas deixei essa div para caso outros projetos tenham #}
+                        {% if usuario.nome_para_cracha %}
+                            <div class="form-group">
+                                <label for="badgename">Badge Name</label>
+                                <p class="datap">{{ usuario.nome_para_cracha }}</p>
+                                <input type="text" class="form-control datauser" id="badgename" name="bagdename" value="{{ usuario.nome_para_cracha }}">
+                            </div>
+                        {% endif %}
+
+                            <div class="form-group">
+                                <label for="Email">Email</label>
+                                <p class="datap">{{ usuario.user.email }}</p>
+                                <input type="text" class="form-control datauser" id="email" name="email" value="{{ usuario.user.email }}">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="phone">Telefone</label>
+                                <p class="datap">{{ usuario.celular }}</p>
+                                <input type="text" class="form-control datauser" id="phone" name="phone" value="{{ usuario.celular }}">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="Perfil">Perfil</label>
+                                <p class="datap">{{ usuario.perfil.nome }}</p>
+                                <select size="1" name="perfil" id="perfil" class="form-control datauser">
+                                    {% for perfil in dados.perfis %}
+                                    <option value="{{ perfil.id }}">{{ perfil.nome }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+
+                        {% if usuario.perfil.id == 1 %}                            
+                            <div class="form-group">
+                                <label for="Curso">Curso</label>
+                                <p class="datap">{{ usuario.curso }}</p>
+                                <input type="text" class="form-control datauser" id="curso" name="curso" value="{{ usuario.curso }}">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="Instituição">Instituicao</label>
+                                <p class="datap">{{ usuario.instituicao}}</p>
+                                <input type="text" class="form-control datauser" id="instituicao" name="instituicao" value="{{ usuario.instituicao }}">
+                            </div>
+
+                        {% elif usuario.perfil.id == 2 %}                            
+                            <div class="form-group">
+                                <label for="Cargo">Cargo</label>
+                                <p class="datap">{{ usuario.cargo }}</p>
+                                <input type="text" class="form-control datauser" id="cargo" name="cargo" value="{{ usuario.cargo }}">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="Nome da empresa">Nome da empresa</label>
+                                <p class="datap">{{ usuario.nome_empresa }}</p>
+                                <input type="text" class="form-control datauser" id="nome_empresa" name="nome_empresa" value="{{ usuario.nome_empresa }}">
+                            </div>                            
+                        {% endif %}
+
+                            <div class="form-group">
+                                <label for="Formação">Formação</label>
+                                <p class="datap">{{ usuario.formacao.nome }}</p>
+                                <select size="1" name="formacao" id="formacao" class="form-control datauser">
+                                {% for formacao in dados.formacoes %}
+                                    <option value="{{ formacao.id }}">{{ formacao.nome }}</option>
+                                {% endfor %}
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="country">País</label>
+                                <p class="datap">{{ usuario.pais.nome }}</p>
+                                <select size="1" name="country" id="country" class="form-control datauser">
+                                {% for pais in dados.paises %}
+                                    <option value="{{ pais.id }}">{{ pais.nome }}</option>
+                                {% endfor %}
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="zipcode">CEP</label>
+                                <p class="datap">{{ usuario.cep }}</p>
+                                <input type="text" class="form-control datauser" id="zipcode" name="zipcode" value="{{ usuario.cep }}">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="state">Estado</label>
+                                <p class="datap">{{ usuario.estado.nome }}</p>
+                                <select size="1" name="state" id="state" class="form-control datauser">
+                                    {% for estado in dados.estados %}
+                                        <option value="{{ estado.id }}" id="{{estado.sigla}}">{{ estado.nome }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="city">Cidade</label>
+                                <p class="datap">{{ usuario.cidade.nome }}</p>
+                                <select size="1" name="city" id="city" class="form-control datauser">
+                                    {% for city in dados.cidades %}
+                                        <option value="{{city.id}}">{{city.nome}}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="address">Endereço</label>
+                                <p class="datap">{{ usuario.endereco }}</p>
+                                <input type="text" class="form-control datauser" id="address" name="address" value="{{ usuario.endereco }}">
+                            </div>
+
+                            <!-- Botões para Mudar senha e alterar dados -->
+                            <fieldset class="form-group datap">
+                                <a href="{% url 'user_change_password' %}" class="btn btn-primary pull-right" style="margin-right: 1%;">Alterar senha</a>
+                            </fieldset>
+                        </form>
+                                                                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block js_add %}
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="{% static 'user/js/user_painel.js'%}"></script>
+    <script>
+        // Selecionando Pais, cidade, estado, formacao e perfil
+        $("#country").val({{ usuario.pais.id }});
+        $("#state").val({{ usuario.estado.id }});
+        $("#city").val({{ usuario.cidade.id }});
+        $("#formacao").val({{ usuario.formacao.id }});
+        $("#perfil").val({{ usuario.perfil.id }});
+
+        /*!
+        * @brief Redireciona o cliente para a tela de login e o 
+        * desautentica do sistema.
+        */
+        function sair(){
+            window.location.href = "{% url 'user_sair'%}";
+        }
+    </script>
+{% endblock %}

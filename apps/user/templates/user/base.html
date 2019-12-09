@@ -1,0 +1,43 @@
+{% load static %}
+<!DOCTYPE html>
+<html dir="ltr" lang="en-US">
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<meta name="author" content="SemiColonWeb" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+	<!-- CSS -->
+  <link href="http://fonts.googleapis.com/css?family=Lato:300,400,400italic,600,700|Raleway:300,400,500,600,700|Crete+Round:400italic" rel="stylesheet" type="text/css" />
+  <link rel="stylesheet" href="{% static 'static/css/bootstrap.css' %}" type="text/css" />
+  <link rel="stylesheet" href="{% static 'static/css/mine/style.css' %}" type="text/css" />
+  <link rel="stylesheet" href="{% static 'static/css/mine/fix.css' %}" type="text/css" />
+  <link rel="stylesheet" href="{% static 'static/css/swiper.css' %}" type="text/css" />
+  <link rel="stylesheet" href="{% static 'static/css/dark.css' %}" type="text/css" />
+  <link rel="stylesheet" href="{% static 'static/css/font-icons.css' %}" type="text/css" />
+  <link rel="stylesheet" href="{% static 'static/css/animate.css' %}" type="text/css" />
+  <link rel="stylesheet" href="{% static 'static/css/magnific-popup.css' %}" type="text/css" />
+  <link rel="stylesheet" href="{% static 'static/css/responsive.css' %}" type="text/css" />
+  {% block css_add %} 
+  
+  {% endblock %}
+
+  <!-- Icon -->
+  <!-- <link rel="shortcut icon" href="{% static 'user/images/logos/logoBiome.png' %}" type="image/png/"> -->
+
+</head>
+
+<body class="stretched">
+
+  {% block content %}
+
+  {% endblock %}
+
+	<!-- JavaScripts -->
+  <script type="text/javascript" src="{% static 'user/js/jquery.js' %}"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+  {% block js_add %} 
+  
+  {% endblock %}
+
+</body>
+</html>

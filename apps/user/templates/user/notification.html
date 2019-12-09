@@ -1,0 +1,45 @@
+
+{% extends 'user/base.html' %}
+
+{% load static %}
+
+{% block css_add %}
+    <link rel="stylesheet" href="{% static 'static/css/mine/notification.css' %}">
+    
+    <title>Notification</title>
+{% endblock %}
+
+{% block content %}
+    <!-- Banner -->
+    <section id="banner" style="padding-top: 2rem;">
+        <div class="content">
+            <a href="{% url 'user_login'%}"><img  src="{% static 'user/images/logos/biome2.jpg' %}" style="width: 200px; padding-bottom: 2rem;"></a>
+            <h1>{{msg.title}}</h1>
+            
+            <p>
+                {{msg.msg}}
+            </p>
+            
+            {% if confirm %}
+                <input class="btn btn-primary btn-lg " value="Login" onclick="redirect();">
+                <script>
+                    function redirect ()
+                    {
+                        location.href="{% url 'user_login' %}";
+                    }
+                </script>
+            {% endif %}
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="footer">
+        <div class="inner">
+            <ul class="actions">
+                <li></span>+55 (84) 3342-2216 Ramal 123</li>
+                <li></span>bioinfo@imd.ufrn.br</li>
+            </ul>
+        </div>
+        <div class="copyright">Copyrights &copy; 2019 All Rights Reserved by BioME.</div>
+    </footer>
+{% endblock %}

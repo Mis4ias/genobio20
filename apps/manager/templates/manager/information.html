@@ -1,0 +1,375 @@
+{% extends 'user/base.html' %}
+        
+{% load static %}
+
+{% block css_add %}
+    <title>More Information</title>
+      
+    <style>  
+        .adm-area{
+          color:beige;
+          width:100%;
+          height:100px;
+          padding-top: 30px;
+          float: left;          
+        }
+        h3{
+          font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+          color: blue;
+      
+        }
+        h6 {
+            font-size: 1.6rem;;
+        }
+        .heading-block:after {
+            border-top: 0px solid #444;
+        }
+        .btn-1{
+          float: right;
+        }
+      
+        .btn-2{
+          float: left;
+        }
+        label{
+            font-size: 1.4rem;
+        }
+        p {
+            font-size: 1.6rem;
+        }
+        div.ks-cboxtags label {
+            display: inline-block;
+            background-color: rgba(255, 255, 255, .9);
+            border: 2px solid rgba(139, 139, 139, .3);
+            color: #adadad;
+            border-radius: 15px;
+            white-space: nowrap;
+            margin: 3px 0px;
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
+            transition: all .2s;
+            font-size: 1.2rem;
+            padding: 7px 12px;
+            cursor: pointer;
+        }
+        
+        div.ks-cboxtags label i{
+            font-size: 12px;        
+        }   
+
+        div.ks-cboxtags label i::before {
+            display: inline-block;
+            font-style: normal;
+            font-variant: normal;
+            text-rendering: auto;
+            -webkit-font-smoothing: antialiased;
+            font-weight: 900;
+            font-size: 12px !important;
+            padding: 2px 2px 2px 2px;
+            content: "\e71d";
+            transition: transform .3s ease-in-out;
+        }
+
+        div.ks-cboxtags input[type="checkbox"]:checked + label i::before {
+            content: "\e6c8";
+            transform: rotate(-360deg);
+            transition: transform .3s ease-in-out;
+        }
+
+        div.ks-cboxtags input[type="checkbox"]:checked + label i {
+            transform: rotate(-360deg);
+            transition: transform .3s ease-in-out;
+        }
+
+        div.ks-cboxtags input[type="checkbox"]:checked + label {
+            border: 2px solid white;
+            background-color: #337ab7;
+            color: #fff;
+            transition: all .2s;
+        }
+
+        div.ks-cboxtags input[type="checkbox"] {
+            display: absolute;
+            position: absolute;
+            opacity: 0;
+        }
+
+        div.card {
+            border-radius: 10px;
+            border: 2px solid rgba(139, 139, 139, .5);
+            padding: 10px;
+            min-height: 344px;
+            margin-bottom: 10px;
+        }
+
+        div.card div.card-body p.card-text {
+            padding-top: 5px;
+            padding-bottom: 5px;
+        }
+    </style>
+
+    <style id="fit-vids-style">
+        .fluid-width-video-wrapper{
+            width:100%;
+            position:relative;
+            padding:0;
+        }
+        .fluid-width-video-wrapper iframe, .fluid-width-video-wrapper object, .fluid-width-video-wrapper embed {
+            position:absolute;
+            top:0;left:0;
+            width:100%;
+            height:100%;
+        }
+    </style>
+ 
+{% endblock %}
+
+{% block content %}
+    <div id="wrapper" class="clearfix" style="animation-duration: 1.5s; opacity: 1;">
+        <div class="container-fluid">
+    
+            <div class="row">
+                <div class="col-md-3 col-lg-3 col-xl-3 col-sm-3">
+                    <div id="logo">
+                        <a href="/" class="standard-logo">
+                            <img src="/static/user/images/logos/logoBiome%402x.png" style="padding:5%;" id="hack-onload">
+                        </a>
+                    </div>
+                    <!-- #logo end -->
+                </div>
+    
+                <div class="col-md-6 col-lg-6 col-sm-6">
+                    <div class="adm-area">
+                        <center>
+                            <div class="heading-block uppercase">
+                                <h2>More Information</h2>                            
+                            </div>
+                        </center>
+                    </div>
+                </div>
+
+                <div class="col-md-2 col-lg-2 col-sm-2" style="margin-right: 0px; top: 10px; position: absolute; right: 10px; ">
+                    <div class="adm-area">
+                        <button id="logOutBtn" class="btn btn-primary btn-danger" style="right: 0; position: absolute;">
+                            <i class="icon-off text-uppercase probootstrap-uppercase"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="container" id="info-container" style="margin-top:15px;">            
+                <div class="row content-row info-row" style="margin-top:15px;" >
+                    <div class="content-col col-md-10 col-md-offset-2 col-xs-12 col-sm-12 col-lg-10 col-lg-offset-2">
+                        <!-- Tab content -->
+                        <div class="tab-content">
+                            <!-- tab pane 2 -->
+                            <!-- Data -->
+                            <div role="tabpanel" class="tab-pane active" id="data">
+                                <section class="probootstrap-section probootstrap-border-top">
+                                    <div class="row">
+                                        <h6 class="text-uppercase probootstrap-uppercase">PERSONAL INFORMATION</h6>
+                                        <div class="col-lg-12 col-md-12 form-group">
+                                            <label>Full Name:</label>
+                                            <p>{{ dados.name }}</p>
+                                        </div>                                        
+                
+                                        <div class="col-lg-6 col-md-6 form-group">
+                                            <label>Email:</label>
+                                            <p>{{ dados.email }}</p>
+                                        </div>
+                                        <div class="col-lg-6 col-md-6 form-group">
+                                            <label>Telephone :</label>
+                                            <p>{{ dados.tel }}</p>
+                                        </div>
+
+                                        <div class="col-lg-6 col-md-6 form-group">
+                                            <label>Profile:</label>
+                                            <p>{{ dados.profile }}</p>
+                                        </div>
+                                        <div class="col-lg-6 col-md-6 form-group">
+                                            <label>Academic Degree:</label>
+                                            <p>{{ dados.academic_degree }}</p>
+                                        </div>
+
+                                        {% if dados.profile == "Estudante" %}
+                                            <div class="col-lg-6 col-md-6 form-group">
+                                                <label>Course:</label>
+                                                <p>{{ dados.course }}</p>
+                                            </div>
+                                            <div class="col-lg-6 col-md-6 form-group">
+                                                <label>Instituição:</label>
+                                                <p>{{ dados.institution }}</p>
+                                            </div>
+                                        {% else %}
+                                            <div class="col-lg-6 col-md-6 form-group">
+                                                <label>Position:</label>
+                                                <p>{{ dados.position }}</p>
+                                            </div>
+                                            <div class="col-lg-6 col-md-6 form-group">
+                                                <label>Company:</label>
+                                                <p>{{ dados.company }}</p>
+                                            </div>
+                                        {% endif%}
+                                    </div>
+                
+                                    <div class="row">
+                                        <h6 class="text-uppercase probootstrap-uppercase">ADDRESS</h6>
+                
+                                        <div class="col-lg-6 col-md-6 form-group">
+                                            <label>Country:</label>
+                                            <p>{{ dados.country }}</p>
+                                        </div>
+                                        <div class="col-lg-6 col-md-6 form-group">
+                                            <label>Postal/Zip Code:</label>
+                                            <p>{{ dados.zip }}</p>
+                                        </div>
+                                        <div class="col-lg-6 col-md-6 form-group">
+                                            <label>State:</label>
+                                            <p>{{ dados.state }}</p>
+                                        </div>
+                                        <div class="col-lg-6 col-md-6 form-group">
+                                            <label>City:</label>
+                                            <p>{{ dados.city}}</p>
+                                        </div>
+                                        <div class="col-lg-12 col-md-12 form-group">
+                                            <label>Address:</label>
+                                            <p>{{ dados.address }}</p>
+                                        </div>
+                                    </div>
+                
+                                    <div class="row">
+                                        <h6 class="text-uppercase probootstrap-uppercase">PAYMENT</h6>
+                                        {% if user_paid %}
+                                        <div class="row">
+                                            <div class="form-group">
+                                                <div class="col-lg-9 col-md-9 form-group">
+                                                    <label for="name">Current Status</label>                                                                                            
+                                                    <div class="alert alert-{{ show_color }}" role="alert">{{ dados.payment }}</div>
+                                                {% if dados.observation %}
+                                                    <label>Observation:</label>
+                                                    <textarea cols="30" rows="8" maxlength="450" class="form-control" placeholder="Observation" style="resize: none;" disabled>{{ dados.observation }}</textarea>
+                                                {% endif %}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        {% else %}
+                                        <form method="POST" id="courses_payment">
+                                            <div class="row">
+                                                <div class="col-xs-12 col-sm-12 col-lg-9 col-md-10 col-xs-offset-1 col-sm-offset-0 col-lg-offset-0 col-md-offset-0">
+                                                {% for curso in cursos %}    
+                                                    <div class="col-xs-10 col-sm-4 col-lg-4 col-md-4">
+                                                        <div class="card" >
+                                                            <img src="{% static curso.logo %}" class="card-img-top">
+                                                            <div class="card-body">
+                                                                <p class="card-text">{{ curso.descricao }}</p>
+                                                                <div class="ks-cboxtags">
+                                                                    <input type="checkbox" id="checkbox{{ curso.id }}" name="course{{ curso.id }}">
+                                                                    <label for="checkbox{{ curso.id }}"><i class="icon-plus"></i>Me inscrever</label>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                {% endfor %}
+                                                </div>
+                                            </div>
+                                            <div class="row" style="margin-top: 30px;"> 
+                                                <div class="col-sm-offset-2 col-sm-8 col-lg-offset-1 col-lg-7 col-md-offset-2 col-md-6 "> 
+                                                    <select size="1" name="payment_status" id="payment_status" class="form-control required" required="">
+                                                        <option value="">Select the status</option>
+                                                        <option disabled="" value="">----------------------</option>
+                                                        {% for payment in payment_status %}
+                                                            <option value="{{ payment.id }}" {% if dados.payment == payment.descricao %} selected {% endif %}>{{ payment.descricao }}</option>
+                                                        {% endfor %}                                                
+                                                    </select>   
+                                                </div>                                                                                                                                    
+                                            </div>
+                                            <div class="row" style="margin-top: 25px;">
+                                                <div class="col-sm-offset-2 col-sm-8 col-lg-offset-1 col-lg-7 col-md-offset-2 col-md-6">
+                                                    <textarea name="observation" id="" cols="30" rows="10" maxlength="450" class="form-control" placeholder="Observation" style="resize: none;"></textarea>
+                                                    <span>Maximum digits: 450</span>
+                                                </div>
+                                            </div>
+                                            <div class="row" style="margin-top: 25px;">
+                                                <div class="col-xs-6 col-xs-offset-3 col-sm-6 col-sm-offset-3 col-lg-3 col-lg-offset-3 col-md-4 col-md-offset-3">
+                                                    {% csrf_token %}
+                                                    <input type="hidden" name="user">
+                                                    <input type="submit" value="Save" class="btn" style="margin-left: auto; margin-right: auto; display: block;">
+                                                </div>
+                                                <div class="col-xs-3 col-sm-3 col-lg-3 col-md-3"></div>
+                                            </div>
+                                        </form>
+                                        {% endif %}                                        
+                                    </div>                            
+                                </section>
+                            </div>
+            
+                            <!-- Payment -->
+                            <!-- <div role="tabpanel" class="tab-pane" id="payment">
+                                {% if dados.payment %}
+                                {% if dados.payment == 'pay' %}
+                                <div id="payment-success" class="alert alert-success" role="alert">Payment Confirmed!</div>
+                                {% elif dados.payment == 'Available' %}
+                                    <div id="payment-success" class="alert alert-success" role="alert">Available</div>
+                                {% elif dados.payment == 'Under analysis' or dados.payment == 'Awaiting payment' %}
+                                <div id="payment-success" class="alert alert-warning" role="alert">{{dados.payment}}</div> 
+                                {% else %}
+                                <div class="alert alert-danger uppercase" role="alert">{{dados.payment}}</div>
+                                {% endif %}
+                                {% else %}
+                                <div id="payment-success" class="alert alert-danger" role="alert">No Payment found!</div>
+                                {% endif %}                  
+                            </div> -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="container">
+                <a href="{% url 'admin_area' %}">
+                    <p style="margin-top:50px; text-align: center;"><i class="icon-arrow-left"></i>Back Administration Area</p>
+                </a>
+            </div> 
+        </div>
+    </div>
+          
+    <div onmouseover="this.style.background='#0083B0';" onmouseout="this.style.background='#333';" id="gotoTop" class="icon-angle-up"></div>
+{% endblock %}
+
+{% block js_add %}      
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+    <script type="text/javascript">        
+        $("form#courses_payment").on("submit", function(e){
+            e.preventDefault();
+
+            if ($("input[type='checkbox']:checked").length == 0){
+                alert("Por favor selecione pelo menos um curso!");
+            }
+            else if ($("#payment_status").val() == ""){
+                alert("Por favor selecione um status de pagamento válido!");
+            }
+            else{
+                $("input[name='user']").val(window.location.href.split('/').slice(-1)[0]);
+                
+                $.post("{% url 'admin_set_status_payment' %}", $("form#courses_payment").serialize(), function(res){
+                    console.log(res);
+                    if (res != "OK"){
+                        alert("Não foi possível realizar inscrição no(s) curso(s)");
+                        $("input[type='checkbox']:checked").prop("checked", null);
+                        $("select#payment_status").val(""); 
+                    }else{
+                        alert("Incrição realizada com sucesso");
+                        window.location.reload();
+                    }                
+                }).fail(function(){
+                    alert("Não foi possível realizar a inscrição no(s) curso(s)");                
+                    $("input[type='checkbox']:checked").prop("checked", null);
+                    $("select#payment_status").val("");
+                });
+            }
+        });
+    </script>
+{% endblock %}

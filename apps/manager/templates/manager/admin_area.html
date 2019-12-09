@@ -1,0 +1,225 @@
+{% extends 'user/base.html' %}
+
+{% load static %}
+
+{% block css_add %}
+    <link type="text/css" rel="stylesheet" href="{% static 'manager/js/jsgrid-1.5.3/jsgrid.min.css' %}">
+    <link type="text/css" rel="stylesheet" href="{% static 'manager/js/jsgrid-1.5.3/jsgrid-theme.min.css' %}">
+
+    <title>Administration Area</title>
+
+    <style>
+        .adm-area{
+          color:beige;
+          width:100%;
+          height:100px;
+          padding-top: 30px;
+          float: left;
+
+        }
+        h3 {
+          font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+          margin-bottom: 20px;
+        }
+        .jsgrid-table {
+          margin-bottom: 0px;
+        }
+        div#table-courses {
+          padding-top: 10px;
+          padding-left: 20px;
+          font-size: 1.3rem;
+        }
+    </style>
+
+    <style id="fit-vids-style">
+        .fluid-width-video-wrapper{
+            width: 100%;
+            position: relative;
+            padding: 0;
+        }
+        .fluid-width-video-wrapper iframe, .fluid-width-video-wrapper object, .fluid-width-video-wrapper embed {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}  
+    <!-- Document Wrapper
+    ============================================= -->
+    <div id="wrapper" class="clearfix" style="animation-duration: 1.5s; opacity: 1; width: 100%;">
+        <div class="container-fluid">
+          <div class="row">
+              <div class="col-md-4 col-lg-4 col-sm-2" style="width:25%">
+                <div id="logo">
+                  <a href="/" class="standard-logo">
+                    <img src="/static/user/images/logos/biome2.jpg" style="padding:5%;" id="hack-onload">
+                  </a>
+                </div><!-- #logo end -->
+              </div>
+
+              <div class="col-md-6 col-lg-6 col-sm-2">
+                <div class="adm-area">
+                   <div class="heading-block uppercase">
+                     <center><h2>Administration Area</h2></center>
+                    </div>
+                </div>
+              </div>
+              <div class="col-md-2 col-lg-2 col-sm-2" style="margin-right: 0px; top: 10px; position: absolute; right: 10px; ">
+                <div class="adm-area">
+                  <a id="logOutBtn" class="btn btn-primary btn-danger" style="right: 0; position: absolute;" href="{% url 'user_sair' %}">
+                    <i class="icon-off text-uppercase probootstrap-uppercase"></i>
+                  </a>
+                </div>
+              </div>
+          </div>
+
+          <div id="jsGrid" >
+           
+          </div>
+
+          <div  class="row">
+            <!-- <div class="col-md-2 col-lg-2"></div> -->
+              <div class="col-md-12 col-lg-12" id="table-courses">
+                  <table class="table">
+                      <thead>
+                        <tr>
+                          <th scope="col">#</th>
+                          <th scope="col">Descricao</th>
+                          <th scope="col">Subscription count</th>
+                          <th scope="col">Paid subscription count</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {% for course in courses %}
+                          <tr>
+                              <th scope="row">Curso {{ course.id }}</th>
+                              <td>{{ course.descricao }}</td>
+                              <td>{{ course.qtd_inscricoes }}</td>
+                              <td>{{ course.qtd_inscricoes_pagas }}</td>
+                          </tr>
+                        {% endfor %}                     
+                      </tbody>
+                    </table>
+              </div>
+              <!-- <div class="col-md-2 col-lg-2"></div> -->
+          </div>
+          
+          <div class="row">
+            <div class="col-md-12 col-lg-12 text-center"> 
+                  <button type="button" class="btn btn-success btn-lg">
+                    <i class="icon-download">&nbsp</i>Data Users
+                  </button>
+                  <button type="button" class="btn btn-success btn-lg" onclick="window.open(`{% url 'admin_unpaid_users' %}`)">
+                    <i class="icon-download">&nbsp</i>Unpaid Users
+                  </button>
+            </div>
+          </div>
+
+        </div>
+    </div>
+
+    <div onmouseover="this.style.background='#0083B0';" onmouseout="this.style.background='#333';" id="gotoTop" class="icon-angle-up"></div>
+  
+      <!-- Footer
+  ============================================= -->
+      <footer id="footer" class="dark" style="margin-top: 48px;">
+        <!-- Copyrights
+  ============================================= -->
+        <div id="copyrights">
+          <div class="container clearfix" id="contact">
+            <div class="col_half">Copyrights © 2018 All Rights Reserved by BioME.<br></div>
+            <div class="col_half col_last tright"><i class="icon-envelope2"></i> bioinfo@imd.ufrn.br <span class="middot">·</span>
+              <i class="icon-headphones"></i> +55 (84) 3342-2216 Ramal 123</div>
+              <i class="glyphicon glyphicon-search"></i>
+          </div>
+        </div><!-- #copyrights end -->
+      </footer><!-- #footer end -->
+{% endblock %}
+
+{% block js_add %}
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="/static/user/js/jquery.js"></script>
+    <script type="text/javascript" src="/static/user/js/plugins.js"></script>
+    <script type="text/javascript" src="/static/user/js/functions.js"></script>
+    <script type="text/javascript" src="{% static 'manager/js/jsgrid-1.5.3/jsgrid.min.js' %}"></script>
+    <script>
+
+        var participationActual;
+        var clients = [
+            {% for user in users %}
+            {
+                id: {{ user.id }}, 
+                name: "{{ user.name }}",
+                email: "{{ user.email }}",
+                {% for course in user.courses %}
+                curso_{{ course.id }}: true,
+                {% endfor %}
+                payment: "{{ user.payment }}",
+                information: `<a class="ver-mais" onclick="window.open('{% url 'admin_information' user.id %}')"><i class="icon-lg icon-zoom-in"></i></a>`,
+                participation: false, // FIXME: Alterar o participation para o dado que vinher do usuario
+            },
+            {% endfor %}
+        ];
+        
+        // Populando tabela de usuários
+        $("#jsGrid").jsGrid({
+            width: "100%",
+            height: "700px",
+
+            editing: true,
+            sorting: true,
+            paging: true,
+
+            data: clients,
+
+            fields: [
+                { name: "id", type: "number", visible: false },
+                { name: "name", type: "text", width: 100, editing: false, title: "Name" },
+                { name: "email", type: "text", width: 70, editing: false, title: "Email"},
+                {% for course in courses %}
+                { name: "curso_{{ course.id }}", type: "checkbox", width: 20, editing: false, title: "Curso {{ course.id }}" },
+                {% endfor %}
+                { name: "payment", type: "text", width: 30, align: "center", editing: false, title: "Payment",},            
+                { name: "participation", type: "checkbox", width: 15, align: "center", editing: true, title: "Participation" },
+                { name: "information", type: "text", width: 15, align: "center", editing: false, sorting: false, title: "Information" },
+                //{ type: "control", deleteButton: false , width: 15 },
+            ],
+
+            onItemEditing: function(args) {
+                participationActual = args.item.participation;
+            },
+
+            onItemUpdated: function(args) {
+                // Verificando se foi alterada a permissão para baixar os certificados
+                // if ( participationActual != args.item.participation ){
+                //     // TODO: notificar o servidor que houve alteração na permissão de 
+                //     // download dos certificados.              
+                //     $.ajax({
+                //         type: "GET",
+                //         url: "/nbf/admin/Pefwwefermission/alter/" + args.item.id,
+                //         success: function(data) {
+                //             if(data == ""){
+                //                 alert("Permissão para emissão de certificado alterado com sucesso.");
+                //             }else{
+                //                 alert("Error: "+data);
+                //             }
+                //         },
+                //         error: function () {
+                //             //alert("errrrrrrrrrrrrrrrrrrrrro");
+                //         }
+                //     });
+                // }
+            },
+
+            // Cancelando o evento de editar ao clicar no botão ver mais
+            rowClick: function(args){
+                args.event.preventDefault();
+            }
+        });
+    </script>
+
+{% endblock %}

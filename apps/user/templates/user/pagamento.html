@@ -1,0 +1,286 @@
+
+{% extends 'user/base.html' %}
+
+{% load static %}
+
+{% block css_add %}
+    
+    <link rel="stylesheet" href="{% static 'user/css/options_menu.css' %}" type="text/css">
+    <style>
+        body{
+            background-color: #F9F9F9;
+        }
+        .datauser{
+            display: none;
+        }
+        .form-group{
+            margin-top: 5%;
+        }
+        
+        div#logOutTab h4 i {
+            font-size: 24px;
+            padding-right: 0px;
+        }
+
+        button i {
+            font-size: 1.5rem;
+            padding-right: 5px;
+        }
+
+        div.ks-cboxtags label {
+            display: inline-block;
+            background-color: rgba(255, 255, 255, .9);
+            border: 2px solid rgba(139, 139, 139, .3);
+            color: #adadad;
+            border-radius: 15px;
+            white-space: nowrap;
+            margin: 3px 0px;
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
+            transition: all .2s;
+            font-size: 1.2rem;
+            padding: 7px 12px;
+            cursor: pointer;
+        }
+        
+        div.ks-cboxtags label i{
+            font-size: 12px;        
+        }   
+
+        div.ks-cboxtags label i::before {
+            display: inline-block;
+            font-style: normal;
+            font-variant: normal;
+            text-rendering: auto;
+            -webkit-font-smoothing: antialiased;
+            font-weight: 900;
+            font-size: 12px !important;
+            padding: 2px 2px 2px 2px;
+            content: "\e71d";
+            transition: transform .3s ease-in-out;
+        }
+
+        div.ks-cboxtags input[type="checkbox"]:checked + label i::before {
+            content: "\e6c8";
+            transform: rotate(-360deg);
+            transition: transform .3s ease-in-out;
+        }
+
+        div.ks-cboxtags input[type="checkbox"]:checked + label i {
+            transform: rotate(-360deg);
+            transition: transform .3s ease-in-out;
+        }
+
+        div.ks-cboxtags input[type="checkbox"]:checked + label {
+            border: 2px solid white;
+            background-color: #337ab7;
+            color: #fff;
+            transition: all .2s;
+        }
+
+        div.ks-cboxtags input[type="checkbox"] {
+            display: absolute;
+            position: absolute;
+            opacity: 0;
+        }
+
+        div.card {
+            border-radius: 10px;
+            border: 2px solid rgba(139, 139, 139, .5);
+            padding: 10px;
+            min-height: 344px;
+        }
+
+        div.card div.card-body p.card-text {
+            padding-top: 5px;
+            padding-bottom: 5px;
+        }
+    </style>
+
+    <title>User Area</title>
+{% endblock %}
+
+{% block content %}
+    <div class="container" id="info-container">
+
+        <div class="row">
+            
+            <div class="no-padding col-md-11 col-xs-12 col-sm-11 col-lg-11">
+                
+                <div>
+                    <!-- Botão para sair -->
+                    <div id="logOutTab">
+                        <h4 class= "tex">
+                            <button id="logOutBtn" class="btn btn-primary btn-danger text-align-center" onclick="sair();">
+                                <i class="icon-signout text-uppercase probootstrap-uppercase"></i>
+                            </button>
+                        </h4>
+                    </div>
+
+                    <!-- Botão para mostrar opções -->
+                    <div id="logOutTab2">
+                        <h4 class= "tex">
+                            <button id="logOutBtn2" class="btn" onclick="" data-toggle="collapse" href="#signed-tab" role="button" aria-expanded="false" aria-controls="signed-tab">
+                                <i class="icon-reorder text-uppercase probootstrap-uppercase"></i>
+                            </button>
+                        </h4>
+                    </div>
+                </div>
+
+                <!-- Div para preencher espaço e evitar problemas na animação de aparecer e desaparecer menu -->
+                <div id="space-of-menu-options" style="margin-top: 20%;"></div>
+                
+                <!-- Nav com as opções de Dados, Pagamento e Certificados -->
+                <ul id="signed-tab" class="nav nav-tabs nav-justified" role="tablist" style="padding-bottom:0px; margin-right: auto;">
+                    
+                    <!-- Opção de dados -->
+                    <li role="presentation">
+                        <a href="{% url 'user_painel' %}">
+                            <h4 class= "text-uppercase probootstrap-uppercase">Dados</h4>
+                        </a>
+                    </li>
+                    
+                    <!-- Opção de Pagamento -->
+                    <li role="presentation" class="active">
+                        <a href="{% url 'user_pagamento' %}">
+                            <h4 class= "text-uppercase probootstrap-uppercase">Pagamento</h4>
+                        </a>
+                    </li>
+                    
+                    <!-- Opção de Ceritificados -->
+                    <li role="presentation">
+                        <a href="{% url 'user_certificado' %}" aria-controls="" role="tab" >
+                            <h4 class= "text-uppercase probootstrap-uppercase">Certificado</h4>
+                        </a>
+                    </li>
+                </ul>
+
+            </div>
+        </div> 
+
+        <div class="row content-row info-row">
+
+            <div class="content-col col-md-10 col-md-offset-1 col-xs-10 col-xs-offset-1 col-sm-10 col-sm-offset-1 col-lg-8 col-lg-offset-2">
+
+                <!-- Tab content -->
+                <div class="tab-content">
+                    <!-- Payment -->
+                    <div role="tabpanel" class="tab-pane active" id="payment">
+                    <br>
+                    {% if pode_comprar is False %}   
+                        {% if aguardando_pagamento %}
+                            <div class="alert alert-danger uppercase" role="alert">Aguardando confirmação de pagamento!</div>
+                        {% else %}
+                            <div id="payment-success" class="alert alert-success" role="alert">Pagamento confirmado!</div>
+                        {% endif %}                    
+                    {% else %}
+                        <div>
+                            <form action="" method="post" id="formCursos">
+                                <br>
+                                <div class="row">
+                                {% for curso in cursos %}    
+                                    <div class="col-sm-4 ">
+                                        <div class="card" >
+                                            <img src="{% static curso.logo %}" class="card-img-top">
+                                            <div class="card-body">
+                                                <p class="card-text">{{ curso.descricao }}</p>
+                                                <div class="ks-cboxtags">
+                                                    <input type="checkbox" id="checkbox{{ curso.id }}" name="course{{ curso.id }}">
+                                                    <label for="checkbox{{ curso.id }}"><i class="icon-plus"></i>Me inscrever</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                                </div>
+                                
+                            {% if not transacao %}
+                                <br>
+                                <div class="alert alert-warning" role="alert">
+                                    <p><b>Total a pagar:</b> R$ <span id="valueTotal">0</span></p>
+                                </div>
+                                <div class="text-center">
+                                    <a class="btn btn-primary" style="font-size: 1.8rem;" onclick="verify()">
+                                        <i class="icon-money"></i>Pagar
+                                    </a>
+                                </div>
+                            {% endif %}
+                                {% csrf_token %}
+                            </form>
+                        </div>
+
+                        {{ error }}
+                    {% endif %}
+
+                        <!--Form do Pagseguro-->
+                        <form id="comprar" action="https://pagseguro.uol.com.br/v2/checkout/payment.html" method="post" onsubmit="PagSeguroLightbox(this); return false;">
+                            <input type="hidden" name="code" id="code" value="" />
+                        </form>                       
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block js_add %}
+    <script type="text/javascript" src="https://stc.pagseguro.uol.com.br/pagseguro/api/v2/checkout/pagseguro.lightbox.js"></script> 
+    <script src="{% static 'user/js/user_painel.js'%}"></script>
+    <script>
+        var costCourses = [];
+        costCourses.push( 0 );
+        costCourses.push( {{ valores.1 }} );
+        costCourses.push( {{ valores.2 }} )
+        costCourses.push( {{ valores.3 }} );
+        var countCourseSubscribed = 0;
+        
+        $("div.ks-cboxtags input").click(
+            function () {
+                if( $(this).prop("checked") ){
+                   $(this).parent().find("label").html( $(this).parent().find("label").html().replace("Me inscrever","Inscrito") );
+                   countCourseSubscribed++;               
+                }
+                else {
+                    $(this).parent().find("label").html( $(this).parent().find("label").html().replace("Inscrito","Me inscrever") );
+                    countCourseSubscribed--;
+                }
+            $("#valueTotal").html( costCourses[ countCourseSubscribed ] );           
+            } 
+        );
+        
+        function verify(){
+            if ( countCourseSubscribed == 0 )
+                alert("Por favor se inscreva em pelo menos um curso");
+            else
+                $("#formCursos").submit();
+        }
+
+        function sair(){
+            window.location.href = "{% url 'user_sair' %}";
+        }
+
+        {% if transacao %}
+            var code = "{{ transacao }}";
+            var isOpenLightbox = PagSeguroLightbox({
+                code: code
+            },
+            {
+                success : function( transactionCode ) {
+                    location.href="{% url 'user_pagamento' %}"
+                },
+                abort : function() {
+                    location.href="{% url 'user_pagamento' %}"
+                }
+            });
+
+            // Redirecionando o cliente caso o navegador não tenha suporte ao Lightbox
+            if ( !isOpenLightbox ){
+                location.href = "https://pagseguro.uol.com.br/v2/checkout/payment.html?code=" + code;
+            }
+        {% endif %}
+    </script>
+{% endblock %}

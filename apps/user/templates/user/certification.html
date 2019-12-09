@@ -1,0 +1,147 @@
+{% extends 'user/base.html' %}
+   
+{% load static %}
+
+{% block css_add %}
+    <link rel="stylesheet" href="{% static 'user/css/options_menu.css' %}" type="text/css">
+    <style>
+        body{
+            background-color: #F9F9F9;
+        }
+        .datauser{
+            display: none;
+        }
+        .form-group{
+            margin-top: 5%;
+        }
+    </style>
+    <title>User Area</title>
+{% endblock %}
+ 
+{% block content %}
+    <div class="container" id="info-container">
+        <div class="row">
+                
+            <div class="no-padding col-md-11 col-xs-12 col-sm-11 col-lg-11">
+                
+                <div>
+                    <!-- Botão para sair -->
+                    <div id="logOutTab">
+                        <h4 class= "tex">
+                            <button id="logOutBtn" class="btn btn-primary btn-danger text-align-center" onclick="sair();">
+                                <i class="icon-signout text-uppercase probootstrap-uppercase"></i>
+                            </button>
+                        </h4>
+                    </div>
+
+                    <!-- Botão para mostrar opções -->
+                    <div id="logOutTab2">
+                        <h4 class= "tex">
+                            <button id="logOutBtn2" class="btn" onclick="" data-toggle="collapse" href="#signed-tab" role="button" aria-expanded="false" aria-controls="signed-tab">
+                                <i class="icon-reorder text-uppercase probootstrap-uppercase"></i>
+                            </button>
+                        </h4>
+                    </div>
+                </div>
+
+                <!-- Div para preencher espaço e evitar problemas na animação de aparecer e desaparecer menu -->
+                <div id="space-of-menu-options" style="margin-top: 20%;"></div>
+                
+                <!-- Nav com as opções de Dados, Pagamento e Certificados -->
+                <ul id="signed-tab" class="nav nav-tabs nav-justified" role="tablist" style="padding-bottom:0px; margin-right: auto;">
+                    
+                    <!-- Opção de dados -->
+                    <li role="presentation">
+                        <a href="{% url 'user_painel' %}">
+                            <h4 class= "text-uppercase probootstrap-uppercase">Dados</h4>
+                        </a>
+                    </li>
+                    
+                    <!-- Opção de Pagamento -->
+                    <li role="presentation">
+                        <a href="{% url 'user_pagamento' %}">
+                            <h4 class= "text-uppercase probootstrap-uppercase">Pagamento</h4>
+                        </a>
+                    </li>
+                    
+                    <!-- Opção de Ceritificados -->
+                    <li role="presentation" class="active">
+                        <a href="{% url 'user_certificado' %}" aria-controls="" role="tab" >
+                            <h4 class= "text-uppercase probootstrap-uppercase">Certificado</h4>
+                        </a>
+                    </li>
+                </ul>
+
+            </div>
+        </div> 
+
+        <div class="row content-row info-row">
+            <div class="content-col col-md-10 col-md-offset-1 col-xs-10 col-xs-offset-1 col-sm-10 col-sm-offset-1 col-lg-8 col-lg-offset-2">
+
+                {% if mensagem != "" %}
+                <div role="tabpanel" class="tab-pane text-center" id="certification">
+                    <div class="alert alert-danger" role="alert">
+                            <p class="uppercase">{{mensagem}}</p>
+                    </div>
+                </div>
+                {% endif %}
+
+                <!--Certification-->
+                {% if canPart == True %}
+                <div role="tabpanel" class="tab-pane text-center" id="certificationPart">
+                    <div class="alert alert-success" role="alert">
+                        <p class="uppercase">Download certificate of participation</p>
+                        <form method="post" style="margin-bottom: 1px;">
+                            <button class="btn btn-primary btn-lg" name="part" style="margin-top: 12px"><i class="icon-download "></i>Download</button>
+                            {% csrf_token %}
+                        </form>
+                    </div>
+                </div>
+                {% endif %}
+                {% if canPost == True %}
+                <div role="tabpanel" class="tab-pane text-center" id="certificationPost">
+                    <div class="alert alert-success" role="alert">
+                        <p class="uppercase">Download certificate of poster.</p>
+                        <form method="post" style="margin-bottom: 1px;">
+                            <button class="btn btn-primary btn-lg" name="poster" style="margin-top: 12px"><i class="icon-download "></i>Download</button>
+                            {% csrf_token %}
+                        </form>
+                    </div>
+                </div>
+                {% endif %}
+                    <!--END Certifation-->
+            </div>
+        </div>
+
+        <div class="row content-row info-row">
+            <br>
+            <div class="content-col col-md-10 col-md-offset-1 col-xs-10 col-xs-offset-1 col-sm-10 col-sm-offset-1 col-lg-8 col-lg-offset-2">
+                <div class="alert alert-warning" role="alert">
+                    <h4>O acesso ao certificado de participação estará disponível até 2 semanas após o evento.</h4>
+                </div>                
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block js_add %}
+    <script src="{% static 'user/js/user_painel.js'%}"></script>
+
+    <script>
+        function sendFile(){
+            document.getElementById('inputReceipt').click();
+        }
+
+        function sair(){
+            window.location.href = "{% url 'user_sair'%}";
+        }
+
+        function downloadCertificadoPart(){
+            var popup = window.open(window.location.href+"/download/");
+        }
+
+        function downloadCertificadoPost(){
+            var popup = window.open(window.location.href+"/download_post/");
+        }
+    </script>
+{% endblock %}

@@ -1,0 +1,546 @@
+{% extends 'user/base.html' %}
+
+{% load static %}
+
+{% block css_add %}
+    <style type="text/css">
+        #divFlutuante{
+            display:none;
+            position:absolute;
+            top:50%;
+            left:50%;
+            margin-left:-150px;
+            margin-top:-100px;
+            padding:10px;
+            width:300px;
+            height:200px;
+        }
+        a{
+            color: #FF6347;
+        }
+        a:hover{
+            color: #FF6347;
+        }
+    </style>
+
+	<!-- Document Title -->
+    <title>Registration</title>
+{% endblock %}
+
+
+{% block content %}
+    <script>
+        function alter_cor( id ){
+            document.getElementById( id ).style.border='2px solid rgb(178,34,34)';
+        }
+    </script>
+    
+	<!-- Document Wrapper -->
+	<div id="wrapper" class="clearfix">
+
+		<!-- Header -->
+		<header id="header">
+
+			<div id="header-wrap">
+
+				<div class="container clearfix">
+
+					<div id="primary-menu-trigger"><i class="icon-reorder"></i></div>
+
+					<!-- Logo -->
+					<div id="logo">
+                        <a href="{% url 'user_login' %}" class="standard-logo">
+                            <!-- <img src="{% static 'user/images/logos/logoBiome@2x.png' %}" style="padding:5%;" id="hack-onload"> -->
+                            <img src="{% static 'user/images/logos/biome2.jpg' %}" style="padding:5%;" id="hack-onload">
+                        </a>
+                    </div>
+
+                    <!-- Navbar com a opções para tela de computador -->
+					<nav id="primary-menu">
+						<ul>
+							<!-- <li>
+                                <a onmouseover="this.style.color='#0083B0';" onmouseout="this.style.color='#666';" href="">
+                                    <div>Home</div>
+                                </a>
+                            </li> -->
+                            <li>
+                                <a onmouseover="this.style.color='#0083B0';" onmouseout="this.style.color='#666';" href="">
+                                    <div>Registration</div>
+                                </a>
+                            </li>
+                            <li>
+                                <a onmouseover="this.style.color='#0083B0';" onmouseout="this.style.color='#666';" href="{% url 'user_login' %}">
+                                    <div>Login</div>
+                                </a>
+                            </li>
+                        </ul>
+                        
+                        <!-- Navbar com a opções para tela de celular -->
+						<ul class="mobile-primary-menu">
+							<!-- <li>
+                                <a onmouseover="this.style.color='#0083B0';" onmouseout="this.style.color='#666';" href="">
+                                    <div>Home</div>
+                                </a>
+                            </li> -->
+                            <li>
+                                <a onmouseover="this.style.color='#0083B0';" onmouseout="this.style.color='#666';" href="">
+                                    <div>Registration</div>
+                                </a>
+                            </li>
+                            <li>
+                                <a onmouseover="this.style.color='#0083B0';" onmouseout="this.style.color='#666';" href="{% url 'user_login' %}">
+                                    <div>Login</div>
+                                </a>
+                            </li>
+						</ul>
+                    </nav>	
+                </div>
+            </div>
+        </header>
+
+        <section class="probootstrap-section probootstrap-section-colored">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12 text-left section-heading probootstrap-animate">
+                        <div class="heading-block topmargin-sm"><h2>REGISTRATION</h2></div>
+                    </div>
+                </div>
+                <h5>Registration fees are detailed in the table below. On-line registration will be accepted until March
+                    1st, 2019. On-line early registration must accompany fee payment. Your registration will be
+                    acknowledged by e-mail. Thereafter, you must register on site.</h5>
+            </div>
+        </section>
+
+        <section class="probootstrap-section probootstrap-border-top">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xsm-12">
+                        <div class="probootstrap-animate" id="probootstrap-content">
+                            <h3>Fees</h3>
+                        </div>
+                    </div>                    
+                </div>
+                
+                <div id="text_register" class="container clearfix">
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 bottommargin-sm ">
+                            <table>
+                                <thead>
+                                    <tr class="text-uppercase probootstrap-uppercase row bottommargin">
+                                    <td><strong>Berfore 1st February</strong></td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="row">
+                                        <td>Undergraduate Students:</td>
+                                        <td>R$ 50,00</td>
+                                    </tr>
+                                    <tr class="row">
+                                        <td>Graduate Students:</td>
+                                        <td>R$ 100,00</td>
+                                    </tr>
+                                    <tr class="row">
+                                        <td>Professionals:</td>
+                                        <td>R$ 250,00</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+      
+                        <!-- <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 bottommargin-sm col_last vcenter">
+                            <table>
+                                <thead>
+                                    <tr class="text-uppercase probootstrap-uppercase row bottommargin">
+                                        <td><strong>After December 31st 2018:</strong></td>
+                                    </tr>
+                                </thead>        
+                                <tbody>
+                                    <tr class="row">
+                                        <td>Students*:</td>
+                                        <td>R$ 450,00</td>
+                                    </tr>
+                                    <tr class="row">
+                                        <td>Professionals:</td>
+                                        <td>R$ 550,00</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div> -->
+                    </div>
+      
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xsm-6">
+                            <h5>Registration to the Congress includes access to all:</h5>
+                            <ul style="padding-left: 20px">
+                                <li>Sessions;</li>
+                                <li>Coffee breaks;</li>
+                                <li>Happy hour.</li>
+                            </ul>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xsm-6">
+                            <h5>In addition, the registered participant will:</h5>
+                            <ul style="padding-left: 20px">
+                                <li>Receive the Congress Brochure with the detailed program, on site;</li>
+                                <li>Have access to the printable Certificate of Participation, through the website;</li>
+                                <li>Have access to the printable Certificate of Study Presentation (for presenting authors),
+                                through the website;</li>
+                            </ul>
+                        </div>
+                    </div>
+      
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xsm-12">
+                            <h5 class="text-uppercase probootstrap-uppercase ">Cancellation and reimbursement</h5>
+                        </div>
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xsm-12">
+                            <p>In case there is formal notice of cancellation by participants, an e-mail must be sent to
+                                with a reimbursement request up to 30 (thirdy) days prior to event opening.
+                                Reimbursement will be made up to 45 days after the event and the 50% of the paid
+                                amount will be reimbursed.</p>
+                            <h6 style="text-decoration: underline">Important note: No refunds will be provided in case of missing the event.</h6>
+                        </div>
+                    </div>      
+                </div>                
+            </div>
+        </section>
+          
+
+        <!-- REGISTRATION -->
+        <section class="probootstrap-section probootstrap-border-top">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xsm-12">
+                        <div class="probootstrap-animate" id="probootstrap-content">
+                            <h2>Application Form</h2>
+                            <p>Fill in the fields below</p>
+                        </div>
+                    </div>
+                </div>                
+                
+                <!-- Formulário de cadastro -->
+                <form method="post" class="probootstrap-form">
+                    <div class="row">
+                        <h6 class="text-uppercase probootstrap-uppercase">PERSONAL INFORMATION</h6>
+        
+                        <div class="col-lg-8 col-md-8 form-group">
+                            <label for="name">Full Name</label>
+                            <input type="text" class="form-control" id="name" name="name" required value="{{usuario.nome_usuario}}">
+                            {% if errors.erro_nome_vazio %}
+                            {{errors.erro_nome_vazio}}
+                            <script>alter_cor("name");</script>
+                            {% elif errors.nome_short %}
+                            {{errors.nome_short}}
+                            <script>alter_cor("name");</script>
+                            {% endif %}
+                        </div>
+        
+                        <div class="col-lg-4 col-md-4 form-group">
+                            <label for="badgename">Badge Name (2 names)</label>
+                            <input type="text" class="form-control" id="badgename" name="badgename" required value="{{usuario.nome_para_cracha}}">
+                            {% if errors.nome_cracha_short %}
+                            {{errors.nome_cracha_short}}
+                            <script>alter_cor("badgename");</script>
+                            {% elif errors.nome_cracha_empty %}
+                            {{errors.nome_cracha_empty}}
+                            <script>alter_cor("badgename");</script>
+                            {% endif %}
+                        </div>
+                    </div>
+        
+                    <div class="row">
+                        <div class=" col-lg-8 col-md-8 form-group">
+                          <label for="email">Email</label>
+                          <input type="email" class="form-control" id="email" name="email" required value="{{usuario.email}}">
+                          {% if errors.erro_email_vazio %}
+                            {{errors.erro_email_vazio}}
+                            <script>alter_cor("email");</script>
+                          {% elif errors.erro_email_existente%}
+                            {{errors.erro_email_existente}}
+                            <script>alter_cor("email");</script>
+                          {% endif %}
+                        </div>
+        
+                        <div class=" col-lg-4 col-md-4 form-group">
+                            <label for="telephone">Telephone</label>
+                            <input type="tel" placeholder="00 0000-0000" class="form-control" id="telephone" name="telephone" required value="{{usuario.celular}}">
+                            {% if errors.celular_empty %}
+                                {{errors.celular_empty}}
+                                <script>alter_cor("telephone");</script>
+                            {% elif errors.celular_invalido %}
+                                {{errors.celular_invalido}}
+                                <script>alter_cor("telephone");</script>
+                            {% endif %}
+                        </div>
+                    </div>
+        
+                    <div class="row">
+                        <div class="col-lg-4 col-md-4 form-group">
+                            <label for="password">Password</label>
+                            <small>(Minimum of 6 characters, numbers and letters)</small>
+                            <input type="password" class="form-control" id="password" name="password" required>
+                            {% if errors.senhas_vazias %}
+                                {{errors.senhas_vazias}}
+                                <script>alter_cor("password");</script>
+        
+                            {% elif errors.senha_diferentes %}
+                                {{errors.senha_diferentes}}
+                                <script>alter_cor("password");</script>
+        
+                            {% elif errors.senha_numerica %}
+                                {{errors.senha_numerica}}
+                                <script>alter_cor("password");</script>
+        
+                            {% elif errors.senha_digitos %}
+                                {{errors.senha_digitos}}
+                                <script>alter_cor("password");</script>
+        
+                            {% elif errors.senha_pequena %}
+                                {{errors.senha_pequena}}
+                                <script>alter_cor("password");</script>
+                            {% endif %}
+                        </div>
+    
+                        <div class="col-lg-4 col-md-4 form-group">
+                            <label for="password">Confirm Password</label>
+                            <input type="password" class="form-control" id="confirm_password" name="confirm_password" required>
+                            {% if errors.senhas_vazias %}
+                                {{errors.senhas_vazias}}
+                                <script>alter_cor("confirm_password");</script>
+                            {% elif errors.senha_diferentes %}
+                                {{errors.senha_diferentes}}
+                                <script>alter_cor("confirm_password");</script>
+                            {% endif %}
+                        </div>
+    
+                        <div class=" col-lg-4 col-md-4 form-group">
+                            <label for="name">Subscription type</label>
+                            <select size="1" name="inscricao" id="inscricao" class="form-control required" required>
+                                <option value="" selected="">Select an type</option>
+                                <option disabled="" value="">----------------------</option>
+                                {% for tp_inscricao in dados.tipo_inscricoes %}
+                                    <option value="{{ tp_inscricao.id }}"{% if tp_inscricao.id == usuario.tipo_inscricao %}selected{% endif %}>{{ tp_inscricao.tipo }}</option>
+                                {% endfor %}
+                            </select>
+                            {% if errors.tipo_inscricao_nao_escolhido %}
+                                {{errors.tipo_inscricao_nao_escolhido}}
+                                <script>alter_cor("inscricao");</script>
+                            {% endif %}
+                        </div>
+                    </div>
+        
+                    <div class="row">
+                        <h6 class="text-uppercase probootstrap-uppercase">ADDRESS</h6>
+    
+                        <div class="col-lg-4 col-md-4 form-group">
+                            <label for="country">Country</label>
+                            <select size="1" name="country" id="country" class="form-control required" onchange="selected_country();" required>
+                                <option value="" selected="">Select your country</option>
+                            {% for pais in dados.paises %}
+                                <option value="{{ pais.id }}" {% if pais.nome == "Brazil" %}selected{% endif %}>{{ pais.nome }}</option>
+                            {% endfor %}
+                            </select>
+                            {% if errors.country_nao_escolhido %}
+                                {{errors.country_nao_escolhido}}
+                                <script>alter_cor("country");</script>
+                            {% endif %}
+                        </div>
+    
+                        <div class="col-lg-4 col-md-4 form-group">
+                            <label for="zipcode">Postal/Zip Code</label>
+                            <input type="text" class="form-control" id="zipcode" name="zipcode" required onblur="pesquisar_zipcode();" value="{{usuario.cep}}">
+                            {% if errors.cep_empty and not errors.country_nao_escolhido %}
+                                {{errors.cep_empty}}
+                                <script>alter_cor("zipcode");</script>
+                            {% elif errors.cep_invalido and not errors.country_nao_escolhido %}
+                                {{errors.cep_invalido}}
+                                <script>alter_cor("zipcode");</script>
+                            {% endif %}
+                        </div>
+    
+                        <div class="col-lg-4 col-md-4 form-group">
+                            <label for="state">State</label>
+                            <select size="1" name="state" id="state" class="form-control required" onchange="select_cidades_por_estado('');" required disabled>
+                                <option value="">Select your state</option>
+                                {% for estado in dados.estados %}
+                                <option value="{{ estado.id }}" id="{{estado.sigla}}" {% if estado.id == usuario.estado %}selected{% endif %}>{{ estado.nome }}</option>
+                                {% endfor %}
+                            </select>
+                            {% if errors.estado_nao_escolhido %}
+                                {{errors.estado_nao_escolhido}}
+                                <script>alter_cor("state");</script>
+                            {% endif %}
+                        </div>
+                    </div>
+        
+                    <div class="row">
+                        <div class="col-lg-4 col-md-4 form-group">
+                            <label for="city">City</label>
+                            <select size="1" name="city" id="city" class="form-control required" required disabled>
+                                <option value="" selected="">Select your city</option>
+                            </select>
+                            {% if errors.cidade_nao_escolhido %}
+                                {{errors.cidade_nao_escolhido}}
+                                <script>alter_cor("city");</script>
+                            {% endif %}
+                        </div>
+    
+                        <div class="col-lg-8 col-md-8 form-group">
+                            <label for="address">Address</label>
+                            <input type="text" class="form-control" id="adress" name="adress" value="{{usuario.endereco}}">
+                            {% if errors.endereco_empty and not errors.country_nao_escolhido%}
+                                {{errors.endereco_empty}}
+                                <script>alter_cor("adress");</script>
+                            {% endif %}
+                        </div>
+                    </div>
+        
+                    <div class="row">
+                        <h6 class="text-uppercase probootstrap-uppercase">AFFILIATION INFORMATION</h6>
+                        
+                        <div class="col-lg-4 col-md-4 form-group">
+                            <label for="organization">Affiliation</label>
+                            <input type="text" class="form-control" id="organization" name="organization" value="{{usuario.instituicao}}">
+                        </div>
+                        <div class="col-lg-4 col-md-4 form-group">
+                            <label for="training">Academic Training or Course</label>
+                            <input type="text" class="form-control" id="training" name="training" value="{{usuario.curso_formacao}}">
+                        </div>
+    
+                        <div class="col-lg-4 col-md-4 form-group">
+                            <label for="degree">Academic Degree</label>
+                            <select size="1" name="titulacao" id="titulacao" class="form-control required" required>
+                                <option value="" selected="">Select an option</option>
+                                <option disabled="" value="">----------------------</option>
+                            {% for titulo in dados.titulos %}
+                                <option value="{{ titulo.id }}">{{ titulo.titulo }}</option>
+                            {% endfor %}
+                        </select>
+                        </div>
+                    </div>
+        
+                    {% csrf_token %}
+        
+                    <div class="row">
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" id="checkregister" onclick="Habibutton()" >
+                            <label class="form-check-label" for="exampleCheck1">I have read and accept the terms and conditions</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12">
+                            <div class="form-group text-center">
+                                <input type="submit" class="btn btn-primary btn-lg" id="submit" name="submit" value="Register" disabled>
+                            </div>
+                        </div>
+                    </div>        
+                </form>
+            </div>
+        </section>  
+
+        <!--COLLABORATORS-->
+        <!-- <div id="collaborators" class="container topmargin bottommargin clearfix" >
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="heading-block center"><h2>Sponsored by</h2></div>
+                    <ul style="list-style-type:none" class="nobottommargin clearfix center">
+                        <li><a href="http://bioinfo.imd.ufrn.br/"><img style="width:50%"  src="{% static 'user/images/logos/biome-logo.png' %}"></a></li>
+                    </ul>
+
+                </div>
+
+                <div class="col-lg-6">
+                    <div class="heading-block center"><h2>Supported by</h2></div>
+                    <ul class="clients-grid grid-3 nobottommargin clearfix">
+                        <li><a href="http://www.i2bio.org/"><img src="{% static 'user/images/logos/2bio.png' %}"></a></li>
+                        <li><a href="http://bioinfo.imd.ufrn.br/"><img src="{% static 'user/images/logos/bioinfo-logo.png' %}"></a></li>
+                        <li><a href="http://portal.imd.ufrn.br/"><img src="{% static 'user/images/logos/imd-logo.png' %}"></a></li>
+                    </ul>
+                    <ul class="clients-grid grid-3 nobottommargin clearfix">
+                        <li>&nbsp;</li>
+                        <li><a href="http://ufrn.br/"><img src="{% static 'user/images/logos/ufrn-logo.png' %}"></a></li>
+                        <li>&nbsp;</li>
+                    </ul>
+                </div>
+            </div>
+        </div> -->
+
+        <!-- Footer -->
+        <footer id="footer" class="dark">
+            <!-- Copyrights
+            ============================================= -->
+            <div id="copyrights">
+                <div class="container clearfix" id= "contact">
+                    <div class="col_half">Copyrights &copy; 2019 All Rights Reserved by BioME.<br></div>
+                    <div class="col_half col_last tright">
+                        <i class="icon-envelope2"></i> labinfo@lncc.br <span class="middot">&middot;</span> 
+                        <i class="icon-headphones"></i> +55 (24) 2233-6054 or +55 (24) 2233-6101</div>
+                </div>
+            </div> 
+        </footer> 
+     </div>
+    
+     <!-- Go To Top -->
+	<div onmouseover="this.style.background='#0083B0';" onmouseout="this.style.background='#333';" id="gotoTop" class="icon-angle-up"></div>
+{% endblock %}
+
+{% block js_add %}
+    <script type="text/javascript" src="{% static 'user/js/plugins.js' %}"></script>
+	<script type="text/javascript" src="{% static 'user/js/functions.js' %}"></script>
+    <script type="text/javascript" src="{% static 'user/js/cadastro_js.js' %}"></script>
+
+    <script>
+        function Habibutton(){ 
+            if(document.getElementById('checkregister').checked == true)
+            { 	
+                document.getElementById('submit').disabled = "";
+            }
+        
+            if(document.getElementById('checkregister').checked == false)
+            { 
+                document.getElementById('submit').disabled = "disabled"  
+            }
+        }        
+    </script>
+
+    <!--Códigos JS para selecionar tipo de inscricao, country, state, city e titulo -->
+    {% if usuario.country %}
+      <script>
+          {% if usuario.country != "nada" %}
+              $("#country").val({{usuario.country}});
+
+              if ( {{usuario.country}} == 30){
+                  selected_country_brazil();
+              }
+          {% else %}
+              $("#country").val("");
+              desabilit_all();
+          {% endif %}
+      </script>
+    {% else %}
+        <script>
+            $("#country").val(30);
+            selected_country_brazil();
+        </script>
+    {% endif %}
+
+    {% if usuario.estado %}
+        <script>
+            $("#state").val({{usuario.estado}});
+            {% if usuario.cidade %}
+                select_cidades_por_estado({{usuario.cidade}});
+            {% else %}
+                  select_cidades_por_estado("");
+            {% endif %}
+        </script>
+    {% endif %}
+
+    {% if usuario.perfil %}
+        <script>
+            $("#perfil").val({{ usuario.perfil }});
+            $("#perfil").change();
+
+           $("#formacao_"+ $("#perfil").find("option:selected").html().toLowerCase() ).val( {{ usuario.formacao }} );
+        </script>
+    {% endif %}  
+  
+{% endblock %}

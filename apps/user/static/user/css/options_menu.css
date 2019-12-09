@@ -1,0 +1,119 @@
+body{
+    background-color: #F9F9F9;
+}
+
+.datauser{
+    display: none;
+}
+
+p{
+    font-size: 1.8rem;
+    margin-bottom: 5px !important;
+}
+
+label{
+    font-size: 1.6rem;
+    margin-bottom: 6px;
+}
+
+.form-group{
+    margin-top: 3%;
+}
+
+h4{
+    margin-bottom: 0px;
+    padding: 10px;
+}
+
+li {
+    width: 25%;
+}
+
+#logOutTab{ 
+    margin-top: 0.5%;
+    position: absolute;
+    margin-left: 98%;            
+}
+
+#logOutTab2{
+    display: none;
+}
+
+ul{
+    display: block;
+}
+
+#space-of-menu-options{
+    display: none;
+}
+
+i{
+    font-size: 24px; 
+    line-height: 1.5em;
+}
+
+@media (max-width: 767.98px) {
+    #space-of-menu-options{
+        display: block;
+    } 
+
+    li{
+        width: 100%;                
+    }
+
+    p{
+        font-size: 1.6rem;
+        margin-bottom: 5px !important;
+    }
+
+    label{
+        font-size: 1.4rem;
+        margin-bottom: 2px;
+    }
+
+    span#text-exit{
+        display: none;
+    }
+
+    #logOutTab{ 
+        margin-top: 1.5%;
+        display: inline-table;
+        position: absolute;
+        right: 0;            
+    }
+
+    #logOutTab2{ 
+        margin-top: 1.5%;
+        margin-right: 40px;
+        display: block;
+        position: absolute;
+        right: 0;
+    }
+
+    button#logOutBtn{
+        width: 35px;
+        height: 35px;
+        border-radius: 100%;
+        padding: 0 0 0 1px;
+    }
+
+    button#logOutBtn2{
+        width: 35px;
+        height: 35px;
+        border-radius: 100%;
+        padding: 0 0 0 1px;
+    }
+
+    h4{
+        padding: 5px;
+    }
+
+    ul {
+        margin-top: 20%;
+    }
+    
+    i{
+        font-size: 18px; 
+        line-height: 1.5em;
+    }
+}

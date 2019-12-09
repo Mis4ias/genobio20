@@ -1,0 +1,155 @@
+{% extends 'user/base.html' %}
+
+{% load static %}
+
+{% block css_add %}
+    <style>
+        body{
+            background-color: #F9F9F9;
+        }
+        .form-login {
+            max-width: 500px;
+            padding: 15px;
+            margin: 0 auto;
+            border:none;
+        }
+
+        img.logoLogin {
+            display: block;
+            margin: auto;
+            width: 300px !important;
+            margin-bottom: 20px;
+            margin-left: auto;
+            margin-right: auto;
+            padding-top: 20px;
+            padding-bottom: 20px;
+        }
+
+        /* nav fix */
+        .nav-tabs>li {
+            height:62px;
+        }
+        .nav-tabs>li>a, .nav-tabs>li>a>div {
+            height:100%;
+            display:table;
+        }
+        .nav-tabs>li>a span {
+            display:table-cell;
+            vertical-align:middle;
+        }
+        li[role="presentation"] a {
+            width: 100%;
+        }
+    </style>
+
+    <title>Login</title>
+{% endblock %}
+
+
+{% block content %}
+    <div class="container">
+        <img class="logoLogin" src="{% static 'user/images/logos/' %}"/>
+    </div>
+
+    <div class="container" id="login-container">
+
+        <div class="row">
+
+                <!-- Nav tabs -->
+                <ul class="nav nav-tabs form-signin form-login no-padding nav-justified" role="tablist" style="padding-bottom:0px;">
+
+                    <li role="presentation" class="active">
+                        <a href="#signin" aria-controls="signin" role="tab" data-toggle="tab">
+                            <h4 class= "text-uppercase probootstrap-uppercase">Login</h4>
+                        </a>
+                    </li>
+                    
+                    <li role="presentation">
+                        <a href="#reset" aria-controls="reset" role="tab" data-toggle="tab" id="a_reset">
+                            <h4 class= "text-uppercase probootstrap-uppercase">Forgot Password</h4>
+                        </a>
+                    </li>
+
+                </ul>
+
+                <!-- Tab panes -->
+                <div class="tab-content form-signin">
+
+                    <div role="tabpanel" class="tab-pane active signin-pane" id="signin">
+                        <form method="post" class="probootstrap-form form-signin form-login">
+                            <div class="col-lg-12 col-md-12 form-group">
+                                <label>{{ errors.login_error }}</label>
+                            </div>
+                            
+                            <div class="col-lg-12 col-md-12 form-group">
+                                <label for="email">Email</label>
+                                <input type="email" class="form-control" id="email" name="email" required
+                                    {% if errors.email %} value={{errors.email}} {% endif %}>
+                            </div>
+
+                            <div class=" col-lg-12 col-md-12 form-group">
+                                <label for="password">Senha</label>
+                                <input type="password" class="form-control" id="password" name="password" required>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-lg-12 col-md-12 form-group">
+                                    <div class="form-group text-center ">
+                                        <input type="submit" class="btn btn-primary btn-lg " id="submit" name="signin" value="Login">
+                                    </div>
+                                </div>
+                            </div>
+
+                            {% csrf_token %}
+                        </form>
+                    </div>
+
+                    <div role="tabpanel" class="tab-pane " id="reset">
+                        
+                        <form method="post" class="probootstrap-form form-signin form-login">
+                            
+                            <div class="col-lg-12 col-md-12 form-group">
+                                <label>{{ errors.forgotpassword_error }}</label>
+                            </div>
+                            
+                            <div class="col-lg-12 col-md-12 form-group">
+                                <label for="email">Email</label>
+                                <input type="email" class="form-control" id="emailReset" name="email_forgot_password" required
+                                {% if errors.forgotpasword_error_email %}
+                                        value={{ errors.forgotpasword_error_email }}
+                                {% endif %}>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-lg-12 col-md-12">
+                                    <div class="form-group text-center">
+                                        <input type="submit" class="btn btn-primary btn-lg" id="resetBtn" name="forgot_password" value="Change Password">
+                                    </div>
+                                </div>
+                            </div>
+                            {% csrf_token %}
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+    </div>
+
+    <div class="container">
+        <a href="{% url 'user_registration_register'%}">
+            <p style="margin-top: 30px; text-align: center;">
+                Registration
+            </p>
+        </a>
+    </div>
+{% endblock %}
+
+{% block js_add %}
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    
+    {% if errors.forgotpassword %}
+        <script>
+            document.getElementById('a_reset').click();
+        </script>
+    {% endif %}
+{% endblock %}

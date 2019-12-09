@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="">
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Error 500</title>
+
+        {% load static %}
+        <!-- <link rel="shortcut icon" href="{% static 'user/images/logos/logoBiome.png' %}" type="image/png/"> -->
+        <link href="http://fonts.googleapis.com/css?family=Lato:300,400,400italic,600,700|Raleway:300,400,500,600,700|Crete+Round:400italic" rel="stylesheet" type="text/css" />
+        <link rel="stylesheet" href="{% static 'static/css/mine/notification.css' %}" type="text/css" />
+        <link rel="stylesheet" href="{% static 'static/css/dark.css' %}" type="text/css" />
+        <link rel="stylesheet" href="{% static 'static/css/font-icons.css' %}" type="text/css" />
+        <link rel="stylesheet" href="{% static 'static/css/animate.css' %}" type="text/css" />
+    </head>
+
+    <body >
+		<!-- Banner -->
+        <section id="banner" style="padding-bottom: 0px; padding-top: 2rem;" >
+            <div class="content">
+                <a href="{% url 'user_login'%}"><img  src="{% static 'user/images/logos/biome2.jpg' %}" style="width: 200px; padding-bottom: 2rem;"></a>
+                <h1>INTERNAL SERVER ERROR </h1>
+                <p style="font-size:50px">500</p>
+            </div>
+        </section>
+	
+		<!-- Footer -->
+        <footer id="footer">
+            <div class="inner">
+                <ul class="actions">
+                    <li></span>+55 (84) 3342-2216 Ramal 123</li>
+                    <li></span>bioinfo@imd.ufrn.br</li>
+                </ul>
+            </div>
+            <div class="copyright">Copyrights &copy; 2019 All Rights Reserved by BioME.</div>
+        </footer>
+    </body>
+</html>
