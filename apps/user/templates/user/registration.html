@@ -222,7 +222,7 @@
                     <div class="row">
                         <h6 class="text-uppercase probootstrap-uppercase">PERSONAL INFORMATION</h6>
         
-                        <div class="col-lg-8 col-md-8 form-group">
+                        <div class="col-lg-12 col-md-12 form-group">
                             <label for="name">Full Name</label>
                             <input type="text" class="form-control" id="name" name="name" required value="{{usuario.nome_usuario}}">
                             {% if errors.erro_nome_vazio %}
@@ -233,18 +233,7 @@
                             <script>alter_cor("name");</script>
                             {% endif %}
                         </div>
-        
-                        <div class="col-lg-4 col-md-4 form-group">
-                            <label for="badgename">Badge Name (2 names)</label>
-                            <input type="text" class="form-control" id="badgename" name="badgename" required value="{{usuario.nome_para_cracha}}">
-                            {% if errors.nome_cracha_short %}
-                            {{errors.nome_cracha_short}}
-                            <script>alter_cor("badgename");</script>
-                            {% elif errors.nome_cracha_empty %}
-                            {{errors.nome_cracha_empty}}
-                            <script>alter_cor("badgename");</script>
-                            {% endif %}
-                        </div>
+                            
                     </div>
         
                     <div class="row">
