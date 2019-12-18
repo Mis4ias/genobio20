@@ -30,8 +30,8 @@
 
 {% block content %}
     <script>
-        function alter_cor( id ){
-            document.getElementById( id ).style.border='2px solid rgb(178,34,34)';
+        function alter_cor(id){
+            document.getElementById(id).style.border = '2px solid rgb(178,34,34)';
         }
     </script>
     
@@ -49,8 +49,7 @@
 
 					<!-- Logo -->
 					<div id="logo">
-                        <a href="{% url 'user_login' %}" class="standard-logo">
-                            <!-- <img src="{% static 'user/images/logos/logoBiome@2x.png' %}" style="padding:5%;" id="hack-onload"> -->
+                        <a href="http://hungria.imd.ufrn.br/~misael/front-petropolisrj/" class="standard-logo">
                             <img src="{% static 'static/img/Logo_site_04.jpg' %}" style="padding:5%;" id="hack-onload">
                         </a>
                     </div>
@@ -58,11 +57,11 @@
                     <!-- Navbar com a opções para tela de computador -->
 					<nav id="primary-menu">
 						<ul>
-							<!-- <li>
-                                <a onmouseover="this.style.color='#0083B0';" onmouseout="this.style.color='#666';" href="">
+							<li>
+                                <a onmouseover="this.style.color='#0083B0';" onmouseout="this.style.color='#666';" href="http://hungria.imd.ufrn.br/~misael/front-petropolisrj/">
                                     <div>Home</div>
                                 </a>
-                            </li> -->
+                            </li>
                             <li>
                                 <a onmouseover="this.style.color='#0083B0';" onmouseout="this.style.color='#666';" href="">
                                     <div>Registration</div>
@@ -77,11 +76,11 @@
                         
                         <!-- Navbar com a opções para tela de celular -->
 						<ul class="mobile-primary-menu">
-							<!-- <li>
-                                <a onmouseover="this.style.color='#0083B0';" onmouseout="this.style.color='#666';" href="">
+							<li>
+                                <a onmouseover="this.style.color='#0083B0';" onmouseout="this.style.color='#666';" href="http://hungria.imd.ufrn.br/~misael/front-petropolisrj/">
                                     <div>Home</div>
                                 </a>
-                            </li> -->
+                            </li>
                             <li>
                                 <a onmouseover="this.style.color='#0083B0';" onmouseout="this.style.color='#666';" href="">
                                     <div>Registration</div>
@@ -146,26 +145,6 @@
                                 </tbody>
                             </table>
                         </div>
-      
-                        <!-- <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 bottommargin-sm col_last vcenter">
-                            <table>
-                                <thead>
-                                    <tr class="text-uppercase probootstrap-uppercase row bottommargin">
-                                        <td><strong>After December 31st 2018:</strong></td>
-                                    </tr>
-                                </thead>        
-                                <tbody>
-                                    <tr class="row">
-                                        <td>Students*:</td>
-                                        <td>R$ 450,00</td>
-                                    </tr>
-                                    <tr class="row">
-                                        <td>Professionals:</td>
-                                        <td>R$ 550,00</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div> -->
                     </div>
       
                     <div class="row">
@@ -226,11 +205,11 @@
                             <label for="name">Full Name</label>
                             <input type="text" class="form-control" id="name" name="name" required value="{{usuario.nome_usuario}}">
                             {% if errors.erro_nome_vazio %}
-                            {{errors.erro_nome_vazio}}
-                            <script>alter_cor("name");</script>
+                                {{errors.erro_nome_vazio}}
+                                <script>alter_cor("name");</script>
                             {% elif errors.nome_short %}
-                            {{errors.nome_short}}
-                            <script>alter_cor("name");</script>
+                                {{errors.nome_short}}
+                                <script>alter_cor("name");</script>
                             {% endif %}
                         </div>
                             
@@ -350,9 +329,9 @@
                             <label for="state">State</label>
                             <select size="1" name="state" id="state" class="form-control required" onchange="select_cidades_por_estado('');" required disabled>
                                 <option value="">Select your state</option>
-                                {% for estado in dados.estados %}
+                            {% for estado in dados.estados %}
                                 <option value="{{ estado.id }}" id="{{estado.sigla}}" {% if estado.id == usuario.estado %}selected{% endif %}>{{ estado.nome }}</option>
-                                {% endfor %}
+                            {% endfor %}
                             </select>
                             {% if errors.estado_nao_escolhido %}
                                 {{errors.estado_nao_escolhido}}
@@ -387,12 +366,12 @@
                         <h6 class="text-uppercase probootstrap-uppercase">AFFILIATION INFORMATION</h6>
                         
                         <div class="col-lg-4 col-md-4 form-group">
-                            <label for="organization">Affiliation</label>
-                            <input type="text" class="form-control" id="organization" name="organization" value="{{usuario.instituicao}}">
+                            <label for="organization">Organization</label>
+                            <input type="text" class="form-control" id="organization" name="organization" value="{{ usuario.instituicao }}">
                         </div>
                         <div class="col-lg-4 col-md-4 form-group">
                             <label for="training">Academic Training or Course</label>
-                            <input type="text" class="form-control" id="training" name="training" value="{{usuario.curso_formacao}}">
+                            <input type="text" class="form-control" id="training" name="training" value="{{ usuario.curso_formacao }}">
                         </div>
     
                         <div class="col-lg-4 col-md-4 form-group">
@@ -426,33 +405,6 @@
             </div>
         </section>  
 
-        <!--COLLABORATORS-->
-        <!-- <div id="collaborators" class="container topmargin bottommargin clearfix" >
-            <div class="row">
-                <div class="col-lg-6">
-                    <div class="heading-block center"><h2>Sponsored by</h2></div>
-                    <ul style="list-style-type:none" class="nobottommargin clearfix center">
-                        <li><a href="http://bioinfo.imd.ufrn.br/"><img style="width:50%"  src="{% static 'user/images/logos/biome-logo.png' %}"></a></li>
-                    </ul>
-
-                </div>
-
-                <div class="col-lg-6">
-                    <div class="heading-block center"><h2>Supported by</h2></div>
-                    <ul class="clients-grid grid-3 nobottommargin clearfix">
-                        <li><a href="http://www.i2bio.org/"><img src="{% static 'user/images/logos/2bio.png' %}"></a></li>
-                        <li><a href="http://bioinfo.imd.ufrn.br/"><img src="{% static 'user/images/logos/bioinfo-logo.png' %}"></a></li>
-                        <li><a href="http://portal.imd.ufrn.br/"><img src="{% static 'user/images/logos/imd-logo.png' %}"></a></li>
-                    </ul>
-                    <ul class="clients-grid grid-3 nobottommargin clearfix">
-                        <li>&nbsp;</li>
-                        <li><a href="http://ufrn.br/"><img src="{% static 'user/images/logos/ufrn-logo.png' %}"></a></li>
-                        <li>&nbsp;</li>
-                    </ul>
-                </div>
-            </div>
-        </div> -->
-
         <!-- Footer -->
         <footer id="footer" class="dark">
             <!-- Copyrights
@@ -479,13 +431,11 @@
 
     <script>
         function Habibutton(){ 
-            if(document.getElementById('checkregister').checked == true)
-            { 	
+            if (document.getElementById('checkregister').checked == true){ 	
                 document.getElementById('submit').disabled = "";
             }
         
-            if(document.getElementById('checkregister').checked == false)
-            { 
+            if (document.getElementById('checkregister').checked == false){ 
                 document.getElementById('submit').disabled = "disabled"  
             }
         }        
@@ -521,15 +471,5 @@
                   select_cidades_por_estado("");
             {% endif %}
         </script>
-    {% endif %}
-
-    {% if usuario.perfil %}
-        <script>
-            $("#perfil").val({{ usuario.perfil }});
-            $("#perfil").change();
-
-           $("#formacao_"+ $("#perfil").find("option:selected").html().toLowerCase() ).val( {{ usuario.formacao }} );
-        </script>
     {% endif %}  
-  
 {% endblock %}

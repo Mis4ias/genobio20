@@ -14,7 +14,7 @@
             border:none;
         }
 
-        img.logoLogin {
+        div.logoLogin {
             display: block;
             margin: auto;
             width: 350px !important;
@@ -48,7 +48,11 @@
 
 {% block content %}
     <div class="container">
-        <img class="logoLogin" src="{% static 'static/img/Logo_site_05.png' %}"/>
+        <div class="logoLogin">
+            <a href="http://hungria.imd.ufrn.br/~misael/front-petropolisrj/">
+                <img src="{% static 'static/img/Logo_site_05.png' %}"/>
+            </a>
+        </div>
     </div>
 
     <div class="container" id="login-container">

@@ -1,21 +1,16 @@
 // Comunicação com web service django para preencher as cidades
-var obj;
-
-function select_cidades_por_estado( nome_cidade ) 
-{
+function select_cidades_por_estado(nome_cidade) {
     var id_estado = $("#state option:selected").val();
 
-    if (id_estado != "")
-    {
-        $.getJSON( window.location.href + "select/cities", {'id_estado' : id_estado}, function( data ){
-            obj = JSON.parse( JSON.stringify( data ) );
+    if (id_estado != ""){
+        $.getJSON( window.location.href + "select/cities", {'id_estado' : id_estado}, function(data){
+            var obj = JSON.parse(JSON.stringify(data));
             add_options_cidades(obj, nome_cidade);
         });
     }
 }
 
-function add_options_cidades(obj_json, nome_cidade)
-{
+function add_options_cidades(obj_json, nome_cidade){
     //Removendo todos os options do select
     $('#city').find('option').remove();
     
@@ -38,12 +33,11 @@ function add_options_cidades(obj_json, nome_cidade)
         option.text  = obj_json[i].Nome;
 
         // Verificando se essa cidade é a cidade que veio do zipcode
-        if ( nome_cidade != "" && ( obj_json[i].Nome == nome_cidade || obj_json[i].id == nome_cidade) ) 
-        { 
+        if ( nome_cidade != "" && ( obj_json[i].Nome == nome_cidade || obj_json[i].id == nome_cidade) ) { 
             option.selected = true;
         }
 
-        select.add( option );
+        select.add(option);
         i++;
     }
 }
@@ -92,16 +86,13 @@ function selected_country()
 {
     var country = $("#country option:selected");
     
-    if ( country.text() == "Brazil" ) 
-    {
+    if ( country.text() == "Brazil" ){
         selected_country_brazil();
     }
-    else if( country.val() == "" )
-    {
+    else if( country.val() == "" ){
         not_selected_country();
     }
-    else
-    {
+    else{
         selected_country_other();
     }
 }
@@ -109,8 +100,7 @@ function selected_country()
 //////////////////////////////////////////////////////////////////////////////////////////
       
 // Limpa os valores do formulário de zipcode.
-function limpa_formulário_zipcode()
-{ 
+function limpa_formulário_zipcode(){ 
     $("#adress").val("");
 }
 
@@ -126,8 +116,7 @@ function pesquisar_zipcode()
         var validazipcode = /^[0-9]{8}$/;
 
         //Valida o formato do CEP.
-        if( validazipcode.test(zipcode) && country == "Brazil" )
-        {
+        if( validazipcode.test(zipcode) && country == "Brazil" ){
 
             //Preenche os campos com "..." enquanto consulta webservice.
             var val_adress = $("#adress").val();
@@ -137,8 +126,7 @@ function pesquisar_zipcode()
             //Consulta o webservice viazipcode.com.br/
             $.getJSON("https://viacep.com.br/ws/"+ zipcode +"/json/?callback=?", function(dados) {
 
-                if (!("erro" in dados))
-                {
+                if (!("erro" in dados)){
                     //Atualiza os campos com os valores da consulta.
                     if ( val_adress == "" ){
                         $("#adress").val(dados.bairro+" - "+dados.logradouro);
@@ -151,11 +139,9 @@ function pesquisar_zipcode()
                     // Selecionando as cidades pertencentes aquele estado
                     select_cidades_por_estado( dados.localidade ); 
                 }
-                else
-                {
+                else{
                     //CEP pesquisado não foi encontrado.
-                    if ($("#adress").val() == "Searching CEP...") {
-                        //limpa_formulário_zipcode();
+                    if ($("#adress").val() == "Searching CEP...") {                        
                         $("#adress").val( val_adress );
                     }
                     alert("CEP não encontrado.");
@@ -165,36 +151,8 @@ function pesquisar_zipcode()
             });
         }
         // CEP pesquisado não foi encontrado.
-        else if (country == "Brazil") 
-        {                
+        else if (country == "Brazil"){                
             alert("Codigo postal inválido");
         }
     }
 }
-
-$("#perfil").change( function() {
-    if ( $(this).find("option:selected").html() == "Estudante" )
-    {
-        $(".row-perfil-estudante").addClass("show");
-        $(".row-perfil-estudante .form-group > input").prop("required", true);
-        $(".row-perfil-estudante .form-group > select").prop("required", true);
-        $(".row-perfil-estudante .form-group > select").prop("disabled", false)
-        
-        $(".row-perfil-profissional").removeClass("show");
-        $(".row-perfil-profissional .form-group > input").removeAttr("required");
-        $(".row-perfil-profissional .form-group > select").removeAttr("required");
-        $(".row-perfil-profissional .form-group > select").prop("disabled", true);
-    }
-    else if ( $(this).find("option:selected").html() == "Profissional" )
-    {
-        $(".row-perfil-profissional").addClass("show");
-        $(".row-perfil-profissional .form-group > input").prop("required", true);
-        $(".row-perfil-profissional .form-group > select").prop("required", true);
-        $(".row-perfil-profissional .form-group > select").prop("disabled", false);
-
-        $(".row-perfil-estudante").removeClass("show");
-        $(".row-perfil-estudante .form-group > input").removeAttr("required");
-        $(".row-perfil-estudante .form-group > select").removeAttr("required");
-        $(".row-perfil-estudante .form-group > select").prop("disabled", true);
-    }
-});

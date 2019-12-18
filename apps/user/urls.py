@@ -12,5 +12,5 @@ urlpatterns = [
     # path('changepassword/authenticate/<slug:hash>/<int:id>/', views.change_password_authenticate),
     path('registration/', registration.register, name="user_registration_register"),
     # path('registration/confirm/<slug:hash>/<int:id>/', registration.confirm ),
-    # path('registration/select/cities/', registration.select_cities_this_state, name="user_select_cities")
+    path('registration/select/cities/', registration.select_cities, name="user_select_cities")
 ]
