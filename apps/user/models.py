@@ -30,6 +30,9 @@ class Tipo_Inscricao(models.Model):
 class Titulacao(models.Model):
     titulo = models.CharField(max_length=32, null=False, blank=False)
 
+class Area(models.Model):
+    nome = models.CharField(max_length=35, null=False, blank=False)
+
 class Usuario( models.Model ):
     # Chave estrangeira da tabela auth_user padrão do django related_name='usuario'
     user = models.OneToOneField( User, on_delete = models.CASCADE, default = '', null = False, blank = False )  
@@ -39,6 +42,7 @@ class Usuario( models.Model ):
     curso_formacao = models.CharField(max_length=100, null=False, blank=False)
     instituicao    = models.CharField(max_length=100, null=True, blank=True)
     titulacao      = models.ForeignKey(Titulacao, on_delete=models.PROTECT, null=False, blank=False)
+    area           = models.ForeignKey(Area, on_delete=models.PROTECT, null=False, blank=False)
 
     # Dados para o evento
     nome_para_cracha = models.CharField(max_length=50, null=False, blank=False)

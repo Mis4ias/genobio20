@@ -27,9 +27,10 @@ def select_cities(request):
 def register(request):
     dados = {
         'estados': models.Estado.objects.all(),
-        'paises' : models.Pais.objects.all(),
+        'paises': models.Pais.objects.all(),
         'tipo_inscricoes' : models.Tipo_Inscricao.objects.all(),
-        'titulos': models.Titulacao.objects.all()
+        'titulos': models.Titulacao.objects.all(),
+        'areas': models.Area.objects.all()
     }
 
     return render(request, 'user/registration.html', { 'dados': dados })

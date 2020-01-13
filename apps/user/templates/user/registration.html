@@ -365,14 +365,10 @@
                     <div class="row">
                         <h6 class="text-uppercase probootstrap-uppercase">AFFILIATION INFORMATION</h6>
                         
-                        <div class="col-lg-4 col-md-4 form-group">
+                        <div class="col-lg-8 col-md-8 form-group">
                             <label for="organization">Organization</label>
                             <input type="text" class="form-control" id="organization" name="organization" value="{{ usuario.instituicao }}">
-                        </div>
-                        <div class="col-lg-4 col-md-4 form-group">
-                            <label for="training">Academic Training or Course</label>
-                            <input type="text" class="form-control" id="training" name="training" value="{{ usuario.curso_formacao }}">
-                        </div>
+                        </div>                        
     
                         <div class="col-lg-4 col-md-4 form-group">
                             <label for="degree">Academic Degree</label>
@@ -381,6 +377,24 @@
                                 <option disabled="" value="">----------------------</option>
                             {% for titulo in dados.titulos %}
                                 <option value="{{ titulo.id }}">{{ titulo.titulo }}</option>
+                            {% endfor %}
+                        </select>
+                        </div>
+                    </div>
+
+                    <div class="row">                        
+                        <div class="col-lg-8 col-md-8 form-group">
+                            <label for="training">Academic Training or Course</label>
+                            <input type="text" class="form-control" id="training" name="training" value="{{ usuario.curso_formacao }}">
+                        </div>
+    
+                        <div class="col-lg-4 col-md-4 form-group">
+                            <label for="degree">Area</label>
+                            <select size="1" name="area" id="area" class="form-control required" required>
+                                <option value="" selected="">Select an area</option>
+                                <option disabled="" value="">----------------------</option>
+                            {% for area in dados.areas %}
+                                <option value="{{ area.id }}">{{ area.nome }}</option>
                             {% endfor %}
                         </select>
                         </div>

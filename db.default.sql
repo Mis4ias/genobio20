@@ -5870,4 +5870,10 @@ INSERT INTO 'user_tipo_inscricao'('id', 'tipo', 'valor', 'status') VALUES
 ('2', "Graduate Students", 100, 1),
 ('3', "Professionals", 250, 1); 
 
-
+INSERT INTO 'user_area'('id', 'nome') VALUES 
+('1', "Genes and Genomics"),
+('2', "RNA and Transcriptomics"),
+('3', "Proteins and Proteomics"),
+('4', "Systems Biology and Networks"),
+('5', "Software Development and Databases"),
+('6', "Phylogeny and Evolution");
