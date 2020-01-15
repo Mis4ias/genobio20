@@ -286,7 +286,7 @@
                                 <option value="" selected="">Select an type</option>
                                 <option disabled="" value="">----------------------</option>
                                 {% for tp_inscricao in dados.tipo_inscricoes %}
-                                    <option value="{{ tp_inscricao.id }}"{% if tp_inscricao.id == usuario.tipo_inscricao %}selected{% endif %}>{{ tp_inscricao.tipo }}</option>
+                                    <option value="{{ tp_inscricao.id }}">{{ tp_inscricao.tipo }}</option>
                                 {% endfor %}
                             </select>
                             {% if errors.tipo_inscricao_nao_escolhido %}
@@ -327,10 +327,10 @@
     
                         <div class="col-lg-4 col-md-4 form-group">
                             <label for="state">State</label>
-                            <select size="1" name="state" id="state" class="form-control required" onchange="select_cidades_por_estado('');" required disabled>
+                            <select size="1" name="state" id="state" class="form-control required" onchange="select_cidades_por_estado('');"  disabled>
                                 <option value="">Select your state</option>
                             {% for estado in dados.estados %}
-                                <option value="{{ estado.id }}" id="{{estado.sigla}}" {% if estado.id == usuario.estado %}selected{% endif %}>{{ estado.nome }}</option>
+                                <option value="{{ estado.id }}" id="{{estado.sigla}}">{{ estado.nome }}</option>
                             {% endfor %}
                             </select>
                             {% if errors.estado_nao_escolhido %}
@@ -343,7 +343,7 @@
                     <div class="row">
                         <div class="col-lg-4 col-md-4 form-group">
                             <label for="city">City</label>
-                            <select size="1" name="city" id="city" class="form-control required" required disabled>
+                            <select size="1" name="city" id="city" class="form-control required" disabled>
                                 <option value="" selected="">Select your city</option>
                             </select>
                             {% if errors.cidade_nao_escolhido %}
@@ -354,7 +354,7 @@
     
                         <div class="col-lg-8 col-md-8 form-group">
                             <label for="address">Address</label>
-                            <input type="text" class="form-control" id="adress" name="adress" value="{{usuario.endereco}}">
+                            <input type="text" class="form-control" id="adress" name="adress" value="{{usuario.endereco}}" required>
                             {% if errors.endereco_empty and not errors.country_nao_escolhido%}
                                 {{errors.endereco_empty}}
                                 <script>alter_cor("adress");</script>
@@ -367,7 +367,7 @@
                         
                         <div class="col-lg-8 col-md-8 form-group">
                             <label for="organization">Organization</label>
-                            <input type="text" class="form-control" id="organization" name="organization" value="{{ usuario.instituicao }}">
+                            <input type="text" class="form-control" id="organization" name="organization" value="{{ usuario.instituicao }}" required>
                         </div>                        
     
                         <div class="col-lg-4 col-md-4 form-group">
@@ -378,14 +378,18 @@
                             {% for titulo in dados.titulos %}
                                 <option value="{{ titulo.id }}">{{ titulo.titulo }}</option>
                             {% endfor %}
-                        </select>
+                            </select>
+                            {% if errors.titulo_nao_escolhido %}
+                                {{ errors.titulo_nao_escolhido }}                            
+                                <script>alter_cor("titulacao");</script>
+                            {% endif %}
                         </div>
                     </div>
 
                     <div class="row">                        
                         <div class="col-lg-8 col-md-8 form-group">
                             <label for="training">Academic Training or Course</label>
-                            <input type="text" class="form-control" id="training" name="training" value="{{ usuario.curso_formacao }}">
+                            <input type="text" class="form-control" id="training" name="training" value="{{ usuario.curso_formacao }}" required>
                         </div>
     
                         <div class="col-lg-4 col-md-4 form-group">
@@ -396,7 +400,11 @@
                             {% for area in dados.areas %}
                                 <option value="{{ area.id }}">{{ area.nome }}</option>
                             {% endfor %}
-                        </select>
+                            </select>
+                            {% if errors.area_nao_escolhida %}
+                                {{ errors.area_nao_escolhida }}
+                                <script>alter_cor("area");</script>
+                            {% endif %}
                         </div>
                     </div>
         
@@ -453,37 +461,37 @@
                 document.getElementById('submit').disabled = "disabled"  
             }
         }        
-    </script>
 
-    <!--Códigos JS para selecionar tipo de inscricao, country, state, city e titulo -->
+    // Códigos JS para selecionar tipo de inscricao, country, state, city e titulo
     {% if usuario.country %}
-      <script>
-          {% if usuario.country != "nada" %}
-              $("#country").val({{usuario.country}});
+        {% if usuario.country != "nada" %}
+            $("#country").val({{ usuario.country.id }});
 
-              if ( {{usuario.country}} == 30){
-                  selected_country_brazil();
-              }
-          {% else %}
-              $("#country").val("");
-              desabilit_all();
-          {% endif %}
-      </script>
+            if ({{ usuario.country.id }} == 30){
+                selected_country_brazil();
+            }
+        {% else %}
+            $("#country").val("");
+            desabilit_all();
+        {% endif %}
     {% else %}
-        <script>
-            $("#country").val(30);
-            selected_country_brazil();
-        </script>
+        $("#country").val(30);
+        selected_country_brazil();
     {% endif %}
 
     {% if usuario.estado %}
-        <script>
-            $("#state").val({{usuario.estado}});
-            {% if usuario.cidade %}
-                select_cidades_por_estado({{usuario.cidade}});
-            {% else %}
-                  select_cidades_por_estado("");
-            {% endif %}
-        </script>
-    {% endif %}  
+        $("#state").val({{usuario.estado.id}});
+        {% if usuario.cidade %}
+            select_cidades_por_estado({{ usuario.cidade.id }});
+        {% else %}
+            select_cidades_por_estado("");
+        {% endif %}        
+    {% endif %}
+
+    $(document).ready(function(){
+        $("#area").val({{ usuario.area.id }});
+        $("#titulacao").val({{usuario.titulacao.id }});
+        $("#inscricao").val({{usuario.tipo_inscricao.id}});
+    }); 
+    </script> 
 {% endblock %}

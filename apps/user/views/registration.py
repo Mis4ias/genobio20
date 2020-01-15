@@ -44,7 +44,7 @@ def exist_email(email):
         bool: True caso exista algum usuário com este email e False caso contrário.
     """
     try:
-        usuario_aux = User.objects.get(email=email)
+        usuario_aux = User.objects.get(email=email)    
         return True
     except User.DoesNotExist:
         return False
@@ -79,11 +79,11 @@ def validate_user(request):
         'area'            : request.POST['area'],
         'cep'             : request.POST['zipcode'],
         'country'         : request.POST['country'],
-        'estado'          : request.POST.get('state', None), # if "state" in request.POST else None,
-        'cidade'          : request.POST.get('city', None), # if "city" in request.POST else None,   
+        'estado'          : request.POST.get('state', None), 
+        'cidade'          : request.POST.get('city', None),  
         'endereco'        : request.POST['adress']
     }    
-
+    
     # validaçoes de email
     if exist_email(usuario['email']):
         errors['erro_email_existente'] = "There is already a registered user with this email address"
@@ -115,31 +115,22 @@ def validate_user(request):
         errors['nome_short'] = "Fill in this field with at least 2 characters"
 
     # Validação para titulacao
-    if usuario['titulacao'] == "":
+    try:
+        usuario['titulacao'] = models.Titulacao.objects.get(pk=int(usuario['titulacao']))
+    except Exception:
         errors['titulo_nao_escolhido'] = "Please select a title"
-    else:
-        try:
-           usuario['titulacao'] = models.Titulacao.objects.get(pk=int(usuario['titulacao']))
-        except Exception:
-            errors['titulo_nao_escolhido'] = "Please select a title"
 
     # Validaçao para tipo_inscricao
-    if usuario['tipo_inscricao'] == "":
+    try:
+        usuario['tipo_inscricao'] = models.Tipo_Inscricao.objects.get(pk=int(usuario['tipo_inscricao']))
+    except Exception:
         errors['tipo_inscricao_nao_escolhido'] = "Please select a subscription type"
-    else:
-        try:
-           usuario['tipo_inscricao'] = models.Tipo_Inscricao.objects.get(pk=int(usuario['tipo_inscricao']))
-        except Exception:
-            errors['tipo_inscricao_nao_escolhido'] = "Please select a subscription type"
 
     # Validaçao para area
-    if usuario['area'] == "":
+    try:
+        usuario['area'] = models.Area.objects.get(pk=int(usuario['area']))
+    except Exception:
         errors['area_nao_escolhida'] = "Please select a area"
-    else:
-        try:
-            usuario['area'] = models.Area.objects.get(pk=int(usuario['area']))
-        except Exception:
-            errors['area_nao_escolhida'] = "Please select a area"
 
     # Validações de endereço
     if usuario['cep'].replace(" ", "") == "":
@@ -148,43 +139,32 @@ def validate_user(request):
     if usuario['endereco'].replace(" ", "") == "": 
         errors['endereco_empty'] = erro_comum
 
-    if usuario['country'] == "":    
+    try:
+        usuario['country'] = models.Pais.objects.get(pk=int(usuario['country']))
+        
+        # Validações para pessoas do Brasil
+        if usuario['country'].id == 30:
+            if len("".join(filtro.findall(usuario['cep']))) != 8:
+                errors['cep_invalido'] = "Invalid zip code format"
+            
+            try:
+                usuario['estado'] = models.Estado.objects.get(id=int(usuario['estado']))
+            except Exception:
+                errors['estado_nao_escolhido'] = "Please select the state"
+            
+            try:
+                usuario['cidade'] = models.Cidade.objects.get(id=int(usuario['cidade']))
+            except Exception:
+                errors['cidade_nao_escolhido'] = "Please select the city"
+            
+            if usuario['celular'].replace(" ", "") == "":
+                errors['celular_empty'] = erro_comum
+
+            if len("".join(filtro.findall(usuario['celular']))) < 8:
+                errors['celular_invalido'] = "Invalid phone format"            
+    except Exception:
         errors['country_nao_escolhido'] = "Please select the country"
         usuario['country'] = "nada"
-    else:
-        try:
-            usuario['country'] = models.Pais.objects.get(pk=int(usuario['country']))
-            
-            # Validações para pessoas do Brasil
-            if usuario['country'].id == 30:
-                if len("".join(filtro.findall(usuario['cep']))) != 8:
-                    errors['cep_invalido'] = "Invalid zip code format"
-
-                if usuario['estado'] == None:
-                    errors['estado_nao_escolhido'] = "Please select the state"
-                else:
-                    try:
-                        usuario['estado'] = models.Estado.objects.get(id=int(usuario['estado']))
-                    except models.Estado.DoesNotExist:
-                        errors['estado_nao_escolhido'] = "Please select the state"
-
-                if usuario['cidade'] == None:
-                    errors['cidade_nao_escolhido'] = "Please select the city"
-                else:
-                    try:
-                        usuario['cidade'] = models.Cidade.objects.get(id=int(usuario['cidade']))
-                    except models.Cidade.DoesNotExist:
-                        errors['cidade_nao_escolhido'] = "Please select the city"
-
-                if usuario['celular'].replace(" ", "") == "":
-                    errors['celular_empty'] = erro_comum
-
-                if len("".join(filtro.findall(usuario['celular']))) < 8:
-                    errors['celular_invalido'] = "Invalid phone format"
-
-        except Exception:
-            errors['country_nao_escolhido'] = "Please select the country"
-            usuario['country'] = "nada"
 
     return errors, usuario
 
@@ -197,8 +177,6 @@ def register(request):
         'titulos': models.Titulacao.objects.all(),
         'areas': models.Area.objects.all()
     }
-    errors = {}
-    usuario = {}
 
     if request.method == "POST":    
         errors, usuario = validate_user(request)        
@@ -211,47 +189,55 @@ def register(request):
             que é único é seu email, visto que, não temos cpf ou RG do usuário
             por exemplo.
             """
-            new_auth_user = User.objects.create_user(username  = usuario['email'],
-                                                     email     = usuario['email'],
-                                                     password  = usuario['senha'],
-                                                     is_active = False)
-            new_auth_user.save()
-                        
-            if new_auth_user.id:                 
-                novo_usuario = models.Usuario.objects.create(user         = new_auth_user,
-                                                             nome         = usuario['nome_usuario'],
-                                                             celular      = usuario['celular'],
-                                                             curso_formacao = usuario['curso_formacao'],
-                                                             area         = usuario['area'],
-                                                             curso        = usuario['curso'],
-                                                             instituicao  = usuario['instituicao'],
-                                                             nome_empresa = usuario['nome_empresa'],
-                                                             estado       = usuario['estado'],
-                                                             cidade       = usuario['cidade'], 
-                                                             pais         = usuario['country'],
-                                                             cep          = usuario['cep'],
-                                                             endereco     = usuario['endereco'])                
+            try:
+                new_auth_user = User.objects.create_user(username = usuario['email'],
+                                                         email     = usuario['email'],
+                                                         password  = usuario['senha'],
+                                                         is_active = False)
+                new_auth_user.save()
+            except Exception:                
+                return render(request, 'user/notification.html', { 'msg': {
+                    'title': 'Desculpe',
+                    'msg' : 'Não foi possível realizar o cadastro. Por favor entre em contato conosco.'
+                }})
+
+            try:                 
+                novo_usuario = models.Usuario.objects.create(user          = new_auth_user,
+                                                            nome           = usuario['nome_usuario'],
+                                                            curso_formacao = usuario['curso_formacao'],
+                                                            instituicao    = usuario['instituicao'],
+                                                            titulacao      = usuario['titulacao'],
+                                                            area           = usuario['area'],
+                                                            tipo_inscricao = usuario['tipo_inscricao'],
+                                                            celular        = usuario['celular'],                                                                                                                                                                                    
+                                                            estado         = usuario['estado'],
+                                                            cidade         = usuario['cidade'], 
+                                                            pais           = usuario['country'],
+                                                            cep            = usuario['cep'],
+                                                            endereco       = usuario['endereco'])                
                 novo_usuario.save()
-            
-                if novo_usuario.id:                                      
-                    # Gerando codigo para autenticar posteriormente o usuario e enviando email para o mesmo
-                    hash = novo_usuario.hash()                    
-                    url  = send_email.url_for_confirm_mail(hash, novo_usuario.id)  
+            except Exception:
+                new_auth_user.delete()
+                return render(request, 'user/notification.html', { 'msg': {
+                    'title': 'Desculpe',
+                    'msg' : 'Não foi possível realizar o cadastro. Por favor entre em contato conosco.'
+                }})
+                                                    
+            # Gerando codigo para autenticar posteriormente o usuario e enviando email para o mesmo
+            hash = novo_usuario.hash()                    
+            url  = send_email.url_for_confirm_mail(hash, novo_usuario.id)  
 
-                    novo_usuario.hash_confirm_register = hash  
-                    novo_usuario.save()
+            novo_usuario.hash_confirm_register = hash  
+            novo_usuario.save()
 
-                    send_email.send_mail_for_user_confirm_mail(novo_usuario.nome, 
-                                                               new_auth_user.email,
-                                                               url)  
-                    msg = {
-                        'msg': '',
-                        'title': 'Por favor verifique seu email para confirmar o cadastro.'
-                    }
-
-                    return render(request, 'user/notification.html', {'msg': msg})
-                else:
-                    new_auth_user.delete()                   
-
-    return render(request, 'user/registration.html', { 'dados': dados, 'errors': errors, 'usuario': usuario })
+            send_email.send_mail_for_user_confirm_mail(novo_usuario.nome, 
+                                                       new_auth_user.email,
+                                                       url)              
+            return render(request, 'user/notification.html', { 'msg': {
+                'title': 'Por favor verifique seu email para confirmar o cadastro.'
+            }})                                              
+        else:
+            return render(request, 'user/registration.html', { 'dados': dados, 'errors': errors, 'usuario': usuario })    
+    elif request.method == "GET":
+        return render(request, 'user/registration.html', { 'dados': dados })
     

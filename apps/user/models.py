@@ -45,7 +45,6 @@ class Usuario( models.Model ):
     area           = models.ForeignKey(Area, on_delete=models.PROTECT, null=False, blank=False)
 
     # Dados para o evento
-    nome_para_cracha = models.CharField(max_length=50, null=False, blank=False)
     tipo_inscricao   = models.ForeignKey(Tipo_Inscricao, on_delete=models.PROTECT, null=False, blank=False)
 
     # Dados de contato
