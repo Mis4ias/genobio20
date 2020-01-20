@@ -1,7 +1,10 @@
 from django.shortcuts import render, HttpResponse
 from django.contrib.auth.models import User
-from apps.user import models
-import re, json
+from apps.user import models, send_email
+from datetime import datetime
+import re, json, logging
+
+logger = logging.getLogger('django')
 
 def select_cities(request):
     """Web service que seleciona no banco as cidades pertencentes ao estado informado.
@@ -195,7 +198,8 @@ def register(request):
                                                          password  = usuario['senha'],
                                                          is_active = False)
                 new_auth_user.save()
-            except Exception:                
+            except Exception as ex:
+                logger.error('\n\n(' + str(datetime.today()) + ') Error in create auth_user(registration.py line 196): \n\tMsg: ' + str(ex) + '\n\tauth_user date: ' + str(usuario))                               
                 return render(request, 'user/notification.html', { 'msg': {
                     'title': 'Desculpe',
                     'msg' : 'Não foi possível realizar o cadastro. Por favor entre em contato conosco.'
@@ -216,8 +220,9 @@ def register(request):
                                                             cep            = usuario['cep'],
                                                             endereco       = usuario['endereco'])                
                 novo_usuario.save()
-            except Exception:
+            except Exception as ex:                
                 new_auth_user.delete()
+                logger.error('\n\n(' + str(datetime.today()) + ') Error in create user(registration.py line 209): \n\tMsg: ' + str(ex) + '\n\tuser date: ' + str(usuario))
                 return render(request, 'user/notification.html', { 'msg': {
                     'title': 'Desculpe',
                     'msg' : 'Não foi possível realizar o cadastro. Por favor entre em contato conosco.'

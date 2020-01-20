@@ -25,7 +25,7 @@ SECRET_KEY = 'd1r*t9pe&103pupomxzv@2&^)np2dx6ght!9i68%+yr#@l4rso'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost']
 
 
 # Application definition
@@ -131,3 +131,27 @@ STATICFILES_DIRS = [
 EMAIL_HOST = 'smtp.gmail.com:587'
 EMAIL_HOST_USER = 'biome.eventos@gmail.com'
 EMAIL_HOST_PASSWORD = 'B10me@Events'
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'filters': {
+        'require_debug_false': {
+            '()': 'django.utils.log.RequireDebugFalse'
+        }
+    },
+    'handlers': {
+        'file': {
+            'level': 'ERROR',
+            'class': 'logging.FileHandler',
+            'filename': os.path.join(BASE_DIR, 'site.log'),
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['file'],
+            'level': 'ERROR',
+            'propagate': True,
+        },
+    },
+}

@@ -51,7 +51,7 @@ def send_mail_for_user_confirm_mail( nome, email_user, link ):
 
     send_mail(msgRoot)
 
-def send_mail_for_user_forgot_my_password( nome, email_user, link ):
+def send_mail_for_user_forgot_my_password(nome, email_user, link):
     base = os.path.dirname( os.path.abspath(__file__) )
 
     # Criando cabeçalho do email
@@ -79,7 +79,7 @@ def send_mail_for_user_forgot_my_password( nome, email_user, link ):
 
     send_mail( msgRoot )
 
-def send_mail_notification_for_user( email_user, nome_user, texto, titulo ):
+def send_mail_notification_for_user(email_user, nome_user, texto, titulo):
     base = os.path.dirname(os.path.abspath(__file__))
 
     # Criando cabeçalho do email
