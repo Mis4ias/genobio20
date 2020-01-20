@@ -6,19 +6,19 @@ import hashlib
 import smtplib
 import os.path
 
-def url_for_confirm_mail( hash, id ):
+def url_for_confirm_mail(hash, id):
     return "http://bioinfo.imd.ufrn.br/cursosdcd_userarea/2020-1/user/registration/confirm/" + hash + "/" + str(id) + "/"
 
-def url_for_forgot_my_password( hash, id ):
+def url_for_forgot_my_password(hash, id):
     return "http://bioinfo.imd.ufrn.br/cursosdcd_userarea/2020-1/user/changepassword/authenticate/" + hash + "/" + str(id) + "/"
 
 # =============================================================================
 
 def send_mail( msg ):
-    server = smtplib.SMTP( settings.EMAIL_HOST )
+    server = smtplib.SMTP(settings.EMAIL_HOST)
     server.starttls()
-    server.login( settings.EMAIL_HOST_USER, settings.EMAIL_HOST_PASSWORD )
-    server.sendmail( settings.EMAIL_HOST_USER, msg['To'], msg.as_string() )
+    server.login(settings.EMAIL_HOST_USER, settings.EMAIL_HOST_PASSWORD)
+    server.sendmail(settings.EMAIL_HOST_USER, msg['To'], msg.as_string())
     server.quit()
 
 def send_mail_for_user_confirm_mail( nome, email_user, link ):
@@ -26,7 +26,7 @@ def send_mail_for_user_confirm_mail( nome, email_user, link ):
 
     # Criando cabeçalho do email
     msgRoot = MIMEMultipart('related')
-    msgRoot['Subject'] = 'Biome - Cursos de curta duração 2020'
+    msgRoot['Subject'] = 'Genomics and Bioinfomatics - 20 years'
     msgRoot['From'] = settings.EMAIL_HOST_USER
     msgRoot['To'] = email_user
 
@@ -43,7 +43,7 @@ def send_mail_for_user_confirm_mail( nome, email_user, link ):
     msgRoot.attach( body )
 
     # Img Patrocinadores
-    fp = open(os.path.join(base, 'static/user/images/logos/biome_small.jpg'), 'rb')
+    fp = open(os.path.join(base, 'static/static/img/Logo_site_05.png'), 'rb')
     msgImage = MIMEImage( fp.read() )
     fp.close()
     msgImage.add_header('Content-ID', '<img_logo>')
@@ -56,7 +56,7 @@ def send_mail_for_user_forgot_my_password(nome, email_user, link):
 
     # Criando cabeçalho do email
     msgRoot = MIMEMultipart('related')
-    msgRoot['Subject'] = 'Biome - Cursos de curta duração 2020'
+    msgRoot['Subject'] = 'Genomics and Bioinfomatics - 20 years'
     msgRoot['From'] = settings.EMAIL_HOST_USER
     msgRoot['To'] = email_user
 
@@ -71,20 +71,20 @@ def send_mail_for_user_forgot_my_password(nome, email_user, link):
     msgRoot.attach(body)
 
     # Img Patrocinadores
-    fp = open( os.path.join( base, 'static/user/images/logos/biome_small.jpg'), 'rb' )
-    msgImage = MIMEImage( fp.read() )
+    fp = open( os.path.join( base, 'static/static/img/Logo_site_05.png'), 'rb' )
+    msgImage = MIMEImage(fp.read())
     fp.close()
     msgImage.add_header('Content-ID', '<img_logo>')
-    msgRoot.attach( msgImage )
+    msgRoot.attach(msgImage)
 
-    send_mail( msgRoot )
+    send_mail(msgRoot)
 
 def send_mail_notification_for_user(email_user, nome_user, texto, titulo):
     base = os.path.dirname(os.path.abspath(__file__))
 
     # Criando cabeçalho do email
     msgRoot = MIMEMultipart('related')
-    msgRoot['Subject'] = 'Cursos de curta duração 2020'
+    msgRoot['Subject'] = 'Genomics and Bioinfomatics - 20 years'
     msgRoot['From'] = settings.EMAIL_HOST_USER
     msgRoot['To'] = email_user
 
@@ -98,7 +98,7 @@ def send_mail_notification_for_user(email_user, nome_user, texto, titulo):
     msgRoot.attach(body)
 
     # Img Patrocinadores
-    fp = open(os.path.join(base, 'static/user/images/logos/biome_small.jpg'), 'rb')
+    fp = open(os.path.join(base, 'static/static/img/Logo_site_05.png'), 'rb')
     msgImage = MIMEImage(fp.read())
     fp.close()
     msgImage.add_header('Content-ID', '<img_logo>')

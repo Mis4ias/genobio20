@@ -58,7 +58,7 @@ def validate_user(request):
     existe outro usuário com o email informado.
 
     Args:
-        usuario (dict): Dicionário contendo os dados do usuário.
+        request (dict): Dicionário contendo os dados da requisição.
 
     Returns:
         dict: Um dicionário no qual suas chaves são o nome do erro, e que contem as mensagens 
@@ -199,7 +199,7 @@ def register(request):
                                                          is_active = False)
                 new_auth_user.save()
             except Exception as ex:
-                logger.error('\n\n(' + str(datetime.today()) + ') Error in create auth_user(registration.py line 196): \n\tMsg: ' + str(ex) + '\n\tauth_user date: ' + str(usuario))                               
+                logger.error('\n\n({}) Error in create auth_user(registration.py line 196):\n\tMsg: {}\n\tauth_user date: {}'.format(datetime.today(), ex, usuario))                              
                 return render(request, 'user/notification.html', { 'msg': {
                     'title': 'Desculpe',
                     'msg' : 'Não foi possível realizar o cadastro. Por favor entre em contato conosco.'
@@ -222,7 +222,7 @@ def register(request):
                 novo_usuario.save()
             except Exception as ex:                
                 new_auth_user.delete()
-                logger.error('\n\n(' + str(datetime.today()) + ') Error in create user(registration.py line 209): \n\tMsg: ' + str(ex) + '\n\tuser date: ' + str(usuario))
+                logger.error('\n\n({}) Error in create user(registration.py line 209):\n\tMsg: {}\n\tuser date: {}'.format(datetime.today(), ex, usuario))
                 return render(request, 'user/notification.html', { 'msg': {
                     'title': 'Desculpe',
                     'msg' : 'Não foi possível realizar o cadastro. Por favor entre em contato conosco.'
@@ -245,4 +245,56 @@ def register(request):
             return render(request, 'user/registration.html', { 'dados': dados, 'errors': errors, 'usuario': usuario })    
     elif request.method == "GET":
         return render(request, 'user/registration.html', { 'dados': dados })
+
+def confirm(request, hash, id):
+    """Web service para confirmar a inscrição do usuario.
     
+    Args:
+        request : Contem as informações da requisição.
+        hash (str): 
+            Código gerado no momento da inscrição e passado
+            no link que foi enviado para o email do usuário, e inserido 
+            no banco de dados para no momento de confirmar a inscrição, 
+            comparar o hash do banco e o hash passado para verificar se 
+            é este usuário que fez a inscrição.
+        id (int): Identificador do usuário que realizou a inscrição.
+    """
+    msg = {}
+    confirm = False
+    
+    try:
+        # Procurando usuário no banco de dados
+        usuario = models.Usuario.objects.get(pk=int(id))
+
+        if usuario:
+            # Verificando se esse usuário já não está ativo
+            if usuario.user.is_active and usuario.hash_confirm_register == "":
+                msg = {
+                    'msg'  : 'O cadastro deste usuário já foi confirmado.', 
+                    'title': 'Confirmação de Inscrição'
+                }
+            elif usuario.hash_confirm_register == hash:
+                usuario.user.is_active = True
+                usuario.hash_confirm_register = ""
+                usuario.user.save()
+                usuario.save()
+
+                msg = {
+                    'msg'  : 'Cadastro confirmado com sucesso',
+                    'title': 'Confirmação'
+                }
+                confirm = True           
+            else:
+                msg = {
+                    'msg'  : 'Url inválida, por favor se dirija a página de inscrição',
+                    'title': 'Error'
+                }
+                logger.info('\n\n({}) Method confirm(registration.py line 249):\n\tMsg: Possível falha na confirmação de inscrição.\n\tuser date: {}\n\thash: {}'.format(datetime.today(), usuario, hash))                               
+    except Exception:
+        msg = {
+            'msg'  : 'Url inválida, por favor se dirija a página de inscrição',
+            'title': 'Error'
+        }
+        logger.info('\n\n({}) Method confirm(registration.py line 265):\n\tMsg: Falha na confirmação de inscrição.\n\tuser date: {}'.format(datetime.today(), {'id': id, 'hash': hash}))
+
+    return render(request, 'user/notification.html', { 'msg': msg, 'confirm': confirm })
