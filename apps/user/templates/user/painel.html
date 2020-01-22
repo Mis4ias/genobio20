@@ -79,7 +79,6 @@
                             <div class="form-group">
                                 <label for="name">Nome</label>
                                 <p class="datap">{{ usuario.nome }}</p>
-                                <input type="text" class="form-control datauser" id="name" name="name" value="{{ usuario.nome }}">
                             </div>
                             
                         {# Nesse projeto o usuario nao terá crachá mas deixei essa div para caso outros projetos tenham #}
@@ -94,7 +93,6 @@
                             <div class="form-group">
                                 <label for="Email">Email</label>
                                 <p class="datap">{{ usuario.user.email }}</p>
-                                <input type="text" class="form-control datauser" id="email" name="email" value="{{ usuario.user.email }}">
                             </div>
 
                             <div class="form-group">
@@ -104,86 +102,28 @@
                             </div>
 
                             <div class="form-group">
-                                <label for="Perfil">Perfil</label>
-                                <p class="datap">{{ usuario.perfil.nome }}</p>
-                                <select size="1" name="perfil" id="perfil" class="form-control datauser">
-                                    {% for perfil in dados.perfis %}
-                                    <option value="{{ perfil.id }}">{{ perfil.nome }}</option>
-                                    {% endfor %}
-                                </select>
-                            </div>
-
-                        {% if usuario.perfil.id == 1 %}                            
-                            <div class="form-group">
-                                <label for="Curso">Curso</label>
-                                <p class="datap">{{ usuario.curso }}</p>
-                                <input type="text" class="form-control datauser" id="curso" name="curso" value="{{ usuario.curso }}">
-                            </div>
-
-                            <div class="form-group">
-                                <label for="Instituição">Instituicao</label>
-                                <p class="datap">{{ usuario.instituicao}}</p>
-                                <input type="text" class="form-control datauser" id="instituicao" name="instituicao" value="{{ usuario.instituicao }}">
-                            </div>
-
-                        {% elif usuario.perfil.id == 2 %}                            
-                            <div class="form-group">
-                                <label for="Cargo">Cargo</label>
-                                <p class="datap">{{ usuario.cargo }}</p>
-                                <input type="text" class="form-control datauser" id="cargo" name="cargo" value="{{ usuario.cargo }}">
-                            </div>
-
-                            <div class="form-group">
-                                <label for="Nome da empresa">Nome da empresa</label>
-                                <p class="datap">{{ usuario.nome_empresa }}</p>
-                                <input type="text" class="form-control datauser" id="nome_empresa" name="nome_empresa" value="{{ usuario.nome_empresa }}">
-                            </div>                            
-                        {% endif %}
-
-                            <div class="form-group">
-                                <label for="Formação">Formação</label>
-                                <p class="datap">{{ usuario.formacao.nome }}</p>
-                                <select size="1" name="formacao" id="formacao" class="form-control datauser">
-                                {% for formacao in dados.formacoes %}
-                                    <option value="{{ formacao.id }}">{{ formacao.nome }}</option>
-                                {% endfor %}
-                                </select>
-                            </div>
+                                <label for="Perfil">Tipo de inscrição</label>
+                                <p class="datap">{{ usuario.tipo_inscricao.tipo }}</p>                                
+                            </div>                                                                                                             
 
                             <div class="form-group">
                                 <label for="country">País</label>
-                                <p class="datap">{{ usuario.pais.nome }}</p>
-                                <select size="1" name="country" id="country" class="form-control datauser">
-                                {% for pais in dados.paises %}
-                                    <option value="{{ pais.id }}">{{ pais.nome }}</option>
-                                {% endfor %}
-                                </select>
+                                <p class="datap">{{ usuario.pais.nome }}</p>                               
                             </div>
 
                             <div class="form-group">
                                 <label for="zipcode">CEP</label>
-                                <p class="datap">{{ usuario.cep }}</p>
-                                <input type="text" class="form-control datauser" id="zipcode" name="zipcode" value="{{ usuario.cep }}">
+                                <p class="datap">{{ usuario.cep }}</p>                                
                             </div>
 
                             <div class="form-group">
                                 <label for="state">Estado</label>
-                                <p class="datap">{{ usuario.estado.nome }}</p>
-                                <select size="1" name="state" id="state" class="form-control datauser">
-                                    {% for estado in dados.estados %}
-                                        <option value="{{ estado.id }}" id="{{estado.sigla}}">{{ estado.nome }}</option>
-                                    {% endfor %}
-                                </select>
+                                <p class="datap">{{ usuario.estado.nome }}</p>                                
                             </div>
 
                             <div class="form-group">
                                 <label for="city">Cidade</label>
-                                <p class="datap">{{ usuario.cidade.nome }}</p>
-                                <select size="1" name="city" id="city" class="form-control datauser">
-                                    {% for city in dados.cidades %}
-                                        <option value="{{city.id}}">{{city.nome}}</option>
-                                    {% endfor %}
-                                </select>
+                                <p class="datap">{{ usuario.cidade.nome }}</p>                                
                             </div>
 
                             <div class="form-group">
@@ -191,6 +131,30 @@
                                 <p class="datap">{{ usuario.endereco }}</p>
                                 <input type="text" class="form-control datauser" id="address" name="address" value="{{ usuario.endereco }}">
                             </div>
+
+                            <div class="form-group">
+                                <label for="Instituição">Organização</label>
+                                <p class="datap">{{ usuario.instituicao }}</p>
+                                <input type="text" class="form-control datauser" id="instituicao" name="instituicao" value="{{ usuario.instituicao }}">
+                            </div>                           
+                                                
+                            <div class="form-group">
+                                <label for="Cargo">Grau acadêmico</label>
+                                <p class="datap">{{ usuario.titulacao.titulo }}</p>
+                                <input type="text" class="form-control datauser" id="cargo" name="cargo" value="{{ usuario.cargo }}">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="Curso">Formação ou curso acadêmico</label>
+                                <p class="datap">{{ usuario.curso_formacao }}</p>
+                                <input type="text" class="form-control datauser" id="curso" name="curso" value="{{ usuario.curso }}">
+                            </div> 
+
+                            <div class="form-group">
+                                <label for="Nome da empresa">Área</label>
+                                <p class="datap">{{ usuario.area.nome }}</p>
+                                <input type="text" class="form-control datauser" id="nome_empresa" name="nome_empresa" value="{{ usuario.nome_empresa }}">
+                            </div> 
 
                             <!-- Botões para Mudar senha e alterar dados -->
                             <fieldset class="form-group datap">

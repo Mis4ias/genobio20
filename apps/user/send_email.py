@@ -35,15 +35,15 @@ def send_mail_for_user_confirm_mail(nome, email_user, link):
     body  = fhtml.read()
     fhtml.close()
     
-    body = MIMEText( body.replace("nome_user", nome)
+    body = MIMEText(body.replace("nome_user", nome)
                         .replace("link_user", link)
                         .replace("title_user", "Muito obrigado por demonstrar o seu interesse no evento Genomics and Bioinfomatics - 20 years")
                         .replace("msg_user", "Por favor clique no botão abaixo para ativar sua conta")
                         .replace("confirm_btn", "Confirmar"), 'html')
-    msgRoot.attach( body )
+    msgRoot.attach(body)
 
     # Img Patrocinadores
-    fp = open(os.path.join(base, 'static/static/img/Logo_site_05.png'), 'rb')
+    fp = open(os.path.join(settings.BASE_DIR, 'static/static/img/Logo_site_05.png'), 'rb')
     msgImage = MIMEImage(fp.read())
     fp.close()
 
@@ -59,17 +59,17 @@ def send_mail_for_user_forgot_my_password(nome, email_user, link):
     msgRoot['To'] = email_user
 
     # Corpo html
-    fhtml = open( os.path.join( base, 'templates/user/email.html' ), 'r', encoding="utf-8" )
-    body = MIMEText( fhtml.read().replace("link_user", link)
-                                 .replace("title_user", "Mudança de senha")
-                                 .replace("msg_user", "Para mudar sua senha, por favor clique no botão abaixo")
-                                 .replace("nome_user", nome)
-                                 .replace("confirm_btn", "Mudar senha"), 'html')
+    fhtml = open(os.path.join(base, 'templates/user/email.html'), 'r', encoding="utf-8")
+    body = MIMEText(fhtml.read().replace("link_user", link)
+                                .replace("title_user", "Mudança de senha")
+                                .replace("msg_user", "Para mudar sua senha, por favor clique no botão abaixo")
+                                .replace("nome_user", nome)
+                                .replace("confirm_btn", "Mudar senha"), 'html')
     fhtml.close()
     msgRoot.attach(body)
 
     # Img Patrocinadores
-    fp = open( os.path.join( base, 'static/static/img/Logo_site_05.png'), 'rb' )
+    fp = open(os.path.join(settings.BASE_DIR, 'static/static/img/Logo_site_05.png'), 'rb')
     msgImage = MIMEImage(fp.read())
     fp.close()
 
@@ -87,14 +87,14 @@ def send_mail_notification_for_user(email_user, nome_user, texto, titulo):
     # Corpo html
     fhtml = open(os.path.join(base, 'templates/user/email_html.html'), 'r', encoding="utf-8")
     body = MIMEText(fhtml.read().replace("link_user", "https://bioinfo.imd.ufrn.br/genobio20_userarea/user/login/")
-                    .replace("title_user", titulo)
-                    .replace("msg_user", texto)
-                    .replace("nome_user", nome_user).replace("confirm_btn", "Login"), 'html')
+                         .replace("title_user", titulo)
+                         .replace("msg_user", texto)
+                         .replace("nome_user", nome_user).replace("confirm_btn", "Login"), 'html')
     fhtml.close()
     msgRoot.attach(body)
 
     # Img Patrocinadores
-    fp = open(os.path.join(base, 'static/static/img/Logo_site_05.png'), 'rb')
+    fp = open(os.path.join(settings.BASE_DIR, 'static/static/img/Logo_site_05.png'), 'rb')
     msgImage = MIMEImage(fp.read())
     fp.close()
 

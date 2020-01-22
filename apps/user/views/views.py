@@ -1,9 +1,10 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from apps.user import models, send_email
 
-def sair( request ):
+def sair(request):
+    """Desautentica usuário do sistema."""
     logout(request)
     return redirect('user_login')
 
@@ -75,3 +76,18 @@ def login_and_forgot_password(request):
     elif request.method == 'GET':
         return render(request, 'user/login.html')
 
+
+def painel(request):
+    if request.user.is_authenticated:
+        try:
+            usuario = models.Usuario.objects.get(user=request.user.id)
+
+            return render(request, "user/painel.html", { 'usuario': usuario })
+        except models.Usuario.DoesNotExist:
+            return redirect('user_login')
+    else:
+        return redirect('user_login')
+
+
+def change_password(request):
+    return render(request, 'user/changepassword.html')
