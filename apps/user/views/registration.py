@@ -37,6 +37,7 @@ def select_cities(request):
         except models.Cidade.DoesNotExist:
             return HttpResponse()   
 
+
 def exist_email(email):
     """Verifica se já existe algum usuario no banco de dados com o email informado.
 
@@ -51,6 +52,7 @@ def exist_email(email):
         return True
     except User.DoesNotExist:
         return False
+
 
 def validate_user(request):
     """Valida todos os dados do usuário, verificando se existem
@@ -171,6 +173,7 @@ def validate_user(request):
 
     return errors, usuario
 
+
 def register(request):
     """Salva no banco o cliente passado na requisição"""
     dados = {
@@ -246,11 +249,12 @@ def register(request):
     elif request.method == "GET":
         return render(request, 'user/registration.html', { 'dados': dados })
 
+
 def confirm(request, hash, id):
     """Web service para confirmar a inscrição do usuario.
     
     Args:
-        request : Contem as informações da requisição.
+        request (dict): Contem as informações da requisição.
         hash (str): 
             Código gerado no momento da inscrição e passado
             no link que foi enviado para o email do usuário, e inserido 

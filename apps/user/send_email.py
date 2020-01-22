@@ -6,24 +6,24 @@ import hashlib
 import smtplib
 import os.path
 
+base = os.path.dirname(os.path.abspath(__file__))
+
 def url_for_confirm_mail(hash, id):
-    return "http://bioinfo.imd.ufrn.br/cursosdcd_userarea/2020-1/user/registration/confirm/" + hash + "/" + str(id) + "/"
+    return "http://bioinfo.imd.ufrn.br/genobio20_userarea/user/registration/confirm/{}/{}/".format(hash, id) 
 
 def url_for_forgot_my_password(hash, id):
-    return "http://bioinfo.imd.ufrn.br/cursosdcd_userarea/2020-1/user/changepassword/authenticate/" + hash + "/" + str(id) + "/"
+    return "http://bioinfo.imd.ufrn.br/genobio20_userarea/user/changepassword/authenticate/{}/{}/".format(hash, id)
 
 # =============================================================================
 
-def send_mail( msg ):
+def send_mail(msg):
     server = smtplib.SMTP(settings.EMAIL_HOST)
     server.starttls()
     server.login(settings.EMAIL_HOST_USER, settings.EMAIL_HOST_PASSWORD)
     server.sendmail(settings.EMAIL_HOST_USER, msg['To'], msg.as_string())
     server.quit()
 
-def send_mail_for_user_confirm_mail( nome, email_user, link ):
-    base = os.path.dirname(os.path.abspath(__file__))
-
+def send_mail_for_user_confirm_mail(nome, email_user, link):
     # Criando cabeçalho do email
     msgRoot = MIMEMultipart('related')
     msgRoot['Subject'] = 'Genomics and Bioinfomatics - 20 years'
@@ -37,23 +37,21 @@ def send_mail_for_user_confirm_mail( nome, email_user, link ):
     
     body = MIMEText( body.replace("nome_user", nome)
                         .replace("link_user", link)
-                        .replace("title_user", "Muito obrigado por demonstrar o seu interesse nos cursos de curta duração 2020")
+                        .replace("title_user", "Muito obrigado por demonstrar o seu interesse no evento Genomics and Bioinfomatics - 20 years")
                         .replace("msg_user", "Por favor clique no botão abaixo para ativar sua conta")
                         .replace("confirm_btn", "Confirmar"), 'html')
     msgRoot.attach( body )
 
     # Img Patrocinadores
     fp = open(os.path.join(base, 'static/static/img/Logo_site_05.png'), 'rb')
-    msgImage = MIMEImage( fp.read() )
+    msgImage = MIMEImage(fp.read())
     fp.close()
+
     msgImage.add_header('Content-ID', '<img_logo>')
     msgRoot.attach(msgImage)
-
     send_mail(msgRoot)
 
 def send_mail_for_user_forgot_my_password(nome, email_user, link):
-    base = os.path.dirname( os.path.abspath(__file__) )
-
     # Criando cabeçalho do email
     msgRoot = MIMEMultipart('related')
     msgRoot['Subject'] = 'Genomics and Bioinfomatics - 20 years'
@@ -74,14 +72,12 @@ def send_mail_for_user_forgot_my_password(nome, email_user, link):
     fp = open( os.path.join( base, 'static/static/img/Logo_site_05.png'), 'rb' )
     msgImage = MIMEImage(fp.read())
     fp.close()
+
     msgImage.add_header('Content-ID', '<img_logo>')
     msgRoot.attach(msgImage)
-
     send_mail(msgRoot)
 
 def send_mail_notification_for_user(email_user, nome_user, texto, titulo):
-    base = os.path.dirname(os.path.abspath(__file__))
-
     # Criando cabeçalho do email
     msgRoot = MIMEMultipart('related')
     msgRoot['Subject'] = 'Genomics and Bioinfomatics - 20 years'
@@ -90,7 +86,7 @@ def send_mail_notification_for_user(email_user, nome_user, texto, titulo):
 
     # Corpo html
     fhtml = open(os.path.join(base, 'templates/user/email_html.html'), 'r', encoding="utf-8")
-    body = MIMEText(fhtml.read().replace("link_user", "https://bioinfo.imd.ufrn.br/cursosdcd_userarea/2020-1/user/login/")
+    body = MIMEText(fhtml.read().replace("link_user", "https://bioinfo.imd.ufrn.br/genobio20_userarea/user/login/")
                     .replace("title_user", titulo)
                     .replace("msg_user", texto)
                     .replace("nome_user", nome_user).replace("confirm_btn", "Login"), 'html')
@@ -101,7 +97,7 @@ def send_mail_notification_for_user(email_user, nome_user, texto, titulo):
     fp = open(os.path.join(base, 'static/static/img/Logo_site_05.png'), 'rb')
     msgImage = MIMEImage(fp.read())
     fp.close()
+
     msgImage.add_header('Content-ID', '<img_logo>')
     msgRoot.attach(msgImage)
-
     send_mail(msgRoot)
