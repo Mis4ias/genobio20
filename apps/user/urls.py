@@ -9,7 +9,7 @@ urlpatterns = [
     # path('pagamento/notification/', payment.notification),
     path('certificado/', certification.certificate, name = "user_certificado"),
     path('changepassword/', views.change_password, name = "user_change_password"),
-    # path('changepassword/authenticate/<slug:hash>/<int:id>/', views.change_password_authenticate),
+    path('changepassword/authenticate/<slug:hash>/<int:id>/', views.authenticate_change_password),
     path('registration/', registration.register, name="user_registration_register"),
     path('registration/confirm/<slug:hash>/<int:id>/', registration.confirm ),
     path('registration/select/cities/', registration.select_cities, name="user_select_cities")
