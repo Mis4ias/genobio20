@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from apps.user import models
 
 def pagamento(request):
     if request.user.is_authenticated:
@@ -24,13 +25,13 @@ def pagamento(request):
                 'reference'       : pagamento.id, 
                 'senderName'      : usuario.nome,   
                 'senderEmail'     : usuario.user.email,
-                'itemId1'         : usuario.tipo_inscricao.id
-                'itemQuantity1'   : '1'
-                'itemDescription1': "Inscrição no evento Genomics and Bioinfomatics - 20 years"
-                'itemAmount1'     : usuario.tipo_inscricao.valor
+                'itemId1'         : usuario.tipo_inscricao.id,
+                'itemQuantity1'   : '1',
+                'itemDescription1': "Inscrição no evento Genomics and Bioinfomatics - 20 years",
+                'itemAmount1'     : usuario.tipo_inscricao.valor,
                 'timeout'         : 25,
                 'enableRecovery'  : False,
-                'notificationURL' : "http://bioinfo.imd.ufrn.br/genobio20_userarea/user/pagamento/notification/"
+                'notificationURL' : "http://bioinfo.imd.ufrn.br/genobio20_userarea/user/pagamento/notification/",
             }            
 
             # Enviando requisição ao pagseguro
