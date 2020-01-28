@@ -81,44 +81,6 @@
            
           </div>
 
-          <div  class="row">
-            <!-- <div class="col-md-2 col-lg-2"></div> -->
-              <div class="col-md-12 col-lg-12" id="table-courses">
-                  <table class="table">
-                      <thead>
-                        <tr>
-                          <th scope="col">#</th>
-                          <th scope="col">Descricao</th>
-                          <th scope="col">Subscription count</th>
-                          <th scope="col">Paid subscription count</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {% for course in courses %}
-                          <tr>
-                              <th scope="row">Curso {{ course.id }}</th>
-                              <td>{{ course.descricao }}</td>
-                              <td>{{ course.qtd_inscricoes }}</td>
-                              <td>{{ course.qtd_inscricoes_pagas }}</td>
-                          </tr>
-                        {% endfor %}                     
-                      </tbody>
-                    </table>
-              </div>
-              <!-- <div class="col-md-2 col-lg-2"></div> -->
-          </div>
-          
-          <div class="row">
-            <div class="col-md-12 col-lg-12 text-center"> 
-                  <button type="button" class="btn btn-success btn-lg">
-                    <i class="icon-download">&nbsp</i>Data Users
-                  </button>
-                  <button type="button" class="btn btn-success btn-lg" onclick="window.open(`{% url 'admin_unpaid_users' %}`)">
-                    <i class="icon-download">&nbsp</i>Unpaid Users
-                  </button>
-            </div>
-          </div>
-
         </div>
     </div>
 
@@ -155,9 +117,6 @@
                 id: {{ user.id }}, 
                 name: "{{ user.name }}",
                 email: "{{ user.email }}",
-                {% for course in user.courses %}
-                curso_{{ course.id }}: true,
-                {% endfor %}
                 payment: "{{ user.payment }}",
                 information: `<a class="ver-mais" onclick="window.open('{% url 'admin_information' user.id %}')"><i class="icon-lg icon-zoom-in"></i></a>`,
                 participation: false, // FIXME: Alterar o participation para o dado que vinher do usuario
@@ -180,9 +139,6 @@
                 { name: "id", type: "number", visible: false },
                 { name: "name", type: "text", width: 100, editing: false, title: "Name" },
                 { name: "email", type: "text", width: 70, editing: false, title: "Email"},
-                {% for course in courses %}
-                { name: "curso_{{ course.id }}", type: "checkbox", width: 20, editing: false, title: "Curso {{ course.id }}" },
-                {% endfor %}
                 { name: "payment", type: "text", width: 30, align: "center", editing: false, title: "Payment",},            
                 { name: "participation", type: "checkbox", width: 15, align: "center", editing: true, title: "Participation" },
                 { name: "information", type: "text", width: 15, align: "center", editing: false, sorting: false, title: "Information" },

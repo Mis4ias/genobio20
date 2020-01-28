@@ -185,35 +185,15 @@
                                             <label>Telephone :</label>
                                             <p>{{ dados.tel }}</p>
                                         </div>
-
                                         <div class="col-lg-6 col-md-6 form-group">
-                                            <label>Profile:</label>
-                                            <p>{{ dados.profile }}</p>
+                                            <label>Tipo de inscrição:</label>
+                                            <p>{{ dados.subscription_type }}</p>
                                         </div>
                                         <div class="col-lg-6 col-md-6 form-group">
-                                            <label>Academic Degree:</label>
-                                            <p>{{ dados.academic_degree }}</p>
+                                            <label>Instituição:</label>
+                                            <p>{{ dados.institution }}</p>
                                         </div>
-
-                                        {% if dados.profile == "Estudante" %}
-                                            <div class="col-lg-6 col-md-6 form-group">
-                                                <label>Course:</label>
-                                                <p>{{ dados.course }}</p>
-                                            </div>
-                                            <div class="col-lg-6 col-md-6 form-group">
-                                                <label>Instituição:</label>
-                                                <p>{{ dados.institution }}</p>
-                                            </div>
-                                        {% else %}
-                                            <div class="col-lg-6 col-md-6 form-group">
-                                                <label>Position:</label>
-                                                <p>{{ dados.position }}</p>
-                                            </div>
-                                            <div class="col-lg-6 col-md-6 form-group">
-                                                <label>Company:</label>
-                                                <p>{{ dados.company }}</p>
-                                            </div>
-                                        {% endif%}
+                                        
                                     </div>
                 
                                     <div class="row">
@@ -241,69 +221,7 @@
                                         </div>
                                     </div>
                 
-                                    <div class="row">
-                                        <h6 class="text-uppercase probootstrap-uppercase">PAYMENT</h6>
-                                        {% if user_paid %}
-                                        <div class="row">
-                                            <div class="form-group">
-                                                <div class="col-lg-9 col-md-9 form-group">
-                                                    <label for="name">Current Status</label>                                                                                            
-                                                    <div class="alert alert-{{ show_color }}" role="alert">{{ dados.payment }}</div>
-                                                {% if dados.observation %}
-                                                    <label>Observation:</label>
-                                                    <textarea cols="30" rows="8" maxlength="450" class="form-control" placeholder="Observation" style="resize: none;" disabled>{{ dados.observation }}</textarea>
-                                                {% endif %}
-                                                </div>
-                                            </div>
-                                        </div>
-                                        {% else %}
-                                        <form method="POST" id="courses_payment">
-                                            <div class="row">
-                                                <div class="col-xs-12 col-sm-12 col-lg-9 col-md-10 col-xs-offset-1 col-sm-offset-0 col-lg-offset-0 col-md-offset-0">
-                                                {% for curso in cursos %}    
-                                                    <div class="col-xs-10 col-sm-4 col-lg-4 col-md-4">
-                                                        <div class="card" >
-                                                            <img src="{% static curso.logo %}" class="card-img-top">
-                                                            <div class="card-body">
-                                                                <p class="card-text">{{ curso.descricao }}</p>
-                                                                <div class="ks-cboxtags">
-                                                                    <input type="checkbox" id="checkbox{{ curso.id }}" name="course{{ curso.id }}">
-                                                                    <label for="checkbox{{ curso.id }}"><i class="icon-plus"></i>Me inscrever</label>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                {% endfor %}
-                                                </div>
-                                            </div>
-                                            <div class="row" style="margin-top: 30px;"> 
-                                                <div class="col-sm-offset-2 col-sm-8 col-lg-offset-1 col-lg-7 col-md-offset-2 col-md-6 "> 
-                                                    <select size="1" name="payment_status" id="payment_status" class="form-control required" required="">
-                                                        <option value="">Select the status</option>
-                                                        <option disabled="" value="">----------------------</option>
-                                                        {% for payment in payment_status %}
-                                                            <option value="{{ payment.id }}" {% if dados.payment == payment.descricao %} selected {% endif %}>{{ payment.descricao }}</option>
-                                                        {% endfor %}                                                
-                                                    </select>   
-                                                </div>                                                                                                                                    
-                                            </div>
-                                            <div class="row" style="margin-top: 25px;">
-                                                <div class="col-sm-offset-2 col-sm-8 col-lg-offset-1 col-lg-7 col-md-offset-2 col-md-6">
-                                                    <textarea name="observation" id="" cols="30" rows="10" maxlength="450" class="form-control" placeholder="Observation" style="resize: none;"></textarea>
-                                                    <span>Maximum digits: 450</span>
-                                                </div>
-                                            </div>
-                                            <div class="row" style="margin-top: 25px;">
-                                                <div class="col-xs-6 col-xs-offset-3 col-sm-6 col-sm-offset-3 col-lg-3 col-lg-offset-3 col-md-4 col-md-offset-3">
-                                                    {% csrf_token %}
-                                                    <input type="hidden" name="user">
-                                                    <input type="submit" value="Save" class="btn" style="margin-left: auto; margin-right: auto; display: block;">
-                                                </div>
-                                                <div class="col-xs-3 col-sm-3 col-lg-3 col-md-3"></div>
-                                            </div>
-                                        </form>
-                                        {% endif %}                                        
-                                    </div>                            
+                                                              
                                 </section>
                             </div>
             
@@ -341,35 +259,5 @@
 
 {% block js_add %}      
     <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
-    <script type="text/javascript">        
-        $("form#courses_payment").on("submit", function(e){
-            e.preventDefault();
-
-            if ($("input[type='checkbox']:checked").length == 0){
-                alert("Por favor selecione pelo menos um curso!");
-            }
-            else if ($("#payment_status").val() == ""){
-                alert("Por favor selecione um status de pagamento válido!");
-            }
-            else{
-                $("input[name='user']").val(window.location.href.split('/').slice(-1)[0]);
-                
-                $.post("{% url 'admin_set_status_payment' %}", $("form#courses_payment").serialize(), function(res){
-                    console.log(res);
-                    if (res != "OK"){
-                        alert("Não foi possível realizar inscrição no(s) curso(s)");
-                        $("input[type='checkbox']:checked").prop("checked", null);
-                        $("select#payment_status").val(""); 
-                    }else{
-                        alert("Incrição realizada com sucesso");
-                        window.location.reload();
-                    }                
-                }).fail(function(){
-                    alert("Não foi possível realizar a inscrição no(s) curso(s)");                
-                    $("input[type='checkbox']:checked").prop("checked", null);
-                    $("select#payment_status").val("");
-                });
-            }
-        });
-    </script>
+    
 {% endblock %}
