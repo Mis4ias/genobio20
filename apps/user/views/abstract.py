@@ -43,8 +43,6 @@ def resumo(request):
                        'autores': json.loads(request.POST['autores']),
                        }
 
-                print(res)
-
                 reg_bool = True
                 if res['titulo'].replace(" ", "") == "":
                     errors['titulo_nao_encontrado'] = "Please inform the title of the abstract"
