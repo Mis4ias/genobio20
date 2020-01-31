@@ -5877,3 +5877,9 @@ INSERT INTO 'user_area'('id', 'nome') VALUES
 ('4', "Systems Biology and Networks"),
 ('5', "Software Development and Databases"),
 ('6', "Phylogeny and Evolution");
+
+INSERT INTO 'user_status_avaliacoes' VALUES
+(1,'Submitted'),
+(2,'Approved'),
+(3,'Awaiting adjustment'),
+(4,'Rejected');

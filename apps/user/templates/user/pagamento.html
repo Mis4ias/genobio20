@@ -165,7 +165,6 @@
                         </a>
                     </li>
                 </ul>
-
             </div>
         </div> 
 
@@ -178,55 +177,35 @@
                     <!-- Payment -->
                     <div role="tabpanel" class="tab-pane active" id="payment">
                     <br>
-                    {% if pode_comprar is False %}   
-                        {% if aguardando_pagamento %}
-                            <div class="alert alert-danger uppercase" role="alert">Aguardando confirmação de pagamento!</div>
-                        {% else %}
-                            <div id="payment-success" class="alert alert-success" role="alert">Pagamento confirmado!</div>
-                        {% endif %}                    
+                    {% if can_pay is False %}                           
+                        <div class="alert alert-{{ alert_class }} uppercase" role="alert">{{ msg }}</div>                                                                       
                     {% else %}
+                        {% if not transacao %}
                         <div>
-                            <form action="" method="post" id="formCursos">
-                                <br>
-                                <div class="row">
-                                {% for curso in cursos %}    
-                                    <div class="col-sm-4 ">
-                                        <div class="card" >
-                                            <img src="{% static curso.logo %}" class="card-img-top">
-                                            <div class="card-body">
-                                                <p class="card-text">{{ curso.descricao }}</p>
-                                                <div class="ks-cboxtags">
-                                                    <input type="checkbox" id="checkbox{{ curso.id }}" name="course{{ curso.id }}">
-                                                    <label for="checkbox{{ curso.id }}"><i class="icon-plus"></i>Me inscrever</label>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                {% endfor %}
-                                </div>
-                                
-                            {% if not transacao %}
+                            <form method="post">                                                                                                                            
                                 <br>
                                 <div class="alert alert-warning" role="alert">
-                                    <p><b>Total a pagar:</b> R$ <span id="valueTotal">0</span></p>
+                                    <p>
+                                        <b>Total a pagar:</b> R$ <span id="valueTotal">{{ subscription_value }}</span>
+                                    </p>
                                 </div>
                                 <div class="text-center">
-                                    <a class="btn btn-primary" style="font-size: 1.8rem;" onclick="verify()">
+                                    <button type="submit" class="btn btn-primary" style="font-size: 1.8rem;">
                                         <i class="icon-money"></i>Pagar
-                                    </a>
-                                </div>
-                            {% endif %}
+                                    </button>
+                                </div>                            
                                 {% csrf_token %}
                             </form>
                         </div>
+                        {% endif %}
 
                         {{ error }}
                     {% endif %}
 
                         <!--Form do Pagseguro-->
-                        <form id="comprar" action="https://pagseguro.uol.com.br/v2/checkout/payment.html" method="post" onsubmit="PagSeguroLightbox(this); return false;">
+                        <!-- <form id="comprar" action="https://sandbox.pagseguro.uol.com.br/v2/checkout/payment.html" method="post" onsubmit="PagSeguroLightbox(this); return false;">
                             <input type="hidden" name="code" id="code" value="" />
-                        </form>                       
+                        </form>                        -->
                     </div>
                 </div>
             </div>
@@ -235,59 +214,31 @@
 {% endblock %}
 
 {% block js_add %}
-    <script type="text/javascript" src="https://stc.pagseguro.uol.com.br/pagseguro/api/v2/checkout/pagseguro.lightbox.js"></script> 
+    <script type="text/javascript" src="https://stc.sandbox.pagseguro.uol.com.br/pagseguro/api/v2/checkout/pagseguro.lightbox.js"></script> 
     <script src="{% static 'user/js/user_painel.js'%}"></script>
     <script>
-        var costCourses = [];
-        costCourses.push( 0 );
-        costCourses.push( {{ valores.1 }} );
-        costCourses.push( {{ valores.2 }} )
-        costCourses.push( {{ valores.3 }} );
-        var countCourseSubscribed = 0;
-        
-        $("div.ks-cboxtags input").click(
-            function () {
-                if( $(this).prop("checked") ){
-                   $(this).parent().find("label").html( $(this).parent().find("label").html().replace("Me inscrever","Inscrito") );
-                   countCourseSubscribed++;               
-                }
-                else {
-                    $(this).parent().find("label").html( $(this).parent().find("label").html().replace("Inscrito","Me inscrever") );
-                    countCourseSubscribed--;
-                }
-            $("#valueTotal").html( costCourses[ countCourseSubscribed ] );           
-            } 
-        );
-        
-        function verify(){
-            if ( countCourseSubscribed == 0 )
-                alert("Por favor se inscreva em pelo menos um curso");
-            else
-                $("#formCursos").submit();
-        }
-
         function sair(){
             window.location.href = "{% url 'user_sair' %}";
         }
 
-        {% if transacao %}
-            var code = "{{ transacao }}";
-            var isOpenLightbox = PagSeguroLightbox({
-                code: code
+    {% if transacao %}
+        var code = "{{ transacao }}";
+        var isOpenLightbox = PagSeguroLightbox({
+            code: code
+        },
+        {
+            success : function( transactionCode ) {
+                location.href="{% url 'user_pagamento' %}"
             },
-            {
-                success : function( transactionCode ) {
-                    location.href="{% url 'user_pagamento' %}"
-                },
-                abort : function() {
-                    location.href="{% url 'user_pagamento' %}"
-                }
-            });
-
-            // Redirecionando o cliente caso o navegador não tenha suporte ao Lightbox
-            if ( !isOpenLightbox ){
-                location.href = "https://pagseguro.uol.com.br/v2/checkout/payment.html?code=" + code;
+            abort : function() {
+                location.href="{% url 'user_pagamento' %}"
             }
-        {% endif %}
+        });
+
+        // Redirecionando o cliente caso o navegador não tenha suporte ao Lightbox
+        if ( !isOpenLightbox ){
+            location.href = "https://pagseguro.uol.com.br/v2/checkout/payment.html?code=" + code;
+        }
+    {% endif %}
     </script>
 {% endblock %}

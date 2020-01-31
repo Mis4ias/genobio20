@@ -132,6 +132,10 @@ EMAIL_HOST = 'smtp.gmail.com:587'
 EMAIL_HOST_USER = 'biome.eventos@gmail.com'
 EMAIL_HOST_PASSWORD = 'B10me@Events'
 
+# PagSeguro
+PAGSEGURO_EMAIL = 'levirchianca@gmail.com'
+PAGSEGURO_TOKEN = 'C09E3ACF4A2D424583AB7612F145D512'
+
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
