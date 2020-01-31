@@ -202,7 +202,7 @@ def register(request):
                                                          is_active = False)
                 new_auth_user.save()
             except Exception as ex:
-                logger.error('\n\n({}) Error in create auth_user(registration.py line 196):\n\tMsg: {}\n\tauth_user date: {}'.format(datetime.today(), ex, usuario))                              
+                logger.error('\n\n({}) Error in create auth_user(registration.py line 196):\n\tMsg: {}\n\t'.format(datetime.today(), ex))                              
                 return render(request, 'user/notification.html', { 'msg': {
                     'title': 'Desculpe',
                     'msg' : 'Não foi possível realizar o cadastro. Por favor entre em contato conosco.'
@@ -225,7 +225,7 @@ def register(request):
                 novo_usuario.save()
             except Exception as ex:                
                 new_auth_user.delete()
-                logger.error('\n\n({}) Error in create user(registration.py line 209):\n\tMsg: {}\n\tuser date: {}'.format(datetime.today(), ex, usuario))
+                logger.error('\n\n({}) Error in create user(registration.py line 209):\n\tMsg: {}\n\t'.format(datetime.today(), ex))
                 return render(request, 'user/notification.html', { 'msg': {
                     'title': 'Desculpe',
                     'msg' : 'Não foi possível realizar o cadastro. Por favor entre em contato conosco.'
@@ -293,7 +293,7 @@ def confirm(request, hash, id):
                     'msg'  : 'Url inválida, por favor se dirija a página de inscrição',
                     'title': 'Error'
                 }
-                logger.info('\n\n({}) Method confirm(registration.py line 249):\n\tMsg: Possível falha na confirmação de inscrição.\n\tuser date: {}\n\thash: {}'.format(datetime.today(), usuario, hash))                               
+                logger.info('\n\n({}) Method confirm(registration.py line 249):\n\tMsg: Possível falha na confirmação de inscrição.\n\tuser date: {}\n\thash: {}'.format(datetime.today(), usuario.nome, hash))                               
     except Exception:
         msg = {
             'msg'  : 'Url inválida, por favor se dirija a página de inscrição',
