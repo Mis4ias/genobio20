@@ -51,7 +51,7 @@ def pagamento(request):
             }            
 
             # Enviando requisição ao pagseguro            
-            response = requests.post("https://ws.sandbox.pagseguro.uol.com.br/v2/checkout", data=dados, headers=headers)
+            response = requests.post("https://ws.pagseguro.uol.com.br/v2/checkout", data=dados, headers=headers)
 
             root = xmltodict.parse(response.text)
 
@@ -79,21 +79,21 @@ def pagamento(request):
             # Casos em que o usuário já efetivou o pagamento
             # ou que estamos aguardando a finalização do mesmo.
             if last_payment is not None and last_payment.status is not None:                
-                if last_payment.status in [3, 4]:
+                if last_payment.status.id in [3, 4]:
                     return render(request, 'user/pagamento.html', { 'can_pay': False,
                                                                     'msg': 'Pagamento confirmado',
                                                                     'alert_class': 'sucess' })
-                elif last_payment.status in [1, 2, 5, 9]:
+                elif last_payment.status.id in [1, 2, 5, 9]:
                     return render(request, 'user/pagamento.html', { 'can_pay': False,
-                                                                    'msg': 'Inscrições Encerradas',
+                                                                    'msg': 'Aguardando pagamento.',
                                                                     'alert_class': 'warning' })
             # Caso em que o usuário pode realizar o pagamento
-            else:
-                if payment_is_available():
-                    return render(request, 'user/pagamento.html', { 'can_pay': True,
+            
+            if payment_is_available():
+                return render(request, 'user/pagamento.html', { 'can_pay': True,
                                                                     'subscription_value': usuario.tipo_inscricao.valor }) # TODO: Enviar o valor e alguma mensagem
-                else:
-                    return render(request, 'user/pagamento.html', { 'can_pay': False,
+            else:
+                return render(request, 'user/pagamento.html', { 'can_pay': False,
                                                                     'msg': 'Inscrições Encerradas',
                                                                     'alert_class': 'warning' })            
         
@@ -105,10 +105,10 @@ def pagamento(request):
 @require_http_methods(['POST'])
 def notification(request):
     notification_code = request.POST.get('notificationCode', None)
-    
+    logger.error('{}'.format(request.POST))
     if notification_code :        
         response = requests.get(
-            'https://ws.sandbox.pagseguro.uol.com.br/v3/transactions/notifications/{}'.format(notification_code),
+            'https://ws.pagseguro.uol.com.br/v3/transactions/notifications/{}'.format(notification_code),
             params = {
                 'email': settings.PAGSEGURO_EMAIL,
                 'token': settings.PAGSEGURO_TOKEN,
