@@ -72,7 +72,411 @@
             </div>
         </div> 
 
+        <div class="row content-row info-row">
+            <div class="content-col col-md-10 col-md-offset-1 col-xs-10 col-xs-offset-1 col-sm-10 col-sm-offset-1 col-lg-8 col-lg-offset-2">
+
+
+                <div role="tabpanel" class="tab-pane" id="abstract">
+                {% if ja_enviado %}
+                    {% if tipo_aval == 'Approved' %}
+                        <div class="alert alert-warning" role="alert">
+                            <p class="uppercase" style="text-align: center;">Obrigado por enviar o seu resumo para o Genobio20.</p>
+                            <p class="uppercase" style="text-align: center;">Olá! O resumo foi APROVADO e esperamos pela sua apresentação através de PÔSTER. Você deve aguardar uma comunicação 
+                                da organização do evento com o ID do seu trabalho e posiciona-lo corretamente durante o evento.</p>
+                        </div>
+                    {% elif tipo_aval == 'Rejected' %}
+                        <div class="alert alert-warning" role="alert">
+                            <p class="uppercase" style="text-align: center;">Obrigado por enviar o seu resumo para o Genobio20.</p>
+                            <p class="uppercase" style="text-align: center;">Olá! Infelizmente o resumo enviado não se encaixa no escopo do evento e foi REJEITADO. 
+                                Se desejar, pode fazer as modificações que desejar e estaremos felizes em avaliar o resumo novamente. </p>
+                        </div>
+                    {% else %}
+                        <div class="alert alert-warning" role="alert">
+                            <p class="uppercase" style="text-align: center;">Obrigado por enviar o seu resumo para o Genobio20.</p>
+                            <p class="uppercase" style="text-align: center;">Resumo sob avaliação.</p>
+                        </div>
+                    {% endif%}
+                {% endif%}
+                    <!--<form id="abstract-form">-->
+                    <form method="post" class="probootstrap-form" id="form">
+                        <div role="tabpanel" class="tab-pane" id="abstract">
+
+                            <!--<form id="abstract-form">-->
+                                <div class="form-group">
+                                    <label for="inputTitle">Title</label>
+                                    <!--<input type="text" class="form-control" id="inputTitle" name="inputTitle" required>-->
+                                    <input value ="{{res.titulo}}" type="text" class="form-control" 
+                                        id="inputTitle" name="inputTitle" required {% if ja_enviado %}disabled{% endif%}>
+                                    {% if errors.titulo_nao_encontrado %}
+                                        <script>alter_cor("inputTitle");</script>
+                                        <p id="inputTitle_p" style="color:rgb(178,34,34);">
+                                            {{errors.titulo_nao_encontrado}}
+                                        </p>
+                                    {% endif %}
+                                </div>
+
+
+                                <div class="form-group">
+
+                                    <label for="inputAuthors" >Authors</label>
+                                    <section class="tabpanel">
+                                        <table class="table" id="tableAuthors">
+                                            <thead>
+                                                    <tr id="tr_id" name ="tr_id">
+                                                      <th scope="col">Name</th>
+                                                      <th scope="col">Email</th>
+                                                      <th scope="col">Institution</th>
+                                                      <th scope="col"></th>
+                                                    </tr>
+                                                </thead>
+                                            <tbody id="tr_body">
+                                                {% if res.autores  %}
+                                                    {% for index, value in res.autores.items %}
+                                                        <tr id='tr{{index}}'>
+                                                            {% for i,j in value.items %}
+                                                                <td>{{ j }}</td>
+                                                            {% endfor %}
+                                                            {% if not ja_enviado %}
+                                                                <td style="color:#ff0000"><i class='icon-trash' onclick="delete_author('tr{{index}}');" ></i></td>
+                                                            {% endif%}
+                                                        </tr>
+                                                    {% endfor %}
+                                                {% endif %}
+                                            </tbody>
+                                        </table>
+
+                                  </section>
+                                    <p id="inputAuthors_p" style="color:rgb(178,34,34);">
+                                        {{errors.autores_vazio}}
+                                        {{errors.inst_vazia}}
+                                    </p>
+
+                                    <input type="button" class="btn btn-success" data-toggle="modal" data-target="#exampleModal" value="Add Author" {% if ja_enviado %}disabled{% endif%}>
+
+
+                                    <!-- Modal -->
+                                    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header text-uppercase"><strong>Authors</strong></h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                        <div class="form-group">
+                                                                <label for="inputName">Name</label>
+                                                                <input type="text" class="form-control" id="inputName" name="inputName">
+                                                            </div>
+                                                        <div class="form-group">
+                                                                <label for="inputEmail">Email</label>
+                                                                <small id = "error_email"></small>
+                                                                <input type="email" class="form-control" id="inputEmail" name="inputEmail">
+                                                            </div>
+                                                            <div class="form-group autocomplete ">
+                                                                <label for="inputInstitutions" >Institution</label>
+                                                                <input type="text" class="form-control" id="myInput" name="myInput" >
+                                                            </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal" id='btn_close'>Close</button>
+                                                    <button type="button" class="btn btn-primary" onclick="add_authors();" >Add</button>
+                                                </div>
+                                            </div>
+                                            </div>
+                                        </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="inputKeywords">Keywords</label>
+                                    <!--<input type="text" class="form-control" id="inputKeywords" name="inputKeywords" required>-->
+                                    <input value="{{res.palavras_chave}}" type="text" class="form-control" id="inputKeywords" name="inputKeywords" required {% if ja_enviado %}disabled{% endif%}>
+                                    {% if errors.palavras_chave_vazia %}
+                                        <script>alter_cor("inputKeywords");</script>
+                                        <p id="inputKeywords_p" style="color:rgb(178,34,34);">
+                                            {{errors.palavras_chave_vazia}}
+                                        </p>
+                                    {% endif %}
+                                </div>
+                                <div class="form-group">
+                                    <label for="inputText">Abstract</label>
+                                    <small id="count1">5000 character limit</small>
+                                    <textarea class="form-control" id="inputText" name="inputText" rows="15" maxlength="5000" onkeypress="count_down(this);" onpaste="count_down(this);" onkeyup="count_down(this);" {% if ja_enviado %}disabled{% endif%}>{{res.texto}}</textarea>
+                                    {% if errors.texto_invalido %}
+                                        <p id="inputText_p" style="color:rgb(178,34,34);">
+                                        <script>alter_cor("inputText");</script>
+                                        {{errors.texto_invalido}}
+                                        </p>
+                                    {% endif %}
+
+                                </div>
+                                <fieldset class="form-group datap">
+                                    <input type="button" onclick="enviar_dados()" class="btn btn-primary pull-right" value="Submit" {% if ja_enviado %}disabled{% endif%}>
+                                    <!--<button onclick="enviar_dados()" class="btn btn-primary pull-right">Submit</button>-->
+                                </fieldset>
+                            <!--</form>-->
+                        </div>
+                        <input type="hidden" id="autores" name="autores" {% if ja_enviado %}disabled{% endif%}>
+                        {% csrf_token %}
+                    </form>
+
+                <!--
+                <div role="tabpanel" class="tab-pane text-center" id="certification">
+                    <div class="alert alert-warning" role="alert">
+                            <p class="uppercase">Abstract submition opening soon.</p>
+                    </div>
+                </div>
+                -->
+            </div>
+        </div>
+
         
     </div>
 {% endblock %}
 
+{% block js_add %}
+<script>
+function alter_cor(id){
+    document.getElementById(id).style.border='2px solid rgb(178,34,34)';
+}
+</script>
+
+<script>
+    function enviar_dados(){
+        console.log("chamou");
+        var aux = 1;
+        var qnt_elem = 0;
+        var json_autores = {};
+        var autores = document.getElementById("tr_body");
+        var qnt_elem = autores.children.length;
+        //console.log(autores.children[0]);
+        for (var i = 0 ; i < qnt_elem; i++) {
+            var colunas = autores.children[i];
+                console.log(i);
+            if(colunas.cells[0] != undefined){
+                console.log(colunas.cells[0].innerText);
+                console.log(i);
+                var vetor_autores = [];
+                for (j=0;j<3;j++)
+                {
+                    vetor_autores.push(colunas.cells[j].innerText);
+                }
+                json_autores[i] = { 'nome': vetor_autores[0],
+                                    'email': vetor_autores[1],
+                                    'instituicao':vetor_autores[2] };
+            }
+        }
+        console.log(JSON.stringify(json_autores));
+        document.getElementById('autores').value = JSON.stringify(json_autores);
+        document.getElementById("form").submit();
+    }
+
+    function IsEmail(email){
+            var exclude=/[^@\-\.\w]|^[_@\.\-]|[\._\-]{2}|[@\.]{2}|(@)[^@]*\1/;
+            var check=/@[\w\-]+\./;
+            var checkend=/\.[a-zA-Z]{2,3}$/;
+            if(((email.search(exclude) != -1)||(email.search(check)) == -1)||(email.search(checkend) == -1)){
+                return false;
+            }
+            else {
+                return true;
+            }
+        }
+
+
+    var cont = 0;
+    function add_authors() {
+        var name = document.getElementById("inputName");
+        var email  = document.getElementById("inputEmail");
+        var institution  = document.getElementById("myInput");
+        var tbody  = document.getElementById("tr_body");
+        name.style.border = "1px solid #cccccc";
+        email.style.border = "1px solid #cccccc";
+        institution.style.border = "1px solid #cccccc";
+        document.getElementById("error_email").innerHTML = "";
+
+
+        if(name.value.split(' ').join('') == ''){
+            name.style.border='2px solid rgb(178,34,34)';
+        }else if(!IsEmail(email.value.split(' ').join(''))){
+            email.style.border='2px solid rgb(178,34,34)';
+            document.getElementById("error_email").innerHTML = "Invalid email";
+        }else if(institution.value.split(' ').join('') == ''){
+            institution.style.border='2px solid rgb(178,34,34)';
+        }else{
+            cont++;
+            if (institutions.indexOf(institution.value) == -1){
+                institutions.push(institution.value);
+            }
+            //institutions.push(institution.value);
+            var tr =  document.createElement("tr");
+            tr.setAttribute("id","tr"+cont);
+            var td_name = document.createElement("td");
+            var td_email =  document.createElement("td");
+            var td_institution =  document.createElement("td");
+            var td_trash = document.createElement("td");
+
+            td_name.innerHTML = name.value;
+            td_email.innerHTML = email.value;
+            td_institution.innerHTML = institution.value;
+            td_trash.innerHTML = " <i class='icon-trash' onclick=\"delete_author('tr" +cont+ "');\"></i> ";
+            td_trash.style.color = "#ff0000";
+
+
+
+            tr.appendChild (td_name);
+            tr.appendChild (td_email);
+            tr.appendChild (td_institution);
+            tr.appendChild (td_trash);
+
+            tbody.appendChild(tr);
+
+            document.getElementById("btn_close").click();
+
+
+        }
+
+    }
+
+    function delete_author(cont) {
+        document.getElementById(cont).remove();
+
+    }
+
+    function count_down(obj){
+        set_normal_txt();
+        setTimeout(function(){
+            var element = document.getElementById("count1");
+            element.innerHTML = (5000 - document.getElementById("inputText").value.length) + " charaters limit";
+        }, 0);
+    }
+
+    function autocomplete(inp, arr) {
+    /*the autocomplete function takes two arguments,
+    the text field element and an array of possible autocompleted values:*/
+    var currentFocus;
+    /*execute a function when someone writes in the text field:*/
+    inp.addEventListener("input", function(e) {
+        var a, b, i, val = this.value;
+        /*close any already open lists of autocompleted values*/
+        closeAllLists();
+        if (!val) { return false;}
+        currentFocus = -1;
+        /*create a DIV element that will contain the items (values):*/
+        a = document.createElement("DIV");
+        a.setAttribute("id", this.id + "autocomplete-list");
+        a.setAttribute("class", "autocomplete-items");
+        /*append the DIV element as a child of the autocomplete container:*/
+        this.parentNode.appendChild(a);
+        /*for each item in the array...*/
+        for (i = 0; i < arr.length; i++) {
+            /*check if the item starts with the same letters as the text field value:*/
+            if (arr[i].substr(0, val.length).toUpperCase() == val.toUpperCase()) {
+            /*create a DIV element for each matching element:*/
+            b = document.createElement("DIV");
+            /*make the matching letters bold:*/
+            b.innerHTML = "<strong>" + arr[i].substr(0, val.length) + "</strong>";
+            b.innerHTML += arr[i].substr(val.length);
+            /*insert a input field that will hold the current array item's value:*/
+            b.innerHTML += "<input type='hidden' value='" + arr[i] + "'>";
+            /*execute a function when someone clicks on the item value (DIV element):*/
+            b.addEventListener("click", function(e) {
+                /*insert the value for the autocomplete text field:*/
+                inp.value = this.getElementsByTagName("input")[0].value;
+                /*close the list of autocompleted values,
+                (or any other open lists of autocompleted values:*/
+                closeAllLists();
+            });
+            a.appendChild(b);
+            }
+        }
+    });
+    /*execute a function presses a key on the keyboard:*/
+    inp.addEventListener("keydown", function(e) {
+        var x = document.getElementById(this.id + "autocomplete-list");
+        if (x) x = x.getElementsByTagName("div");
+        if (e.keyCode == 40) {
+            /*If the arrow DOWN key is pressed,
+            increase the currentFocus variable:*/
+            currentFocus++;
+            /*and and make the current item more visible:*/
+            addActive(x);
+        } else if (e.keyCode == 38) { //up
+            /*If the arrow UP key is pressed,
+            decrease the currentFocus variable:*/
+            currentFocus--;
+            /*and and make the current item more visible:*/
+            addActive(x);
+        } else if (e.keyCode == 13) {
+            /*If the ENTER key is pressed, prevent the form from being submitted,*/
+            e.preventDefault();
+            if (currentFocus > -1) {
+            /*and simulate a click on the "active" item:*/
+            if (x) x[currentFocus].click();
+            }
+        }
+    });
+    function addActive(x) {
+        /*a function to classify an item as "active":*/
+        if (!x) return false;
+        /*start by removing the "active" class on all items:*/
+        removeActive(x);
+        if (currentFocus >= x.length) currentFocus = 0;
+        if (currentFocus < 0) currentFocus = (x.length - 1);
+        /*add class "autocomplete-active":*/
+        x[currentFocus].classList.add("autocomplete-active");
+    }
+    function removeActive(x) {
+        /*a function to remove the "active" class from all autocomplete items:*/
+        for (var i = 0; i < x.length; i++) {
+        x[i].classList.remove("autocomplete-active");
+        }
+    }
+    function closeAllLists(elmnt) {
+        /*close all autocomplete lists in the document,
+        except the one passed as an argument:*/
+        var x = document.getElementsByClassName("autocomplete-items");
+        for (var i = 0; i < x.length; i++) {
+        if (elmnt != x[i] && elmnt != inp) {
+            x[i].parentNode.removeChild(x[i]);
+        }
+        }
+    }
+    /*execute a function when someone clicks in the document:*/
+    document.addEventListener("click", function (e) {
+        closeAllLists(e.target);
+    });
+    }
+
+
+
+
+    /*An array containing all the country names in the world:*/
+    var institutions = ["UFRN", "IFRN", "ETC"];
+
+
+
+    /*initiate the autocomplete function on the "myInput" element, and pass along the countries array as possible autocomplete values:*/
+    autocomplete(document.getElementById("myInput"), institutions);
+
+    function set_normal_txt() {
+        var txt = document.getElementById("inputText");
+        txt.style.border = "1px solid #cccccc";
+        var txt_p = document.getElementById("inputText_p");
+        if(txt_p != null)
+        {
+            txt_p.innerHTML = "";
+        }
+    }
+    function count_down(obj){
+        set_normal_txt();
+        setTimeout(function(){
+            var element = document.getElementById("count1");
+            element.innerHTML = (5000 - document.getElementById("inputText").value.length) + " charaters limit";
+        }, 0);
+    }
+
+
+</script>
+
+
+{% endblock %}

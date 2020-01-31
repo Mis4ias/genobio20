@@ -77,3 +77,37 @@ class Pagamento(models.Model):
     usuario          = models.ForeignKey(Usuario, on_delete=models.CASCADE, null=False, blank=False)
     status           = models.ForeignKey(Situacao_de_pagamento, on_delete=models.CASCADE, null=True, blank=False)
     codigo_transacao = models.CharField(max_length=32, null=True, blank=True, default="")
+
+##########################################################
+# Models de Resumo e avaliações
+##########################################################
+
+class Resumo(models.Model):
+    titulo = models.CharField(max_length=400, null=False, blank=False)
+    texto = models.TextField(max_length=5000, null=False, blank=False)
+    palavras_chave = models.CharField(max_length=200, null=False, blank=False)
+    usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE, null=True, blank=True, default='')
+
+class Instituicao(models.Model):
+    nome = models.CharField(max_length=200, null=False, blank=False)
+    resumo = models.ForeignKey(Resumo, on_delete=models.CASCADE, null=False, blank=False)
+    ordem = models.IntegerField()
+
+
+class Autores(models.Model):
+    nome = models.CharField(max_length=200, null=False, blank=False)
+    email = models.EmailField(max_length=100, null=False, blank=False, default='')
+    ordem = models.IntegerField()
+    instituicao = models.ForeignKey(Instituicao, on_delete=models.CASCADE, null=False, blank=False)
+    resumo = models.ForeignKey(Resumo, on_delete=models.CASCADE, null=False, blank=False)
+
+
+#########################################################################################################
+class Status_avaliacoes(models.Model):
+    tipo = models.CharField(max_length=30, null=False, blank=False)
+
+
+class Avaliacoes(models.Model):
+    status = models.ForeignKey(Status_avaliacoes, on_delete=models.CASCADE, null=False, blank=False)
+    observacao = models.TextField(max_length=1000, null=True, blank=True)
+    resumo = models.ForeignKey(Resumo, on_delete=models.CASCADE, null=False, blank=False)

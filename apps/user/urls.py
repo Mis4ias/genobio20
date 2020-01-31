@@ -6,7 +6,7 @@ urlpatterns = [
     path('sair/', views.sair, name="user_sair"),
     path('painel/', views.painel, name = "user_painel"),
     path('pagamento/', payment.pagamento, name = "user_pagamento"),
-    path('abstract/', abstract.abstract, name="user_resumo"),
+    path('abstract/', abstract.resumo, name="user_resumo"),
     # path('pagamento/notification/', payment.notification),
     path('certificado/', certification.certificate, name = "user_certificado"),
     path('changepassword/', views.change_password, name = "user_change_password"),
