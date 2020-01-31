@@ -235,9 +235,12 @@
 
 {% block js_add %}
 <script>
-function alter_cor(id){
-    document.getElementById(id).style.border='2px solid rgb(178,34,34)';
-}
+    function alter_cor(id){
+        document.getElementById(id).style.border='2px solid rgb(178,34,34)';
+    }
+    function sair(){
+        window.location.href = "{% url 'user_sair'%}";
+    }
 </script>
 
 <script>
