@@ -55,6 +55,7 @@ local_settings.py
 venv/
 ENV/
 .vscode
+venv_genobio20
 
 .DS_Store
 *.sqlite3

@@ -1,0 +1,78 @@
+{% extends 'user/base.html' %}
+
+{% load static %}
+
+{% block css_add %}    
+    <link rel="stylesheet" href="{% static 'user/css/options_menu.css' %}" type="text/css">
+    <title>User Area</title>
+{% endblock %}
+
+{% block content %}
+    <div class="container" id="info-container">
+
+        <div class="row">
+            
+            <div class="no-padding col-md-11 col-xs-12 col-sm-11 col-lg-11">
+                
+                <div>
+                    <!-- Botão para sair -->
+                    <div id="logOutTab">
+                        <h4 class= "tex">
+                            <button id="logOutBtn" class="btn btn-primary btn-danger text-align-center" onclick="sair();">
+                                <i class="icon-signout text-uppercase probootstrap-uppercase"></i>
+                            </button>
+                        </h4>
+                    </div>
+
+                    <!-- Botão para mostrar opções -->
+                    <div id="logOutTab2">
+                        <h4 class= "tex">
+                            <button id="logOutBtn2" class="btn" onclick="" data-toggle="collapse" href="#signed-tab" role="button" aria-expanded="false" aria-controls="signed-tab">
+                                <i class="icon-reorder text-uppercase probootstrap-uppercase"></i>
+                            </button>
+                        </h4>
+                    </div>
+                </div>
+
+                <!-- Div para preencher espaço e evitar problemas na animação de aparecer e desaparecer menu -->
+                <div id="space-of-menu-options" style="margin-top: 20%;"></div>
+                
+                <!-- Nav com as opções de Dados, Pagamento e Certificados -->
+                <ul id="signed-tab" class="nav nav-tabs nav-justified" role="tablist" style="padding-bottom:0px; margin-right: auto;">
+                    
+                    <!-- Opção de dados -->
+                    <li role="presentation">
+                        <a href="{% url 'user_painel' %}">
+                            <h4 class= "text-uppercase probootstrap-uppercase">Dados</h4>
+                        </a>
+                    </li>
+                    
+                    <!-- Opção de resumo -->
+                    <li role="presentation" class="active">
+                        <a href="{% url 'user_resumo' %}">
+                            <h4 class= "text-uppercase probootstrap-uppercase">Resumo</h4>
+                        </a>
+                    </li>
+                    
+                    <!-- Opção de Pagamento -->
+                    <li role="presentation">
+                        <a href="{% url 'user_pagamento' %}">
+                            <h4 class= "text-uppercase probootstrap-uppercase">Pagamento</h4>
+                        </a>
+                    </li>
+                    
+                    <!-- Opção de Ceritificados -->
+                    <li role="presentation">
+                        <a href="{% url 'user_certificado' %}" aria-controls="" role="tab" >
+                            <h4 class= "text-uppercase probootstrap-uppercase">Certificado</h4>
+                        </a>
+                    </li>
+                </ul>
+
+            </div>
+        </div> 
+
+        
+    </div>
+{% endblock %}
+

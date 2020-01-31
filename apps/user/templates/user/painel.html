@@ -46,6 +46,13 @@
                             <h4 class= "text-uppercase probootstrap-uppercase">Dados</h4>
                         </a>
                     </li>
+
+                    <!-- Opção de resumo -->
+                    <li role="presentation">
+                        <a href="{% url 'user_resumo' %}">
+                            <h4 class= "text-uppercase probootstrap-uppercase">Resumo</h4>
+                        </a>
+                    </li>                    
                     
                     <!-- Opção de Pagamento -->
                     <li role="presentation">
@@ -169,23 +176,3 @@
     </div>
 {% endblock %}
 
-{% block js_add %}
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    <script src="{% static 'user/js/user_painel.js'%}"></script>
-    <script>
-        // Selecionando Pais, cidade, estado, formacao e perfil
-        $("#country").val({{ usuario.pais.id }});
-        $("#state").val({{ usuario.estado.id }});
-        $("#city").val({{ usuario.cidade.id }});
-        $("#formacao").val({{ usuario.formacao.id }});
-        $("#perfil").val({{ usuario.perfil.id }});
-
-        /*!
-        * @brief Redireciona o cliente para a tela de login e o 
-        * desautentica do sistema.
-        */
-        function sair(){
-            window.location.href = "{% url 'user_sair'%}";
-        }
-    </script>
-{% endblock %}
