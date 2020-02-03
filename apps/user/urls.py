@@ -7,7 +7,7 @@ urlpatterns = [
     path('painel/', views.painel, name = "user_painel"),
     path('pagamento/', payment.pagamento, name = "user_pagamento"),
     path('abstract/', abstract.resumo, name="user_resumo"),
-    # path('pagamento/notification/', payment.notification),
+    path('pagamento/notification/', payment.notification),
     path('certificado/', certification.certificate, name = "user_certificado"),
     path('changepassword/', views.change_password, name = "user_change_password"),
     path('changepassword/authenticate/<slug:hash>/<int:id>/', views.authenticate_change_password),

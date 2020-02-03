@@ -176,3 +176,10 @@
     </div>
 {% endblock %}
 
+{% block js_add %}
+    <script>
+        function sair(){
+            window.location.href = "{% url 'user_sair' %}";
+        }
+    </script>
+{% endblock %}
