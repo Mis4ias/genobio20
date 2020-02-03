@@ -51,7 +51,7 @@ def information(request, id):
                 "id"     : usuario.id,
                 "name"   : usuario.nome,
                 "payment": payment.status.descricao if payment is not None else "-",
-                "observation": payment.observacao if payment is not None else "",        
+                #"observation": payment.observacao if payment is not None else "",        
                 "tel"    : usuario.celular,
                 "email"  : usuario.user.email,
                 "country": usuario.pais.nome,
