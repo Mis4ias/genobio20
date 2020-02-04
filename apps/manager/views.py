@@ -26,10 +26,15 @@ def admin_area( request ):
             data_user["name"] = user.nome
             data_user["email"] = user.user.email
             try:
-                payment = models.Pagamento.objects.get(usuario = user.id)
+                payment = models.Pagamento.objects.filter(usuario = user.id).last()
             except models.Pagamento.DoesNotExist:
                 payment = None
-            data_user["payment"] = payment.status.descricao if payment is not None else "-"            
+            
+            if payment is not None and payment.status is not None:
+                data_user["payment"] = payment.status.descricao
+            else:
+                data_user["payment"] = "-"
+            #data_user["payment"] = payment.status.descricao if payment is not None else "-"            
             
             
             all_data_users.append( data_user )            
@@ -43,7 +48,7 @@ def information(request, id):
         try:
             usuario = models.Usuario.objects.get(pk=id)
             try:
-                payment = models.Pagamento.objects.get(usuario = usuario.id)
+                payment = models.Pagamento.objects.filter(usuario = usuario.id).last()
             except models.Pagamento.DoesNotExist:
                 payment = None
             
