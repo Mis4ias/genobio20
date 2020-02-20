@@ -82,11 +82,15 @@ class Pagamento(models.Model):
 # Models de Resumo e avaliações
 ##########################################################
 
+class CategoriaResumo(models.Model):
+    titulo = models.CharField(max_length=400, null=False, blank=False)
+
 class Resumo(models.Model):
     titulo = models.CharField(max_length=400, null=False, blank=False)
     texto = models.TextField(max_length=5000, null=False, blank=False)
     palavras_chave = models.CharField(max_length=200, null=False, blank=False)
     usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE, null=True, blank=True, default='')
+    categoria = models.ForeignKey(CategoriaResumo, on_delete=models.CASCADE, null=False, blank=False)
 
 class Instituicao(models.Model):
     nome = models.CharField(max_length=200, null=False, blank=False)
