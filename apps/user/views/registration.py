@@ -81,7 +81,7 @@ def validate_user(request):
         'instituicao'     : request.POST['organization'],
         'tipo_inscricao'  : request.POST['inscricao'],
         'titulacao'       : request.POST['titulacao'],
-        'area'            : request.POST['area'],
+        #'area'            : request.POST['area'],
         'cep'             : request.POST['zipcode'],
         'country'         : request.POST['country'],
         'estado'          : request.POST.get('state', None), 
@@ -132,10 +132,10 @@ def validate_user(request):
         errors['tipo_inscricao_nao_escolhido'] = "Please select a subscription type"
 
     # Validaçao para area
-    try:
-        usuario['area'] = models.Area.objects.get(pk=int(usuario['area']))
-    except Exception:
-        errors['area_nao_escolhida'] = "Please select a area"
+    #try:
+    #    usuario['area'] = models.Area.objects.get(pk=int(usuario['area']))
+    #except Exception:
+    #    errors['area_nao_escolhida'] = "Please select a area"
 
     # Validações de endereço
     if usuario['cep'].replace(" ", "") == "":
@@ -181,7 +181,7 @@ def register(request):
         'paises': models.Pais.objects.all(),
         'tipo_inscricoes' : models.Tipo_Inscricao.objects.all(),
         'titulos': models.Titulacao.objects.all(),
-        'areas': models.Area.objects.all()
+        #'areas': models.Area.objects.all()
     }
 
     if request.method == "POST":    
@@ -214,7 +214,7 @@ def register(request):
                                                             curso_formacao = usuario['curso_formacao'],
                                                             instituicao    = usuario['instituicao'],
                                                             titulacao      = usuario['titulacao'],
-                                                            area           = usuario['area'],
+                                                            #area           = usuario['area'],
                                                             tipo_inscricao = usuario['tipo_inscricao'],
                                                             celular        = usuario['celular'],                                                                                                                                                                                    
                                                             estado         = usuario['estado'],

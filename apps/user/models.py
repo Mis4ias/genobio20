@@ -42,7 +42,7 @@ class Usuario( models.Model ):
     curso_formacao = models.CharField(max_length=100, null=False, blank=False)
     instituicao    = models.CharField(max_length=100, null=True, blank=True)
     titulacao      = models.ForeignKey(Titulacao, on_delete=models.PROTECT, null=False, blank=False)
-    area           = models.ForeignKey(Area, on_delete=models.PROTECT, null=False, blank=False)
+    area           = models.ForeignKey(Area, on_delete=models.PROTECT, null=True, blank=True)
 
     # Dados para o evento
     tipo_inscricao   = models.ForeignKey(Tipo_Inscricao, on_delete=models.PROTECT, null=False, blank=False)

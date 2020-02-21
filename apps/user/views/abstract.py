@@ -8,10 +8,12 @@ def abstract(request):
 
 def resumo(request):
     if request.user.is_authenticated:
+        resumo_categorias = CategoriaResumo.objects.all()
         try:
             user_usuario = Usuario.objects.get(user=request.user)
             trabalho_resumo = Resumo.objects.get(usuario=user_usuario)
             trabalho_autores = Autores.objects.filter(resumo=trabalho_resumo)
+            
 
             autores = {}
             for i in range(len(trabalho_autores)):
@@ -23,7 +25,8 @@ def resumo(request):
             res = {'titulo': trabalho_resumo.titulo,
                    'texto': trabalho_resumo.texto,
                    'palavras_chave': trabalho_resumo.palavras_chave,
-                   'autores': autores
+                   'autores': autores,
+                   'resumo_categoria': trabalho_resumo.categoria.id,
                    }
 
             #abstract = models.Resumo.objects.filter(usuario=usuario).last()
@@ -32,15 +35,17 @@ def resumo(request):
             if aval is not None:
                 tipo_aval = aval.status.tipo
 
-            return render(request, 'user/abstract.html', {'res': res, 'ja_enviado': True, 'tipo_aval' : tipo_aval})
+            return render(request, 'user/abstract.html', {'res': res, 'ja_enviado': True, 'tipo_aval' : tipo_aval, 'resumo_categorias': resumo_categorias })
     
         except Resumo.DoesNotExist:
             errors = {}
+            
             if request.POST:
                 res = {'titulo': request.POST['inputTitle'],
                        'texto': request.POST['inputText'],
                        'palavras_chave': request.POST['inputKeywords'],
                        'autores': json.loads(request.POST['autores']),
+                       'resumo_categoria': int(request.POST['area']),
                        }
 
                 reg_bool = True
@@ -59,6 +64,9 @@ def resumo(request):
                 if res['autores'] == {}:
                     errors['autores_vazio'] = " Please add the author(s)."
                     reg_bool = False
+                if res['resumo_categoria'] == "":
+                    errors['area_nao_escolhida'] = "Please select a area"
+                    reg_bool = False
                 for i in res['autores'].keys():
                     if res['autores'][i]['instituicao'].replace(" ", "") == "":
                         print(i)
@@ -66,10 +74,12 @@ def resumo(request):
                         reg_bool = False
                 if reg_bool == True:
                     user_usuario = Usuario.objects.get(user=request.user)
+                    resumo_categoria = CategoriaResumo.objects.get(pk=int(request.POST['area']))
                     novo_res = Resumo.objects.create(titulo=res['titulo'],
                                                      texto=res['texto'],
                                                      palavras_chave=res['palavras_chave'],
-                                                     usuario=user_usuario)
+                                                     usuario=user_usuario,
+                                                     categoria=resumo_categoria,)
                     novo_res.save()
                     for i in res['autores'].keys():
                         nova_int = Instituicao.objects.create(nome=res['autores'][i]['instituicao'],
@@ -88,10 +98,13 @@ def resumo(request):
                                                           observacao=None,
                                                           resumo=Resumo.objects.get(id=novo_res.id))
 
-                    return render(request, 'user/abstract.html', {'res': res, 'ja_enviado': True})
+                    return render(request, 'user/abstract.html', {'res': res, 'ja_enviado': True, 'resumo_categorias': resumo_categorias})
                 else:
-                    return render(request, 'user/abstract.html', {'errors': errors, 'res': res})
-
-            return render(request, 'user/abstract.html')
+                    
+                    return render(request, 'user/abstract.html', {'errors': errors, 'res': res, 'resumo_categorias': resumo_categorias })
+            
+            
+            
+            return render(request, 'user/abstract.html', {'resumo_categorias': resumo_categorias} )
     else:
         return redirect('url_user_login')
