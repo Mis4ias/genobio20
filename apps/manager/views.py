@@ -4,6 +4,8 @@ from datetime import date
 from apps.user import models, send_email
 
 
+
+
 def registration_is_available():
     today = date.today()
     registration_limit_day = date(2020, 3, 30)
@@ -49,13 +51,15 @@ def information(request, id):
             usuario = models.Usuario.objects.get(pk=id)
             try:
                 payment = models.Pagamento.objects.filter(usuario = usuario.id).last()
+                
             except models.Pagamento.DoesNotExist:
                 payment = None
-            
+            #print(payment)
             data_user = {
                 "id"     : usuario.id,
                 "name"   : usuario.nome,
-                "payment": payment.status.descricao if payment is not None else "-",
+                #"payment": payment.status.descricao if payment is not None else "-",
+                "comment": payment.observacao if payment is not None else "-",
                 #"observation": payment.observacao if payment is not None else "",        
                 "tel"    : usuario.celular,
                 "email"  : usuario.user.email,
@@ -67,16 +71,32 @@ def information(request, id):
                 "subscription_type" : usuario.tipo_inscricao.tipo,
                 "institution": usuario.instituicao,                
             }
+            try:
+                data_user["payment"] = payment.status.descricao
+            except:
+                data_user["payment"] = "-"
 
             user_paid = False
             show_color = ''
-            if payment is not None:
-                if payment.status.id in [3, 4, 10, 11]:
-                    show_color = 'success'
-                    user_paid = True
-                elif payment.status.id == 1:
-                    show_color = 'warning'
-                    user_paid = True
+
+            #payment.status nulo ou n
+            try:
+                if payment is not None and payment.status is not None:
+                    if payment.status.id in [3, 4, 10, 11]:
+                        show_color = 'success'
+                        user_paid = True
+                    elif payment.status.id == 1:
+                        show_color = 'warning'
+                        user_paid = True
+            except:
+                if payment is not None:
+                    if payment.status.id in [3, 4, 10, 11]:
+                        show_color = 'success'
+                        user_paid = True
+                    elif payment.status.id == 1:
+                        show_color = 'warning'
+                        user_paid = True
+            
             
 
             return render(request, "manager/information.html", {"dados": data_user, 
@@ -91,3 +111,31 @@ def information(request, id):
             return render(request, 'user/notification.html', { 'msg': msg })
     else:
         return redirect('user_login')
+
+
+def change_payment(request, id):
+    if request.user.is_authenticated and request.user.is_staff:
+
+        if request.method == 'POST':
+            usuario = models.Usuario.objects.get(pk=id)
+            payment = models.Pagamento.objects.filter(usuario=usuario.id).last()
+            status = models.Situacao_de_pagamento.objects.get(pk=3)
+
+            if payment is not None:
+                payment.status = status        
+            else:
+                payment = models.Pagamento(usuario=usuario, status=status)
+          
+            payment.observacao = request.POST.get('observation', "")
+            payment.save()
+
+            return information(request, id)
+            
+            '''except models.Usuario.DoesNotExist:
+                msg = { 
+                    'msg': "User do not found.", 
+                    'title': "Error" 
+                } 
+                return render(request, 'user/notification.html', { 'msg': msg })'''
+        
+    return redirect('user_login')

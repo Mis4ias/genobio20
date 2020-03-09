@@ -224,23 +224,56 @@
                                                               
                                 </section>
                             </div>
-            
-                            <!-- Payment -->
-                            <!-- <div role="tabpanel" class="tab-pane" id="payment">
+                            
+                            <script>
+                                
+                            </script>
+
+                            <h6 class="text-uppercase probootstrap-uppercase">PAYMENT</h6>
+
+                            <div role="tabpanel" class="tab-pane active" id="payment">
                                 {% if dados.payment %}
-                                {% if dados.payment == 'pay' %}
-                                <div id="payment-success" class="alert alert-success" role="alert">Payment Confirmed!</div>
-                                {% elif dados.payment == 'Available' %}
-                                    <div id="payment-success" class="alert alert-success" role="alert">Available</div>
-                                {% elif dados.payment == 'Under analysis' or dados.payment == 'Awaiting payment' %}
-                                <div id="payment-success" class="alert alert-warning" role="alert">{{dados.payment}}</div> 
+                                    <!--se o usuário pagou-->
+                                    {% if user_paid == True%}
+                                                
+                                        {% if dados.payment == 'pay' %}
+                                            <div id="payment-success" class="alert alert-success" role="alert">Payment Confirmed!</div>
+                                        {% elif dados.payment == 'Available' %}
+                                            <div id="payment-success" class="alert alert-success" role="alert">Available</div>
+                                        {% elif dados.payment == 'Under analysis' or dados.payment == 'Awaiting payment' %}
+                                            <div id="payment-success" class="alert alert-warning" role="alert">{{dados.payment}}</div> 
+                                            
+                                        {% else %}
+                                            <div class="alert alert-danger uppercase" role="alert">{{dados.payment}}</div>
+                                        {% endif %}
+                                            
+                                            <br/>
+                                            <textarea readonly rows="4" cols="50">
+                                                {{dados.comment}}
+                                             </textarea>
+                                        <!--se o usuário n pagou-->
+                                    {% else %}
+                                        <div id="payment-success" class="alert alert-danger" role="alert">Not Paid</div>
+
+                                        <form action="{% url 'change_payment' dados.id %}" method="POST">
+                                            
+                                            <br/>
+                                            Observações sobre o pagamento:
+                                            <br/>
+                                            <textarea name="observation" type="text" rows="4" cols="50" >
+
+                                            </textarea>
+                                            
+                                            {% csrf_token %}
+                                            <input type="submit" value="paid by transference" />
+                                        </form>
+                                    {% endif %} 
+                                <!-- se dados.payment for nulo-->
                                 {% else %}
-                                <div class="alert alert-danger uppercase" role="alert">{{dados.payment}}</div>
+                                    <div id="payment-success" class="alert alert-danger" role="alert">No Payment found!</div>
+                                        
                                 {% endif %}
-                                {% else %}
-                                <div id="payment-success" class="alert alert-danger" role="alert">No Payment found!</div>
-                                {% endif %}                  
-                            </div> -->
+                            </div> 
                         </div>
                     </div>
                 </div>

@@ -77,6 +77,7 @@ class Pagamento(models.Model):
     usuario          = models.ForeignKey(Usuario, on_delete=models.CASCADE, null=False, blank=False)
     status           = models.ForeignKey(Situacao_de_pagamento, on_delete=models.CASCADE, null=True, blank=False)
     codigo_transacao = models.CharField(max_length=32, null=True, blank=True, default="")
+    observacao        = models.TextField(null = True, blank = True )
 
 ##########################################################
 # Models de Resumo e avaliações
