@@ -104,8 +104,8 @@
                         <div class="heading-block topmargin-sm"><h2>REGISTRATION</h2></div>
                     </div>
                 </div>
-                <h5>Registration fees are detailed in the table below. On-line registration will be accepted until March
-                    15, 2020. On-line early registration must accompany fee payment. Your registration will be
+                <h5>Registration fees are detailed in the table below. On-line registration will be accepted until April
+                    10th, 2020. On-line early registration must accompany fee payment. Your registration will be
                     acknowledged by e-mail. Thereafter, you must register on site.</h5>
             </div>
         </section>
@@ -193,6 +193,11 @@
           
 
         <!-- REGISTRATION -->
+        {% if registration_available is False %}
+            <section class="probootstrap-section probootstrap-border-top">
+                <h1 style="text-align:center">Inscrições encerradas</h1>
+            </section>
+        {% else %}
         <section class="probootstrap-section probootstrap-border-top">
             <div class="container">
                 <div class="row">
@@ -434,7 +439,8 @@
                 </form>
             </div>
         </section>  
-
+        {% endif %}
+        
         <!-- Footer -->
         <footer id="footer" class="dark">
             <!-- Copyrights

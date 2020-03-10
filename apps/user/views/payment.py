@@ -1,10 +1,11 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.conf import settings
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_http_methods
 from apps.user import models
 from datetime import datetime
+from apps.manager.views import registration_is_available
 import requests
 import xmltodict
 import logging
@@ -13,8 +14,7 @@ import logging
 logger = logging.getLogger('django')
 
 def payment_is_available():
-    # TODO: Desenvolver condição
-    return True
+    return registration_is_available()
 
 
 def pagamento(request):

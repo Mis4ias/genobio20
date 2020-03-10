@@ -1,6 +1,7 @@
 from django.shortcuts import render, HttpResponse
 from django.contrib.auth.models import User
 from apps.user import models, send_email
+from apps.manager.views import registration_is_available
 from datetime import datetime
 import re, json, logging
 
@@ -175,6 +176,10 @@ def validate_user(request):
 
 
 def register(request):
+
+    if(not registration_is_available()):
+        return render(request, 'user/registration.html', {'registration_available': False})
+
     """Salva no banco o cliente passado na requisição"""
     dados = {
         'estados': models.Estado.objects.all(),
