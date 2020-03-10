@@ -248,9 +248,9 @@
                                         {% endif %}
                                             
                                             <br/>
-                                            <textarea readonly rows="4" cols="50">
-                                                {{dados.comment}}
-                                             </textarea>
+                                            {% if dados.comment is not Null %}
+                                                <p>{{dados.comment}}</p>
+                                            {% endif %}
                                         <!--se o usuário n pagou-->
                                     {% else %}
                                         <div id="payment-success" class="alert alert-danger" role="alert">Not Paid</div>
@@ -260,12 +260,11 @@
                                             <br/>
                                             Observações sobre o pagamento:
                                             <br/>
-                                            <textarea name="observation" type="text" rows="4" cols="50" >
-
-                                            </textarea>
+                                            <textarea name="observation" type="text" rows="4" cols="50" ></textarea>
                                             
                                             {% csrf_token %}
-                                            <input type="submit" value="paid by transference" />
+                                            <br/>
+                                            <input type="submit" value="Confirm payment" />
                                         </form>
                                     {% endif %} 
                                 <!-- se dados.payment for nulo-->
