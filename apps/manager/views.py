@@ -8,7 +8,7 @@ from apps.user import models, send_email
 
 def registration_is_available():
     today = date.today()
-    registration_limit_day = date(2020, 4, 10)
+    registration_limit_day = date(2020, 3, 11)
 
     if today <= registration_limit_day:
         return True
