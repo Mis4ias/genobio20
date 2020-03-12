@@ -2,9 +2,8 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from datetime import date
 from apps.user import models, send_email
-
-
-
+import requests
+import csv
 
 def registration_is_available():
     today = date.today()
@@ -13,6 +12,86 @@ def registration_is_available():
     if today <= registration_limit_day:
         return True
     return False
+
+def get_payment(usuario):
+    try:
+        payment = models.Pagamento.objects.filter(usuario = usuario).last()
+        if payment is not None and payment.status is not None:
+            return payment
+        else:
+            return None
+    except models.Pagamento.DoesNotExist:
+        return None
+
+def export_db_csv (request):
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="alldata.csv"'
+    writer = csv.writer(response)
+    
+    columns = [ "name",                
+                "tel",
+                "email",
+                "country",
+                "state",
+                "city",
+                "zip",
+                "address",
+                #"profile",
+                "academic_degree",
+                "institution",
+                #"position",
+                #"company",
+                "payment",
+                "observation",
+                "abstract" ]
+       
+
+    writer.writerow(columns) # Inserindo colunas na tabela
+
+    for usuario in models.Usuario.objects.all():
+
+        # Capturando a última inscrição
+        #last_subscription = models.Inscricao.objects.filter(usuario = usuario).last()
+        
+        # Capturando a situação de pagamento
+        payment = get_payment(usuario)
+        
+        try:
+            abstract = models.Resumo.objects.get(usuario=usuario)            
+        except models.Resumo.DoesNotExist:
+            abstract = None
+        # Capturando os cursos inscrito
+        #subscription_courses = models.Inscricao_curso.objects.filter(inscricao = last_subscription)
+        
+        data_user = {
+            "name"   : usuario.nome,
+            "payment": payment.status.descricao if payment is not None else "",
+            "observation": payment.observacao if payment is not None else "",        
+            "tel"    : usuario.celular,
+            "email"  : usuario.user.email,
+            "country": usuario.pais.nome,
+            "state"  : usuario.estado.sigla if usuario.estado is not None else "",
+            "city"   : usuario.cidade.nome if usuario.cidade is not None else "",
+            "zip"    : usuario.cep,
+            "address": usuario.endereco,
+            #"profile": usuario.perfil.nome,
+            "academic_degree": usuario.titulacao.titulo,
+            "course": usuario.curso_formacao ,
+            "institution": usuario.instituicao if usuario.instituicao is not None else "",
+            #"position": usuario.cargo if usuario.perfil.id == 2 else "",
+            #"company": usuario.nome_empresa if usuario.perfil.id == 2 else "",         
+            "abstract": abstract.titulo if abstract is not None else "",
+        }
+        #for course in courses:
+        #    data_user[course.descricao[:-1]] = "" 
+
+        #if payment is not None and payment.status.id in [3, 4 ,10, 11]:
+        #    for subscription_course in subscription_courses:
+        #        data_user[subscription_course.curso.descricao[:-1]] = 'Pago'
+
+        writer.writerow([ data_user[column] for column in columns ])
+
+    return response
 
 def admin_area( request ):    
     if request.user.is_authenticated and request.user.is_staff :
