@@ -18,6 +18,8 @@ def payment_is_available():
 
 
 def pagamento(request):
+    return render(request, 'user/pagamento.html', { 'can_pay': False, "alert_class":"warning", 'msg': "Payment process currently suspended" })
+
     if request.user.is_authenticated:
         try:
             usuario = models.Usuario.objects.get(user=request.user.id)

@@ -176,6 +176,10 @@ def validate_user(request):
 
 
 def register(request):
+    return render(request, 'user/notification.html', { 'msg': {
+                    'title': 'Registration unavaliable',
+                    'msg' : 'The process of registration has been suspended for the time being.'
+                }})
 
     if(not registration_is_available()):
         return render(request, 'user/registration.html', {'registration_available': False})
