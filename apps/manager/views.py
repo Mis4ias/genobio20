@@ -7,7 +7,7 @@ import csv
 
 def registration_is_available():
     today = date.today()
-    registration_limit_day = date(2020, 3, 11)
+    registration_limit_day = date(2020, 11, 11)
 
     if today <= registration_limit_day:
         return True
