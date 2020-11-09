@@ -70,7 +70,7 @@
                     
                     <li role="presentation">
                         <a href="#reset" aria-controls="reset" role="tab" data-toggle="tab" id="a_reset">
-                            <h4 class= "text-uppercase probootstrap-uppercase">Forgot Password</h4>
+                            <h4 class= "text-uppercase probootstrap-uppercase">Esqueci a senha</h4>
                         </a>
                     </li>
 
@@ -86,13 +86,13 @@
                             </div>
                             
                             <div class="col-lg-12 col-md-12 form-group">
-                                <label for="email">Email</label>
+                                <label for="email">E-mail</label>
                                 <input type="email" class="form-control" id="email" name="email" required
                                     {% if errors.email %} value={{errors.email}} {% endif %}>
                             </div>
 
                             <div class=" col-lg-12 col-md-12 form-group">
-                                <label for="password">Password</label>
+                                <label for="password">Senha</label>
                                 <input type="password" class="form-control" id="password" name="password" required>
                             </div>
 
@@ -117,7 +117,7 @@
                             </div>
                             
                             <div class="col-lg-12 col-md-12 form-group">
-                                <label for="email">Email</label>
+                                <label for="email">E-mail</label>
                                 <input type="email" class="form-control" id="emailReset" name="email_forgot_password" required
                                 {% if errors.forgotpasword_error_email %}
                                         value={{ errors.forgotpasword_error_email }}
@@ -142,7 +142,7 @@
     <div class="container">
         <a href="{% url 'user_registration_register'%}">
             <p style="margin-top: 30px; text-align: center;">
-                Registration
+                Registro
             </p>
         </a>
     </div>

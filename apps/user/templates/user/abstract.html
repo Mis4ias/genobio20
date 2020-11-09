@@ -103,7 +103,7 @@
 
                             <!--<form id="abstract-form">-->
                                 <div class="form-group">
-                                    <label for="inputTitle">Title</label>
+                                    <label for="inputTitle">Título</label>
                                     <!--<input type="text" class="form-control" id="inputTitle" name="inputTitle" required>-->
                                     <input value ="{{res.titulo}}" type="text" class="form-control" 
                                         id="inputTitle" name="inputTitle" required {% if ja_enviado %}disabled{% endif%}>
@@ -116,12 +116,12 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="degree">Area</label>
+                                    <label for="degree">Área</label>
                                     <select size="1" name="area" id="area" class="form-control required" required {% if ja_enviado %}disabled{% endif%}>
                                     {% if res.resumo_categoria %}
-                                        <option value="" >Select an area</option>
+                                        <option value="" >Selecione uma área</option>
                                     {% else %}
-                                        <option value="" selected>Select an area</option>
+                                        <option value="" selected>Selecione uma área</option>
                                     {% endif %}
                                     <option disabled="" value="">----------------------</option>
                                     {% for area in resumo_categorias %}
@@ -141,14 +141,14 @@
 
                                 <div class="form-group">
 
-                                    <label for="inputAuthors" >Authors</label>
+                                    <label for="inputAuthors" >Autores</label>
                                     <section class="tabpanel">
                                         <table class="table" id="tableAuthors">
                                             <thead>
                                                     <tr id="tr_id" name ="tr_id">
-                                                      <th scope="col">Name</th>
-                                                      <th scope="col">Email</th>
-                                                      <th scope="col">Institution</th>
+                                                      <th scope="col">Nome</th>
+                                                      <th scope="col">E-mail</th>
+                                                      <th scope="col">Instituição</th>
                                                       <th scope="col"></th>
                                                     </tr>
                                                 </thead>
@@ -181,36 +181,36 @@
                                     <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                             <div class="modal-dialog" role="document">
                                             <div class="modal-content">
-                                                <div class="modal-header text-uppercase"><strong>Authors</strong></h5>
+                                                <div class="modal-header text-uppercase"><strong>Autores</strong></h5>
                                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                     <span aria-hidden="true">&times;</span>
                                                 </button>
                                                 </div>
                                                 <div class="modal-body">
                                                         <div class="form-group">
-                                                                <label for="inputName">Name</label>
+                                                                <label for="inputName">Nome</label>
                                                                 <input type="text" class="form-control" id="inputName" name="inputName">
                                                             </div>
                                                         <div class="form-group">
-                                                                <label for="inputEmail">Email</label>
+                                                                <label for="inputEmail">E-mail</label>
                                                                 <small id = "error_email"></small>
                                                                 <input type="email" class="form-control" id="inputEmail" name="inputEmail">
                                                             </div>
                                                             <div class="form-group autocomplete ">
-                                                                <label for="inputInstitutions" >Institution</label>
+                                                                <label for="inputInstitutions" >Instituição</label>
                                                                 <input type="text" class="form-control" id="myInput" name="myInput" >
                                                             </div>
                                                 </div>
                                                 <div class="modal-footer">
-                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal" id='btn_close'>Close</button>
-                                                    <button type="button" class="btn btn-primary" onclick="add_authors();" >Add</button>
+                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal" id='btn_close'>Fechar</button>
+                                                    <button type="button" class="btn btn-primary" onclick="add_authors();" >Adicionar</button>
                                                 </div>
                                             </div>
                                             </div>
                                         </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="inputKeywords">Keywords</label>
+                                    <label for="inputKeywords">Palavras-chave</label>
                                     <!--<input type="text" class="form-control" id="inputKeywords" name="inputKeywords" required>-->
                                     <input value="{{res.palavras_chave}}" type="text" class="form-control" id="inputKeywords" name="inputKeywords" required {% if ja_enviado %}disabled{% endif%}>
                                     {% if errors.palavras_chave_vazia %}
@@ -221,8 +221,8 @@
                                     {% endif %}
                                 </div>
                                 <div class="form-group">
-                                    <label for="inputText">Abstract</label>
-                                    <small id="count1">5000 character limit</small>
+                                    <label for="inputText">Resumo</label>
+                                    <small id="count1">limite de 5000 caracteres</small>
                                     <textarea class="form-control" id="inputText" name="inputText" rows="15" maxlength="5000" onkeypress="count_down(this);" onpaste="count_down(this);" onkeyup="count_down(this);" {% if ja_enviado %}disabled{% endif%}>{{res.texto}}</textarea>
                                     {% if errors.texto_invalido %}
                                         <p id="inputText_p" style="color:rgb(178,34,34);">

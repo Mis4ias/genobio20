@@ -4,7 +4,7 @@
 
 {% block css_add %}    
     <link rel="stylesheet" href="{% static 'user/css/options_menu.css' %}" type="text/css">
-    <title>User Area</title>
+    <title>Área de Usuário</title>
 {% endblock %}
 
 {% block content %}
@@ -91,14 +91,14 @@
                         {# Nesse projeto o usuario nao terá crachá mas deixei essa div para caso outros projetos tenham #}
                         {% if usuario.nome_para_cracha %}
                             <div class="form-group">
-                                <label for="badgename">Badge Name</label>
+                                <label for="badgename">Nome para o crachá</label>
                                 <p class="datap">{{ usuario.nome_para_cracha }}</p>
                                 <input type="text" class="form-control datauser" id="badgename" name="bagdename" value="{{ usuario.nome_para_cracha }}">
                             </div>
                         {% endif %}
 
                             <div class="form-group">
-                                <label for="Email">Email</label>
+                                <label for="Email">E-mail</label>
                                 <p class="datap">{{ usuario.user.email }}</p>
                             </div>
 

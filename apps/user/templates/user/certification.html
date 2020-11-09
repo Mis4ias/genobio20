@@ -15,7 +15,7 @@
             margin-top: 5%;
         }
     </style>
-    <title>User Area</title>
+    <title>Área de usuário</title>
 {% endblock %}
  
 {% block content %}
@@ -97,7 +97,7 @@
                 {% if canPart == True %}
                 <div role="tabpanel" class="tab-pane text-center" id="certificationPart">
                     <div class="alert alert-success" role="alert">
-                        <p class="uppercase">Download certificate of participation</p>
+                        <p class="uppercase">Baixar certificado de participação</p>
                         <form method="post" style="margin-bottom: 1px;">
                             <button class="btn btn-primary btn-lg" name="part" style="margin-top: 12px"><i class="icon-download "></i>Download</button>
                             {% csrf_token %}
@@ -108,7 +108,8 @@
                 {% if canPost == True %}
                 <div role="tabpanel" class="tab-pane text-center" id="certificationPost">
                     <div class="alert alert-success" role="alert">
-                        <p class="uppercase">Download certificate of poster.</p>
+                        <!--'Download certificate of poster' poster=postagem?-->
+                        <p class="uppercase">Baixar certificado de postagem.</p>
                         <form method="post" style="margin-bottom: 1px;">
                             <button class="btn btn-primary btn-lg" name="poster" style="margin-top: 12px"><i class="icon-download "></i>Download</button>
                             {% csrf_token %}

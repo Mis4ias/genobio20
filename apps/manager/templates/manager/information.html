@@ -3,8 +3,8 @@
 {% load static %}
 
 {% block css_add %}
-    <title>More Information</title>
-      
+    <title>Mais informações</title>
+    
     <style>  
         .adm-area{
           color:beige;
@@ -146,7 +146,7 @@
                     <div class="adm-area">
                         <center>
                             <div class="heading-block uppercase">
-                                <h2>More Information</h2>                            
+                                <h2>Mais informações</h2>                            
                             </div>
                         </center>
                     </div>
@@ -171,18 +171,18 @@
                             <div role="tabpanel" class="tab-pane active" id="data">
                                 <section class="probootstrap-section probootstrap-border-top">
                                     <div class="row">
-                                        <h6 class="text-uppercase probootstrap-uppercase">PERSONAL INFORMATION</h6>
+                                        <h6 class="text-uppercase probootstrap-uppercase">INFORMAÇÕES PESSOAIS</h6>
                                         <div class="col-lg-12 col-md-12 form-group">
-                                            <label>Full Name:</label>
+                                            <label>Nome completo:</label>
                                             <p>{{ dados.name }}</p>
                                         </div>                                        
                 
                                         <div class="col-lg-6 col-md-6 form-group">
-                                            <label>Email:</label>
+                                            <label>E-mail:</label>
                                             <p>{{ dados.email }}</p>
                                         </div>
                                         <div class="col-lg-6 col-md-6 form-group">
-                                            <label>Telephone :</label>
+                                            <label>Telefone:</label>
                                             <p>{{ dados.tel }}</p>
                                         </div>
                                         <div class="col-lg-6 col-md-6 form-group">
@@ -197,26 +197,26 @@
                                     </div>
                 
                                     <div class="row">
-                                        <h6 class="text-uppercase probootstrap-uppercase">ADDRESS</h6>
+                                        <h6 class="text-uppercase probootstrap-uppercase">ENDEREÇO</h6>
                 
                                         <div class="col-lg-6 col-md-6 form-group">
-                                            <label>Country:</label>
+                                            <label>País:</label>
                                             <p>{{ dados.country }}</p>
                                         </div>
                                         <div class="col-lg-6 col-md-6 form-group">
-                                            <label>Postal/Zip Code:</label>
+                                            <label>Código postal:</label>
                                             <p>{{ dados.zip }}</p>
                                         </div>
                                         <div class="col-lg-6 col-md-6 form-group">
-                                            <label>State:</label>
+                                            <label>Estado:</label>
                                             <p>{{ dados.state }}</p>
                                         </div>
                                         <div class="col-lg-6 col-md-6 form-group">
-                                            <label>City:</label>
+                                            <label>Cidade:</label>
                                             <p>{{ dados.city}}</p>
                                         </div>
                                         <div class="col-lg-12 col-md-12 form-group">
-                                            <label>Address:</label>
+                                            <label>Endereço:</label>
                                             <p>{{ dados.address }}</p>
                                         </div>
                                     </div>
@@ -229,7 +229,7 @@
                                 
                             </script>
 
-                            <h6 class="text-uppercase probootstrap-uppercase">PAYMENT</h6>
+                            <h6 class="text-uppercase probootstrap-uppercase">PAGAMENTO</h6>
 
                             <div role="tabpanel" class="tab-pane active" id="payment">
                                 {% if dados.payment %}
@@ -237,9 +237,9 @@
                                     {% if user_paid == True%}
                                                 
                                         {% if dados.payment == 'pay' %}
-                                            <div id="payment-success" class="alert alert-success" role="alert">Payment Confirmed!</div>
+                                            <div id="payment-success" class="alert alert-success" role="alert">Pagamento confirmado!</div>
                                         {% elif dados.payment == 'Available' %}
-                                            <div id="payment-success" class="alert alert-success" role="alert">Available</div>
+                                            <div id="payment-success" class="alert alert-success" role="alert">Disponível</div>
                                         {% elif dados.payment == 'Under analysis' or dados.payment == 'Awaiting payment' %}
                                             <div id="payment-success" class="alert alert-warning" role="alert">{{dados.payment}}</div> 
                                             
@@ -253,7 +253,7 @@
                                             {% endif %}
                                         <!--se o usuário n pagou-->
                                     {% else %}
-                                        <div id="payment-success" class="alert alert-danger" role="alert">Not Paid</div>
+                                        <div id="payment-success" class="alert alert-danger" role="alert">Não pago</div>
 
                                         <form action="{% url 'change_payment' dados.id %}" method="POST">
                                             
@@ -269,7 +269,7 @@
                                     {% endif %} 
                                 <!-- se dados.payment for nulo-->
                                 {% else %}
-                                    <div id="payment-success" class="alert alert-danger" role="alert">No Payment found!</div>
+                                    <div id="payment-success" class="alert alert-danger" role="alert">Nenhum pagamento encontrado!</div>
                                         
                                 {% endif %}
                             </div> 
@@ -280,7 +280,7 @@
         
             <div class="container">
                 <a href="{% url 'admin_area' %}">
-                    <p style="margin-top:50px; text-align: center;"><i class="icon-arrow-left"></i>Back Administration Area</p>
+                    <p style="margin-top:50px; text-align: center;"><i class="icon-arrow-left"></i>Voltar para a área de administração</p>
                 </a>
             </div> 
         </div>
